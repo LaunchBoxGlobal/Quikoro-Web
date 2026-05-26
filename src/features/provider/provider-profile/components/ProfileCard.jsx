@@ -37,22 +37,13 @@ export default function ProfileCard({
         </div>
       </div>
 
-      <div className="flex items-center justify-end gap-3">
-        <button
-          type="button"
-          onClick={() => handleToggleModal()}
-          className="rounded-xl w-full sm:w-auto gradient-bg px-8 py-3.5 text-[15px] font-medium text-white"
-        >
-          Report User
-        </button>
-        <button
-          type="button"
-          onClick={() => handleToggleModal()}
-          className="rounded-xl w-full sm:w-auto bg-[#EA5757] px-8 py-3.5 text-[15px] font-medium text-white"
-        >
-          Block User
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => handleToggleModal()}
+        className="rounded-xl w-full sm:w-auto gradient-bg px-8 py-3.5 text-[15px] font-medium text-white"
+      >
+        Edit Profile
+      </button>
     </div>
   );
 }

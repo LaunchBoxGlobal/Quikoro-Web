@@ -19,9 +19,9 @@ import {
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { selectClassName } from "../../../../utils/selectClassName";
-import PhoneNumberInput from "../../../../components/ui/PhoneNumberInput";
 import LiveProfileCapture from "./LiveProfileCapture";
 import { buyerValidationSchema } from "../buyerValidation";
+import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 
 const GENDERS = [
   {
@@ -45,6 +45,7 @@ const BuyerCompleteProfileForm = () => {
   const dispatch = useDispatch();
   const signupData = useSelector((state) => state.signup);
   const [preview, setPreview] = useState(null);
+  const { data, refetch } = useGetUserProfileQuery();
 
   const formik = useFormik({
     initialValues: {
@@ -53,7 +54,6 @@ const BuyerCompleteProfileForm = () => {
       fullName: signupData?.fullName || "",
       email: signupData?.email || "",
 
-      phoneNumber: signupData?.phoneNumber || "",
       streetAddress: signupData?.address || "",
       description: signupData?.description || "",
     },
@@ -76,6 +76,7 @@ const BuyerCompleteProfileForm = () => {
         await completeProfile(formData).unwrap();
 
         dispatch(clearSignupData());
+        refetch();
 
         navigate("/");
       } catch (error) {
@@ -143,7 +144,7 @@ const BuyerCompleteProfileForm = () => {
           />
         </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="w-full">
           {/* Email */}
           <Input
             label="Email Address"
@@ -155,19 +156,6 @@ const BuyerCompleteProfileForm = () => {
             onChange={handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.email && formik.errors.email}
-            bgColor="#fff"
-          />
-          {/* Phone number */}
-          <PhoneNumberInput
-            label="Phone Number"
-            name="phoneNumber"
-            value={formik.values.phoneNumber}
-            onChange={(value) => {
-              formik.setFieldValue("phoneNumber", value);
-              formik.setFieldTouched("phoneNumber", true);
-            }}
-            onBlur={formik.handleBlur}
-            error={formik.touched.phoneNumber && formik.errors.phoneNumber}
             bgColor="#fff"
           />
         </div>

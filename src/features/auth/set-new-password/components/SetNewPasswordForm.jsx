@@ -45,7 +45,7 @@ const SetNewPasswordForm = () => {
       } catch (error) {
         console.error("Reset password failed:", error);
         setApiError(
-          error.data?.message ||
+          error.data?.error ||
             error.message ||
             "Something went wrong. Please try again.",
         );
@@ -126,6 +126,8 @@ const SetNewPasswordForm = () => {
         <Button
           type="submit"
           text="Save"
+          loader="Saving..."
+          isLoading={isLoading}
           disabled={isLoading || !(formik.isValid && formik.dirty)}
         />
       </form>

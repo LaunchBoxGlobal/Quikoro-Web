@@ -6,7 +6,6 @@ export const initialValues = {
 
   fullName: "",
   email: "",
-  phoneNumber: "",
 
   speciality: null,
   yearsOfExperience: "",
@@ -37,13 +36,6 @@ export const validationSchema = Yup.object({
     .required("Full name is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
-  phoneNumber: Yup.string()
-    .required("Phone number is required")
-    .test("valid-phone", "Please enter a valid phone number", (value) => {
-      if (!value) return false;
-
-      return isValidPhoneNumber(value);
-    }),
 
   speciality: Yup.string().trim().required("Please select a speciality"),
 

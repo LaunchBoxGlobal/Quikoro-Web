@@ -6,7 +6,6 @@ export const initialValues = {
 
   fullName: "",
   email: "",
-  phoneNumber: "",
 
   dateOfBirth: "",
   gender: "",
@@ -33,13 +32,6 @@ export const buyerValidationSchema = Yup.object({
     .required("Full name is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
-  phoneNumber: Yup.string()
-    .required("Phone number is required")
-    .test("valid-phone", "Please enter a valid phone number", (value) => {
-      if (!value) return false;
-
-      return isValidPhoneNumber(value);
-    }),
 
   dateOfBirth: Yup.date()
     .max(new Date(), "Future date is not allowed")

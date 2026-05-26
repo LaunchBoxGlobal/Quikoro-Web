@@ -1,19 +1,24 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export default function AccountStatusGate({ children, user }) {
+  const location = useLocation();
+
   if (user && user.isProfileCompleted === false) {
     return <Navigate to="/complete-profile" replace />;
   }
 
-  if (["PENDING", "SUBMITTED", "REJECTED"].includes(user?.accountStatus)) {
+  const blockedStatuses = ["PENDING", "SUBMITTED", "REJECTED"];
+
+  // pending users → account page
+  if (
+    blockedStatuses.includes(user?.accountStatus) &&
+    location.pathname !== "/account"
+  ) {
     return <Navigate to="/account" replace />;
   }
 
-  // user became approved
-  if (
-    user?.accountStatus === "ACTIVE" &&
-    window.location.pathname === "/account"
-  ) {
+  // active users cannot stay on account page
+  if (user?.accountStatus === "ACTIVE" && location.pathname === "/account") {
     return <Navigate to="/" replace />;
   }
 

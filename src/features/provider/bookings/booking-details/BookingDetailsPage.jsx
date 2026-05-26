@@ -108,16 +108,16 @@ const BookingDetailsPage = () => {
         </>
       )}
 
-      {booking?.status === "INTERESTED" ||
-        (booking?.status === "IN_PROGRESS" && (
-          <button
-            type="button"
-            onClick={() => setOpenChat((prev) => !prev)}
-            className={`w-[60px] h-[60px] bg-[var(--primary)] flex items-center justify-center rounded-full z-30 fixed right-10 bottom-10`}
-          >
-            <img src={MessageIcon} alt="message icon" width={28} height={26} />
-          </button>
-        ))}
+      {(booking?.status === "INTERESTED" ||
+        booking?.status === "IN_PROGRESS") && (
+        <button
+          type="button"
+          onClick={() => setOpenChat((prev) => !prev)}
+          className="w-[60px] h-[60px] bg-[var(--primary)] flex items-center justify-center rounded-full z-30 fixed right-10 bottom-10"
+        >
+          <img src={MessageIcon} alt="message icon" width={28} height={26} />
+        </button>
+      )}
 
       {/* Confirmation Modal */}
       <Modal

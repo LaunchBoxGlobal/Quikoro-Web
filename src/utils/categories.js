@@ -4,7 +4,7 @@ export const CATEGORY_OPTIONS = [
     value: "PLUMBING",
   },
   {
-    label: "Electrician",
+    label: "Electrical",
     value: "ELECTRICAL",
   },
   {

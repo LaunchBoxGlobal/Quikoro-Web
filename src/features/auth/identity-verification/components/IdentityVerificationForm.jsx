@@ -145,7 +145,11 @@ export default function IdentityVerificationForm() {
           </p>
         </div>
 
-        {apiError && <FormErrorMessage apiError={apiError} />}
+        {apiError && (
+          <div className="mb-10">
+            <FormErrorMessage apiError={apiError} />
+          </div>
+        )}
         {/* Upload Boxes */}
         <div className="w-full flex flex-col gap-8 mb-10">
           {/* Front */}
@@ -251,7 +255,7 @@ export default function IdentityVerificationForm() {
         <Button
           type="submit"
           text={"Next"}
-          isLoading={false}
+          isLoading={isLoading}
           loader="Uploading..."
         />
       </div>

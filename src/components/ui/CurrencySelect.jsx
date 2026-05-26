@@ -49,7 +49,8 @@ const CurrencySelect = ({
       setHighlight((prev) => (prev > 0 ? prev - 1 : 0));
     }
 
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && filtered[highlight]) {
+      e.preventDefault();
       handleSelect(filtered[highlight]);
     }
 
@@ -72,7 +73,11 @@ const CurrencySelect = ({
         <div
           onClick={() => {
             setOpen((prev) => !prev);
-            setTimeout(() => inputRef.current?.focus(), 0);
+            setHighlight(0);
+
+            setTimeout(() => {
+              inputRef.current?.focus();
+            }, 0);
           }}
           className={`w-full h-[49px] rounded-[12px] px-4 flex items-center justify-between cursor-pointer focus-within:outline focus-within:outline-[var(--primary)] ${error ? "border border-red-500" : ""}`}
           style={{
@@ -115,7 +120,10 @@ const CurrencySelect = ({
               filtered.map((opt, index) => (
                 <div
                   key={opt.value}
-                  onClick={() => handleSelect(opt)}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    handleSelect(opt);
+                  }}
                   className={`px-4 py-2 cursor-pointer text-xs ${
                     index === highlight ? "bg-gray-100" : "hover:bg-gray-50"
                   }`}

@@ -23,6 +23,7 @@ import { specialityOptions } from "../../../../utils/specialities";
 import PhoneNumberInput from "../../../../components/ui/PhoneNumberInput";
 import LiveProfileCapture from "./LiveProfileCapture";
 import { CATEGORY_OPTIONS } from "../../../../utils/categories";
+import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 
 const GENDERS = [
   {
@@ -48,6 +49,9 @@ const CompleteProfileForm = () => {
   const signupData = useSelector((state) => state.signup);
   const [preview, setPreview] = useState(null);
 
+  const { data, refetch } = useGetUserProfileQuery();
+  console.log("profile data >>> ", data?.data);
+
   const formik = useFormik({
     initialValues: {
       ...initialValues,
@@ -55,7 +59,7 @@ const CompleteProfileForm = () => {
       fullName: signupData?.fullName || "",
       email: signupData?.email || "",
 
-      phoneNumber: signupData?.phoneNumber || "",
+      // phoneNumber: signupData?.phoneNumber || "",
       streetAddress: signupData?.address || "",
       description: signupData?.description || "",
     },
@@ -68,16 +72,9 @@ const CompleteProfileForm = () => {
     onSubmit: async (values) => {
       try {
         const formData = new FormData();
-
-        // Object.keys(values).forEach((key) => {
-        //   if (values[key] !== null && values[key] !== undefined) {
-        //     formData.append(key, values[key]);
-        //   }
-        // });
         Object.keys(values).forEach((key) => {
           const value = values[key];
 
-          // skip empty profile picture
           if (
             key === "profilePicture" &&
             (!value || !(value instanceof File))
@@ -89,14 +86,17 @@ const CompleteProfileForm = () => {
             formData.append(key, value);
           }
         });
+
         await completeProfile(formData).unwrap();
 
         if (signupData?.role === "CUSTOMER") {
           navigate("/");
           dispatch(clearSignupData());
+          refetch();
         } else {
           navigate("/provider/identity-verification");
           dispatch(clearSignupData());
+          refetch();
         }
       } catch (error) {
         setApiError(
@@ -167,25 +167,12 @@ const CompleteProfileForm = () => {
             label="Email Address"
             name="email"
             type="email"
-            disabled={true}
+            disabled={false}
             placeholder="Enter your email"
             value={formik.values.email}
             onChange={handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.email && formik.errors.email}
-            bgColor="#fff"
-          />
-        </div>
-
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Phone number */}
-          <PhoneNumberInput
-            label="Phone Number"
-            name="phoneNumber"
-            value={formik.values.phoneNumber}
-            onChange={(value) => formik.setFieldValue("phoneNumber", value)}
-            onBlur={formik.handleBlur}
-            error={formik.touched.phoneNumber && formik.errors.phoneNumber}
             bgColor="#fff"
           />
 
@@ -195,7 +182,7 @@ const CompleteProfileForm = () => {
               label="Speciality"
               options={CATEGORY_OPTIONS}
               value={CATEGORY_OPTIONS.find(
-                (item) => item.label === formik.values.speciality,
+                (item) => item.label.toUpperCase() === formik.values.speciality,
               )}
               onChange={(val) => {
                 formik.setFieldValue("speciality", val.value.toUpperCase());
@@ -212,10 +199,7 @@ const CompleteProfileForm = () => {
               </p>
             )}
           </div>
-        </div>
 
-        {/* Date of birth */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             label="Date of Birth"
             name="dateOfBirth"
@@ -250,9 +234,7 @@ const CompleteProfileForm = () => {
               </p>
             )}
           </div>
-        </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Experience */}
           <Input
             label="Experience"
@@ -268,6 +250,7 @@ const CompleteProfileForm = () => {
             }
             bgColor="#fff"
           />
+
           {/* Country */}
           <div className="w-full flex flex-col gap-1">
             <label className="text-sm font-semibold leading-none">
@@ -298,9 +281,7 @@ const CompleteProfileForm = () => {
               </p>
             )}
           </div>
-        </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* State */}
           <div className="w-full flex flex-col gap-1">
             <label className="text-sm font-semibold leading-none">State</label>
@@ -351,9 +332,7 @@ const CompleteProfileForm = () => {
               <p className="text-red-500 text-xs mt-1">{formik.errors.city}</p>
             )}
           </div>
-        </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Experience */}
           <Input
             label="Zip Code"
@@ -366,6 +345,9 @@ const CompleteProfileForm = () => {
             error={formik.touched.zipCode && formik.errors.zipCode}
             bgColor="#fff"
           />
+        </div>
+
+        <div className="w-full">
           {/* Address */}
           <Input
             label="Street Address"

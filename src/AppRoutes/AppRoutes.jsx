@@ -77,8 +77,8 @@ import getToken from "../utils/getToken";
 import UserProfilePage from "../features/user-profile/UserProfilePage";
 
 const AppRoutes = () => {
-  // const persistedUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  const persistedUser = useSelector((state) => state.user.user);
   const token = getToken();
 
   const { data, isLoading } = useGetUserProfileQuery(undefined, {
@@ -87,6 +87,7 @@ const AppRoutes = () => {
     skip: !token,
     refetchOnFocus: true,
     refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
   });
 
   const user = data?.data;
