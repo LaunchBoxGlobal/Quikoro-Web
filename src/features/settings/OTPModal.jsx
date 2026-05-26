@@ -1,0 +1,182 @@
+import { useEffect, useRef, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+import { CloseButtonIcon } from "../../assets/export";
+import Button from "../../components/ui/Button";
+import ResendOtp from "./components/ResendOtp";
+import { useVerifyDeleteAccountOtpMutation } from "../../services/settingsApi/settingsApi";
+import { enqueueSnackbar } from "notistack";
+import removeToken from "../../utils/removeToken";
+import { useDispatch } from "react-redux";
+import { clearUser } from "../../services/userService/userSlice";
+import { useNavigate } from "react-router-dom";
+
+const OTP_LENGTH = 6;
+
+const OTPModal = ({ setShowSuccessModal, setOtpModal, user }) => {
+  const inputRefs = useRef([]);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [verfyOtp, { isLoading, error }] = useVerifyDeleteAccountOtpMutation();
+
+  const formik = useFormik({
+    initialValues: {
+      otp: Array(OTP_LENGTH).fill(""),
+    },
+
+    validationSchema: Yup.object({
+      otp: Yup.array().test(
+        "complete-otp",
+        "Please enter complete OTP",
+        (value) => {
+          if (!value) return false;
+
+          const otp = value.join("");
+
+          return otp.length === OTP_LENGTH && /^\d+$/.test(otp);
+        },
+      ),
+    }),
+
+    onSubmit: async (values, { resetForm }) => {
+      const finalOtp = values.otp.join("");
+      try {
+        await verfyOtp({ otp: Number(finalOtp) });
+        resetForm();
+        setOtpModal(false);
+        removeToken();
+        dispatch(clearUser());
+        navigate("/login");
+      } catch (error) {
+        enqueueSnackbar(
+          error?.data?.error ||
+            error?.data?.message ||
+            error?.message ||
+            "Something went wrong.",
+          {
+            variant: "error",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+          },
+        );
+      }
+
+      console.log("OTP:", finalOtp);
+
+      // API CALL HERE
+    },
+  });
+
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+
+    // allow only numbers
+    if (!/^\d?$/.test(value)) return;
+
+    const updatedOtp = [...formik.values.otp];
+    updatedOtp[index] = value;
+
+    formik.setFieldValue("otp", updatedOtp);
+
+    // move to next input
+    if (value && index < OTP_LENGTH - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !formik.values.otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+
+    const pastedData = e.clipboardData
+      .getData("text")
+      .trim()
+      .slice(0, OTP_LENGTH);
+
+    if (!/^\d+$/.test(pastedData)) return;
+
+    const otpArray = pastedData.split("");
+
+    const updatedOtp = [...Array(OTP_LENGTH)].map(
+      (_, index) => otpArray[index] || "",
+    );
+
+    formik.setFieldValue("otp", updatedOtp);
+
+    const focusIndex =
+      otpArray.length >= OTP_LENGTH ? OTP_LENGTH - 1 : otpArray.length;
+
+    inputRefs.current[focusIndex]?.focus();
+  };
+
+  return (
+    <div className="w-full">
+      {/* HEADER */}
+      <div className="w-full flex items-center justify-between gap-4">
+        <h3 className="text-[24px] font-semibold leading-none tracking-tight">
+          Delete account
+        </h3>
+      </div>
+
+      {/* DESCRIPTION */}
+      <p className="text-[var(--secondary)] mt-2">
+        The code was sent to{" "}
+        <span className="font-semibold text-black">{user?.email}</span>
+      </p>
+
+      {/* FORM */}
+      <form onSubmit={formik.handleSubmit} className="w-full mt-5">
+        {/* OTP INPUTS */}
+        <div className="grid grid-cols-6 gap-2">
+          {formik.values.otp.map((digit, index) => {
+            return (
+              <input
+                key={index}
+                ref={(el) => (inputRefs.current[index] = el)}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleChange(e, index)}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+                onPaste={handlePaste}
+                className={`w-full h-[52px] border rounded-[10px] text-center text-[20px] font-semibold outline-none transition-all focus:border-black ${formik.errors.otp && formik.submitCount > 0 ? "border-red-500" : "border-[#E5E7EB]"}`}
+              />
+            );
+          })}
+        </div>
+
+        {/* ERROR */}
+        {formik.errors.otp && formik.submitCount > 0 && (
+          <p className="text-red-500 text-sm mt-2">{formik.errors.otp}</p>
+        )}
+
+        {/* RESEND */}
+        <div className="w-full my-4 flex items-center gap-1">
+          <p className="text-[var(--secondary)]">Didn’t receive code?</p>
+
+          <ResendOtp />
+        </div>
+
+        {/* SUBMIT BUTTON */}
+        <Button
+          type="submit"
+          text="Verify"
+          isLoading={isLoading}
+          loader="Verifying..."
+        />
+      </form>
+    </div>
+  );
+};
+
+export default OTPModal;
