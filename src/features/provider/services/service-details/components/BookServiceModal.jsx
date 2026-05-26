@@ -13,7 +13,12 @@ import { useCreateBookingMutation } from "../../../../../services/bookingApi/boo
 import { enqueueSnackbar } from "notistack";
 import FormErrorMessage from "../../../../../components/ui/FormErrorMessage";
 
-const BookServiceModal = ({ onClose, service }) => {
+const BookServiceModal = ({
+  onClose,
+  service,
+  setBookingSuccess,
+  setBookingDetails,
+}) => {
   const [apiError, setApiError] = useState("");
 
   const address = [
@@ -53,7 +58,6 @@ const BookServiceModal = ({ onClose, service }) => {
         .trim()
         .max(1000, "Notes cannot exceed 1000 characters"),
     }),
-
     onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
         const payload = {
@@ -62,15 +66,11 @@ const BookServiceModal = ({ onClose, service }) => {
           serviceId: service?.id,
           additionalNotes: values.additionalNotes.trim(),
         };
-        await createBooking(payload).unwrap();
-        enqueueSnackbar("Booking has been created succesfully.", {
-          variant: "success",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "right",
-          },
-        });
+        const res = await createBooking(payload).unwrap();
+
+        console.log("booking res >> ", res);
+        setBookingDetails(res?.data);
+        setBookingSuccess(true);
 
         resetForm();
         onClose();
@@ -179,6 +179,7 @@ const BookServiceModal = ({ onClose, service }) => {
               onBlur={formik.handleBlur}
               error={formik.errors.date}
               touched={formik.touched.date}
+              bgColor="#fff"
             />
 
             {/* Address */}
@@ -192,6 +193,7 @@ const BookServiceModal = ({ onClose, service }) => {
               onBlur={formik.handleBlur}
               error={formik.errors.serviceAddress}
               touched={formik.touched.serviceAddress}
+              bgColor="#fff"
             />
 
             {/* Notes */}

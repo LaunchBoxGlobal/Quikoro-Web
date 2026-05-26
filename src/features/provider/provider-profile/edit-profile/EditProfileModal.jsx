@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { X, User } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import {
   CountrySelect,
   StateSelect,
@@ -17,6 +16,9 @@ import Select from "./Select";
 import ImageUpload from "../../../auth/signup/components/ImageUpload";
 import { useEditProfileMutation } from "../../../../services/userService/userApi";
 import { enqueueSnackbar } from "notistack";
+import { specialityOptions } from "../../../../utils/specialities";
+import { editProfileSchema } from "./validation";
+import { CATEGORY_OPTIONS } from "../../../../utils/categories";
 
 export default function EditProfileModal({
   isOpen,
@@ -24,6 +26,7 @@ export default function EditProfileModal({
   profile,
   refetch,
 }) {
+  console.log(profile);
   useEffect(() => {
     if (!isOpen) return;
     const originalOverflow = document.body.style.overflow;
@@ -68,33 +71,7 @@ export default function EditProfileModal({
       description: profile?.description || "",
     },
 
-    validationSchema: Yup.object({
-      fullName: Yup.string().required("Full name is required"),
-
-      email: Yup.string().email("Invalid email").required("Email is required"),
-
-      speciality: Yup.string().required("Speciality required"),
-
-      dateOfBirth: Yup.string().required("Date of birth required"),
-
-      country: Yup.string().required("Country required"),
-
-      state: Yup.string().required("State required"),
-
-      city: Yup.string().required("City required"),
-
-      gender: Yup.string().required("Gender required"),
-
-      zipCode: Yup.string().required("Zip code required"),
-
-      streetAddress: Yup.string().required("Address required"),
-
-      yearsOfExperience: Yup.number().min(0).required("Experience required"),
-
-      description: Yup.string().required("Description required"),
-
-      profilePicture: null,
-    }),
+    validationSchema: editProfileSchema,
 
     onSubmit: async (values) => {
       try {
@@ -296,17 +273,7 @@ export default function EditProfileModal({
                   name="speciality"
                   value={formik.values.speciality}
                   onChange={formik.handleChange}
-                  options={[
-                    {
-                      label: "Electrical",
-                      value: "ELECTRICAL",
-                    },
-
-                    {
-                      label: "Plumber",
-                      value: "PLUMBER",
-                    },
-                  ]}
+                  options={CATEGORY_OPTIONS}
                 />
 
                 <Input

@@ -13,13 +13,14 @@ const CancellationModal = ({
   cancellationModal,
   setCancellationModal,
   setApiError,
+  setCancellationSuccessModal,
 }) => {
   const user = useSelector((state) => state.user.user);
   const userRole = user?.role === "CUSTOMER" ? "customer" : "provider";
   return (
     <>
       <Modal
-        icon={LogoPlaceholder}
+        icon={`/cancellation-icon.png`}
         isOpen={cancellationModal}
         onClose={() => setAcceptBooking(false)}
         height={106}
@@ -32,6 +33,7 @@ const CancellationModal = ({
             acceptBooking={cancellationModal}
             setAcceptBooking={setCancellationModal}
             setApiError={setApiError}
+            setCancellationSuccessModal={setCancellationSuccessModal}
           />
         }
       />
@@ -45,6 +47,7 @@ export const AdditionNotesForm = ({
   refetch,
   setAcceptBooking,
   setApiError,
+  setCancellationSuccessModal,
 }) => {
   const [notes, setNotes] = useState("");
   const { id } = useParams();
@@ -55,21 +58,8 @@ export const AdditionNotesForm = ({
   const handleSubmit = async () => {
     try {
       await updateBookingStatus({ status: "CANCELLED", id }).unwrap();
-      if (status === "INTERESTED") {
-        refetch();
-        enqueueSnackbar("Booking has been cancelled.", {
-          variant: "success",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
-          },
-        });
-        setAcceptBooking(false);
-        return;
-      }
+      setCancellationSuccessModal(true);
     } catch (error) {
-      //   console.log(error);
       setApiError(error?.data?.error || "Something went wrong");
     } finally {
       setAcceptBooking(false);

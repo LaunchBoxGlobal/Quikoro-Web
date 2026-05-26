@@ -32,8 +32,8 @@ export const specialityOptions = [
     value: "hvac-specialist",
   },
   {
-    label: "Cleaning Service",
-    value: "cleaning-service",
+    label: "Cleaning",
+    value: "cleaning",
   },
   {
     label: "Home Renovation",

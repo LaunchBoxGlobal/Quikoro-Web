@@ -11,11 +11,12 @@ const AcceptBookingRequestModal = ({
   refetch,
   acceptBooking,
   setAcceptBooking,
+  setRequestAcceptedSuccessModal,
 }) => {
   return (
     <>
       <Modal
-        icon={LogoPlaceholder}
+        icon={"/accept-request-icon.png"}
         isOpen={acceptBooking}
         onClose={() => setAcceptBooking(false)}
         height={106}
@@ -27,6 +28,7 @@ const AcceptBookingRequestModal = ({
             refetch={refetch}
             acceptBooking={acceptBooking}
             setAcceptBooking={setAcceptBooking}
+            setRequestAcceptedSuccessModal={setRequestAcceptedSuccessModal}
           />
         }
       />
@@ -36,7 +38,11 @@ const AcceptBookingRequestModal = ({
 
 export default AcceptBookingRequestModal;
 
-export const AdditionNotesForm = ({ refetch, setAcceptBooking }) => {
+export const AdditionNotesForm = ({
+  refetch,
+  setAcceptBooking,
+  setRequestAcceptedSuccessModal,
+}) => {
   const [notes, setNotes] = useState("");
   const { id } = useParams();
 
@@ -47,19 +53,21 @@ export const AdditionNotesForm = ({ refetch, setAcceptBooking }) => {
     e.preventDefault();
 
     await updateBookingStatus({ status: "IN_PROGRESS", id }).unwrap();
-    if (status === "INTERESTED") {
-      refetch();
-      enqueueSnackbar("Booking request accepted", {
-        variant: "success",
-        autoHideDuration: 3000,
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "center",
-        },
-      });
-      setAcceptBooking(false);
-      return;
-    }
+    setAcceptBooking(false);
+    setRequestAcceptedSuccessModal(true);
+    // if (status === "INTERESTED") {
+    //   refetch();
+    //   enqueueSnackbar("Booking request accepted", {
+    //     variant: "success",
+    //     autoHideDuration: 3000,
+    //     anchorOrigin: {
+    //       vertical: "top",
+    //       horizontal: "center",
+    //     },
+    //   });
+
+    //   return;
+    // }
   };
 
   return (
@@ -79,14 +87,15 @@ export const AdditionNotesForm = ({ refetch, setAcceptBooking }) => {
           rows={4}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          className={`bg-[#F5F5F5] w-full resize-none rounded-[16px] text-sm p-3 border-none outline-none`}
+          className={`bg-[#fff] w-full resize-none rounded-[16px] text-sm p-3 border-none outline-none`}
         ></textarea>
       </div>
 
       <div className="w-full grid grid-cols-2 gap-2 mt-3">
         <button
           type="button"
-          className="bg-[var(--secondary-button-bg)] text-black py-3 rounded-lg font-medium"
+          onClick={() => setAcceptBooking(false)}
+          className="bg-[#0084AA]/20 text-black py-3 rounded-lg font-medium"
         >
           No
         </button>

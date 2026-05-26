@@ -69,7 +69,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center w-full max-w-[840px] bg-[var(--gray-bg)] rounded-[12px] p-2.5 shadow-sm border border-gray-100 gap-2 md:gap-0">
+    <div className="flex flex-col md:flex-row items-center w-full max-w-[840px] bg-[#0084AA] rounded-[12px] p-2.5 shadow-sm gap-2 md:gap-0">
       {/* Location Dropdown */}
       <div ref={dropdownRef} className="relative w-full md:w-[234px]">
         <div
@@ -145,7 +145,7 @@ const SearchBar = () => {
       <button
         type="button"
         onClick={handleSearch}
-        className="w-full md:w-auto primary-button shrink-0 mt-2 md:mt-0 md:ml-4"
+        className="w-full md:w-auto primary-button shrink-0 mt-2 md:mt-0 md:ml-4 z-40 relative"
       >
         Find a Service
       </button>

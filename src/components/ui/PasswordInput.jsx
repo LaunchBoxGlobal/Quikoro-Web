@@ -38,7 +38,7 @@ const PasswordInput = ({
         />
 
         <button type="button" onClick={() => setShowPass((prev) => !prev)}>
-          {showPass ? (
+          {!showPass ? (
             <IoEyeOff className="text-[var(--secondary)] text-xl" />
           ) : (
             <IoEye className="text-[var(--secondary)] text-xl" />

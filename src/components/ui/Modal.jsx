@@ -22,7 +22,7 @@ const Modal = ({
       <div className="absolute inset-0 bg-black/50" />
 
       {/* modal */}
-      <div className="relative bg-white rounded-2xl w-full max-w-md py-6 lg:py-10 px-5 lg:px-10 z-10 animate-scaleIn">
+      <div className="relative bg-[#EDF1F2] rounded-2xl w-full max-w-md py-6 lg:py-10 px-5 lg:px-10 z-10 animate-scaleIn">
         <button
           type="button"
           onClick={onClose}

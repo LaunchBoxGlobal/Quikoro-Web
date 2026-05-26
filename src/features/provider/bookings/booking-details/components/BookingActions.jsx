@@ -41,7 +41,7 @@ export default function BookingActions({
               // handleUpdateStatus("IN_PROGRESS");
               setAcceptBooking(true);
             }}
-            className="w-full sm:w-auto rounded-xl bg-[#1c1c1e] px-8 py-3 font-medium text-white transition-colors hover:bg-black"
+            className="w-full sm:w-auto rounded-xl gradient-bg px-8 py-3 font-medium text-white transition-colors hover:bg-black"
           >
             Accept
           </button>

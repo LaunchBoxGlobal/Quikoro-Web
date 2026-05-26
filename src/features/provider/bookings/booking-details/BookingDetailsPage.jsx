@@ -20,6 +20,7 @@ import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
 import { useSelector } from "react-redux";
 import AcceptBookingRequestModal from "./components/AcceptBookingRequestModal";
 import CancellationModal from "./components/CancellationModal";
+import RequestAcceptedSuccessModal from "./components/RequestAcceptedSuccessModal";
 
 const BookingDetailsPage = () => {
   useUpdateTitle("Booking Details");
@@ -35,6 +36,8 @@ const BookingDetailsPage = () => {
   const [apiError, setApiError] = useState("");
   const [acceptBooking, setAcceptBooking] = useState(false);
   const [cancellationModal, setCancellationModal] = useState(false);
+  const [cancellationSuccessModal, setCancellationSuccessModal] =
+    useState(false);
 
   const { data, isLoading, isError, error, refetch } = useGetBookingQuery(id, {
     refetchOnFocus: true,
@@ -140,7 +143,7 @@ const BookingDetailsPage = () => {
       />
 
       {/* Confirmation Success Modal */}
-      <Modal
+      {/* <Modal
         icon={GreenSuccessIcon}
         isOpen={requestAcceptedSuccessModal}
         onClose={() => setRequestAcceptedSuccessModal(false)}
@@ -156,12 +159,18 @@ const BookingDetailsPage = () => {
             setIsJobPending={setIsJobPending}
           />
         }
-      />
+      /> */}
 
       <AcceptBookingRequestModal
         refetch={refetch}
         acceptBooking={acceptBooking}
         setAcceptBooking={setAcceptBooking}
+        setRequestAcceptedSuccessModal={setRequestAcceptedSuccessModal}
+      />
+      <RequestAcceptedSuccessModal
+        isOpen={requestAcceptedSuccessModal}
+        setIsOpen={setRequestAcceptedSuccessModal}
+        refetch={refetch}
       />
 
       <CancellationModal
@@ -169,6 +178,7 @@ const BookingDetailsPage = () => {
         cancellationModal={cancellationModal}
         setCancellationModal={setCancellationModal}
         setApiError={setApiError}
+        setCancellationSuccessModal={setCancellationSuccessModal}
       />
     </div>
   );
