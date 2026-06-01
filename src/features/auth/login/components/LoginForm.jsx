@@ -34,7 +34,6 @@ const LoginForm = () => {
         const user = result?.data?.user;
         dispatch(setUser(user));
 
-        // profile incomplete
         if (!user?.isProfileCompleted) {
           navigate("/complete-profile");
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Search, MapPin, X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 import { DropdownIcon } from "../../../assets/export";
+import { TiArrowSortedDown } from "react-icons/ti";
 
 const locations = ["New York, USA", "Los Angeles, USA", "Chicago, USA"];
 
@@ -69,27 +70,23 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center w-full max-w-[840px] bg-[#0084AA] rounded-[12px] p-2.5 shadow-sm gap-2 md:gap-0">
+    <div className="flex flex-col md:flex-row items-center w-full max-w-[840px] glass-card rounded-[12px] p-2.5 shadow-sm gap-2 md:gap-0">
       {/* Location Dropdown */}
       <div ref={dropdownRef} className="relative w-full md:w-[234px]">
         <div
           onClick={() => setIsOpen((prev) => !prev)}
-          className="flex items-center px-4 py-3 md:pr-6 bg-white rounded-[12px] cursor-pointer"
+          className="flex items-center px-3 py-3 md:pr-3 glass rounded-[12px] cursor-pointer"
         >
           <div className="w-full flex items-center gap-2">
-            <MapPin className="text-gray-400 shrink-0" size={20} />
+            <MapPin className="text-gray-100 shrink-0" size={20} />
 
-            <span className="text-[14px] text-gray-600 font-semibold truncate">
+            <span className="text-[14px] text-gray-100 font-semibold truncate">
               {location}
             </span>
           </div>
 
-          <img
-            src={DropdownIcon}
-            alt="dropdown"
-            width={15}
-            height={10}
-            className={`transition-transform duration-200 ${
+          <TiArrowSortedDown
+            className={`text-gray-100 text-2xl transition-transform duration-200 ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -119,22 +116,22 @@ const SearchBar = () => {
       </div>
 
       {/* Service Input */}
-      <div className="flex items-center w-full flex-1 px-4 py-3 md:py-3 md:pl-6 md:ml-3 bg-white rounded-[12px]">
-        <Search className="text-gray-400 mr-3 shrink-0" size={20} />
+      <div className="flex items-center w-full flex-1 px-3 py-3 md:py-3 md:pl-4 md:ml-3 glass rounded-[12px]">
+        <Search className="text-gray-100 mr-3 shrink-0" size={20} />
 
         <input
           type="text"
           value={service}
           onChange={(e) => setService(e.target.value)}
           placeholder="What service do you need?"
-          className="w-full bg-transparent outline-none text-[16px] placeholder:text-gray-400 text-gray-900"
+          className="w-full bg-transparent outline-none text-[16px] placeholder:text-gray-100 text-gray-100"
         />
 
         {service && (
           <button
             type="button"
             onClick={handleRemoveFilters}
-            className="min-w-5 h-5 rounded-full bg-gray-300 flex items-center justify-center"
+            className="min-w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center"
           >
             <X size={14} className="text-gray-700 relative left-[0.5px]" />
           </button>
@@ -145,7 +142,7 @@ const SearchBar = () => {
       <button
         type="button"
         onClick={handleSearch}
-        className="w-full md:w-auto primary-button shrink-0 mt-2 md:mt-0 md:ml-4 z-40 relative"
+        className="w-full md:w-auto bg-white h-[51px] px-5 rounded-[14px] font-semibold shrink-0 mt-2 md:mt-0 md:ml-3 z-40 relative"
       >
         Find a Service
       </button>

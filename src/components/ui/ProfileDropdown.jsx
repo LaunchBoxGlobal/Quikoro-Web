@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import removeToken from "../../utils/removeToken";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../services/userService/userSlice";
 import { useLogoutUserMutation } from "../../services/authApi/authApi";
 import { enqueueSnackbar } from "notistack";
@@ -31,8 +31,9 @@ const ProfileDropdown = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
-
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
+  const user = useSelector((state) => state.user.user);
+  console.log("USER >>> ", user);
 
   const handleLogout = async () => {
     try {
@@ -43,20 +44,25 @@ const ProfileDropdown = () => {
       dispatch(clearUser());
       navigate("/login");
     } catch (error) {
-      enqueueSnackbar(
-        error?.data?.error ||
-          error?.data?.message ||
-          error?.message ||
-          "Something went wrong.",
-        {
-          variant: "error",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
-          },
-        },
-      );
+      // enqueueSnackbar(
+      //   error?.data?.error ||
+      //     error?.data?.message ||
+      //     error?.message ||
+      //     "Something went wrong.",
+      //   {
+      //     variant: "error",
+      //     autoHideDuration: 3000,
+      //     anchorOrigin: {
+      //       vertical: "top",
+      //       horizontal: "center",
+      //     },
+      //   },
+      // );
+      console.log("LOGOUT ERROR >>> ", error);
+    } finally {
+      removeToken();
+      dispatch(clearUser());
+      navigate("/login");
     }
   };
 
@@ -89,9 +95,13 @@ const ProfileDropdown = () => {
         className="h-[37px] w-[37px] lg:h-[57px] lg:w-[57px] overflow-hidden rounded-full bg-orange-200 ring-2 ring-white cursor-pointer"
       >
         <img
-          src="https://i.pravatar.cc/150?img=11"
+          src={
+            user && user?.profilePicture
+              ? user?.profilePicture
+              : "/user-profile-placeholder.png"
+          }
           alt="User avatar"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover rounded-full"
         />
       </button>
 

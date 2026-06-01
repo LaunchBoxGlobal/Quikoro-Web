@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 const HeroSection = () => {
   return (
     <div
-      className="w-full flex items-center mb-10 mt-40 rounded-[26px] relative"
+      className="w-full flex items-center mb-10 mt-32 rounded-[26px] relative"
       style={{
         backgroundImage: "url('/hero-background.png')",
         backgroundPosition: "center",
