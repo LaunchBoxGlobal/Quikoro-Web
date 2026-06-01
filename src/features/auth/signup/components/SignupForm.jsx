@@ -34,7 +34,7 @@ const SignupForm = () => {
       } catch (error) {
         console.error("Signup failed:", error);
         setApiError(
-          error.data?.message ||
+          error.data?.error ||
             error.message ||
             "Something went wrong. Please try again.",
         );

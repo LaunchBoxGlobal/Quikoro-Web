@@ -11,6 +11,7 @@ import Modal from "../../../../components/ui/Modal";
 import { useNavigate } from "react-router-dom";
 import useUpdateTitle from "../../../../hooks/useUpdateTitle";
 import {
+  useRegisterMutation,
   useVerifyEmailOtpMutation,
   useVerifyOtpMutation,
 } from "../../../../services/authApi/authApi";
@@ -34,6 +35,31 @@ const VerifyOtp = () => {
   const signupData = useSelector((state) => state.signup);
   const dispatch = useDispatch();
   const [resendError, setResendError] = useState("");
+  console.log("signupData >> ", signupData);
+
+  const [resendOtp, { isLoading: isResending }] = useRegisterMutation();
+
+  const handleResendOtp = async () => {
+    try {
+      const payload = {
+        fullName: signupData?.fullName,
+        email: signupData?.email,
+        password: signupData?.password,
+        confirmPassword: signupData?.confirmPassword,
+        otp: Number(finalOtp),
+        role: signupData?.role,
+        action: "SIGNUP",
+      };
+      await resendOtp(payload).unwrap();
+    } catch (error) {
+      apiError(
+        error?.data?.error ||
+          error?.data?.message ||
+          error?.message ||
+          "Something went wrong. Try again.",
+      );
+    }
+  };
 
   const handleSubmit = async (e) => {
     try {
@@ -56,7 +82,6 @@ const VerifyOtp = () => {
       };
 
       const res = await verifyOtp(payload).unwrap();
-      console.log("VerifyOtp res >>> ", res);
       Cookies.set("accessToken", res?.data?.accessToken);
       // dispatch(setUser(res?.data?.user));
       // dispatch(clearSignupData());
@@ -81,7 +106,11 @@ const VerifyOtp = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    navigate("/complete-profile");
+    if (signupData?.role === "CUSTOMER") {
+      navigate("/buyer/complete-profile");
+    } else {
+      navigate("/complete-profile");
+    }
   };
 
   // auto close + navigate
@@ -149,13 +178,17 @@ const VerifyOtp = () => {
           loader="Verifying..."
         />
 
-        <ResendOtp setResendError={setResendError} resendError={resendError} />
+        <ResendOtp
+          setResendError={setResendError}
+          resendError={resendError}
+          handleResendOtp={handleResendOtp}
+        />
       </form>
 
       <Modal
         isOpen={showModal}
         onClose={handleCloseModal}
-        icon={SuccessIcon}
+        icon={"/check-icon.png"}
         alt={"Success icon"}
         width={107}
         height={107}

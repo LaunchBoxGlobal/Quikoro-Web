@@ -1,12 +1,12 @@
 import React from "react";
 import Modal from "../../../components/ui/Modal";
 
-const BlockSuccess = () => {
+const BlockSuccess = ({ setBlockedSuccess, blockedSuccess }) => {
   return (
     <>
       <Modal
-        isOpen={true}
-        onClose={null}
+        isOpen={blockedSuccess}
+        onClose={() => setBlockedSuccess(false)}
         icon={`/user-icon.png`}
         width={122}
         height={122}

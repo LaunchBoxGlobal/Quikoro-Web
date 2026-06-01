@@ -15,10 +15,11 @@ const ServicesSection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const [activeTab, setActiveTab] = useState(null);
-  const { data, isLoading, isError } = useGetMyServicesQuery(
+  const { data, isLoading, isError, isFetching } = useGetMyServicesQuery(
     {
       page: 1,
       search,
+      category: activeTab,
     },
     {
       refetchOnMountOrArgChange: true,
@@ -48,7 +49,7 @@ const ServicesSection = () => {
 
         <CategoryTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {isLoading ? (
+        {isLoading || isFetching ? (
           <div className="w-full min-h-[50vh] flex items-center justify-center">
             <Loader />
           </div>

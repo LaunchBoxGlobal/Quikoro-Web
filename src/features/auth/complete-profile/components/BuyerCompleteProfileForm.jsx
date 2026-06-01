@@ -7,7 +7,7 @@ import DescriptionInput from "../../../../components/ui/DescriptionInput";
 import CurrencySelect from "../../../../components/ui/CurrencySelect";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { validationSchema, initialValues } from "../validation";
+// import { validationSchema, initialValues } from "../validation";
 import { useCompleteProfileMutation } from "../../../../services/authApi/authApi";
 import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ import {
 import "react-country-state-city/dist/react-country-state-city.css";
 import { selectClassName } from "../../../../utils/selectClassName";
 import LiveProfileCapture from "./LiveProfileCapture";
-import { buyerValidationSchema } from "../buyerValidation";
+import { buyerValidationSchema, initialValues } from "../buyerValidation";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 
 const GENDERS = [
@@ -64,6 +64,8 @@ const BuyerCompleteProfileForm = () => {
     validateOnChange: false,
     validationSchema: buyerValidationSchema,
     onSubmit: async (values) => {
+      console.log("SUBMIT FIRED");
+      console.log(values);
       try {
         const formData = new FormData();
 
@@ -160,19 +162,7 @@ const BuyerCompleteProfileForm = () => {
           />
         </div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Date of birth */}
-          <Input
-            label="Date of Birth"
-            name="dateOfBirth"
-            type="date"
-            placeholder=""
-            value={formik.values.dateOfBirth}
-            onChange={handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.dateOfBirth && formik.errors.dateOfBirth}
-            bgColor="#fff"
-          />
+        <div className="w-full">
           {/* gender selector */}
           <div className="w-full">
             <CurrencySelect
@@ -330,10 +320,6 @@ const BuyerCompleteProfileForm = () => {
               text="Save"
               loader="Saving..."
               disabled={isLoading}
-              onclick={() => {
-                console.log(formik.errors);
-                console.log(formik.values);
-              }}
             />
           </div>
         </div>

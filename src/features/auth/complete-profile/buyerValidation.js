@@ -7,7 +7,6 @@ export const initialValues = {
   fullName: "",
   email: "",
 
-  dateOfBirth: "",
   gender: "",
 
   country: "",
@@ -26,16 +25,13 @@ export const initialValues = {
 
 export const buyerValidationSchema = Yup.object({
   profilePicture: Yup.mixed().required("Profile picture is required"),
+
   fullName: Yup.string()
     .min(3, "Minimum 3 characters")
     .max(50, "Name cannot exceed 50 characters")
     .required("Full name is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
-
-  dateOfBirth: Yup.date()
-    .max(new Date(), "Future date is not allowed")
-    .required("Date of birth is required"),
 
   gender: Yup.string().required("Gender is required"),
 

@@ -45,17 +45,27 @@ export const userApi = createApi({
       invalidatesTags: ["User"],
     }),
 
-    // Report user
-    reportUser: builder.mutation({
-      query: ({ userId, reason }) => ({
-        url: `users/report/${userId}`,
-        method: "POST",
-        body: {
-          reason,
-        },
+    // Unblock user
+    unblockUser: builder.mutation({
+      query: (userId) => ({
+        url: `blocks/unblock`,
+        method: "PATCH",
+        body: userId,
       }),
       invalidatesTags: ["User"],
     }),
+
+    // Report user
+    // reportUser: builder.mutation({
+    //   query: ({ userId, reason }) => ({
+    //     url: `users/report/${userId}`,
+    //     method: "POST",
+    //     body: {
+    //       reason,
+    //     },
+    //   }),
+    //   invalidatesTags: ["User"],
+    // }),
 
     // change password
     changePassword: builder.mutation({
@@ -65,6 +75,16 @@ export const userApi = createApi({
         body: data,
       }),
     }),
+
+    // report user
+    reportUser: builder.mutation({
+      query: (data) => ({
+        url: "reports",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -73,6 +93,8 @@ export const {
   useEditProfileMutation,
   useGetUserProfileByIdQuery,
   useBlockUserMutation,
-  useReportUserMutation,
+  useUnblockUserMutation,
+  // useReportUserMutation,
   useChangePasswordMutation,
+  useReportUserMutation,
 } = userApi;

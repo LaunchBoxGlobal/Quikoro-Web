@@ -50,7 +50,6 @@ const CompleteProfileForm = () => {
   const [preview, setPreview] = useState(null);
 
   const { data, refetch } = useGetUserProfileQuery();
-  console.log("profile data >>> ", data?.data);
 
   const formik = useFormik({
     initialValues: {
@@ -167,7 +166,7 @@ const CompleteProfileForm = () => {
             label="Email Address"
             name="email"
             type="email"
-            disabled={false}
+            disabled={true}
             placeholder="Enter your email"
             value={formik.values.email}
             onChange={handleChange}

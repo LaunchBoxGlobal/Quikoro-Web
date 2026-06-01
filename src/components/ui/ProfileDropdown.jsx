@@ -33,7 +33,6 @@ const ProfileDropdown = () => {
   const dispatch = useDispatch();
   const [logoutUser, { isLoading }] = useLogoutUserMutation();
   const user = useSelector((state) => state.user.user);
-  console.log("USER >>> ", user);
 
   const handleLogout = async () => {
     try {

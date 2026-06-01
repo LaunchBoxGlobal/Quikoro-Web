@@ -16,9 +16,10 @@ import { setUser } from "../../services/userService/userSlice";
 const DashboardPage = () => {
   useUpdateTitle("Dashboard");
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
 
   const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState("ALL");
 
   const location = searchParams.get("location") || "";
   const search = searchParams.get("service") || "";
@@ -50,6 +51,7 @@ const DashboardPage = () => {
     data: myServicesData,
     isLoading: myServicesLoading,
     isError: myServicesError,
+    isFetching: isFetchingMyServices,
   } = useGetMyServicesQuery(
     {
       page: 1,
@@ -67,9 +69,10 @@ const DashboardPage = () => {
     data: publicServicesData,
     isLoading: publicServicesLoading,
     isError: publicServicesError,
+    isFetching: isFetchingPublicServices,
   } = useGetServicesQuery(
     {
-      page: 1,
+      page,
       search,
       location,
       category: activeTab,
@@ -90,6 +93,14 @@ const DashboardPage = () => {
 
   const servicesError = isCustomer ? publicServicesError : myServicesError;
 
+  const pagination = isCustomer
+    ? publicServicesData?.data?.pagination
+    : myServicesData?.data?.pagination;
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeTab, search, location]);
+
   return (
     <>
       {isCustomer ? <HeroSection /> : <BookingSection />}
@@ -100,6 +111,10 @@ const DashboardPage = () => {
         isError={servicesError}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        pagination={pagination}
+        pagination={pagination}
+        page={page}
+        setPage={setPage}
       />
     </>
   );

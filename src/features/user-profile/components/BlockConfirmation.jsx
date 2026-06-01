@@ -4,7 +4,7 @@ import { useBlockUserMutation } from "../../../services/userService/userApi";
 import { useParams } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";
 
-const BlockConfirmation = ({ isOpen, onClose, refetch }) => {
+const BlockConfirmation = ({ isOpen, onClose, refetch, setBlockedSuccess }) => {
   const [blockUser, { isLoading }] = useBlockUserMutation();
 
   const { id } = useParams();
@@ -22,6 +22,7 @@ const BlockConfirmation = ({ isOpen, onClose, refetch }) => {
       setTimeout(() => {
         refetch();
         handleClose();
+        setBlockedSuccess(true);
       }, 4000);
     } catch (error) {
       enqueueSnackbar(
@@ -31,8 +32,14 @@ const BlockConfirmation = ({ isOpen, onClose, refetch }) => {
           "Something went wrong.",
         {
           variant: "error",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
         },
       );
+      handleClose();
     }
   };
 

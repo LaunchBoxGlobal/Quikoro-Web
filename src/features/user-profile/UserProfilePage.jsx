@@ -7,6 +7,7 @@ import useUpdateTitle from "../../hooks/useUpdateTitle";
 import {
   useGetUserProfileByIdQuery,
   useGetUserProfileQuery,
+  useUnblockUserMutation,
 } from "../../services/userService/userApi";
 import Loader from "../../components/ui/loader/Loader";
 import { useSelector } from "react-redux";
@@ -14,6 +15,9 @@ import { useParams } from "react-router-dom";
 import BlockConfirmation from "./components/BlockConfirmation";
 import BlockSuccess from "./components/BlockSuccess";
 import { BiError } from "react-icons/bi";
+import ReportUserModal from "./components/ReportUserModal";
+import ReportSuccessModal from "./components/ReportSuccessModal";
+import { enqueueSnackbar } from "notistack";
 
 export const details = [
   { label: "Full Name", value: "John Doe" },
@@ -36,9 +40,49 @@ export default function UserProfilePage() {
   const { id } = useParams();
   const user = useSelector((state) => state.user.user);
   const [blockConfirmation, setBlockConfirmation] = useState(false);
+  const [blockedSuccess, setBlockedSuccess] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showReportSuccessModal, setShowReportSuccessModal] = useState(false);
 
   const { data, isLoading, isError, refetch } = useGetUserProfileByIdQuery(id);
   const profile = data?.data;
+
+  const [unblockUser, { isLoading: isUnblocking }] = useUnblockUserMutation();
+
+  const handleCloseReportModal = () => {
+    setShowReportModal(false);
+    setShowReportSuccessModal(true);
+  };
+
+  const handleUnblockUser = async () => {
+    try {
+      await unblockUser({ blockedId: profile?.id }).unwrap();
+      enqueueSnackbar("User has been unblocked successfully", {
+        variant: "success",
+        anchorOrigin: {
+          horizontal: "center",
+          vertical: "top",
+        },
+        autoHideDuration: 3000,
+      });
+      refetch();
+    } catch (error) {
+      enqueueSnackbar(
+        error?.data?.error ||
+          error?.error ||
+          error?.message ||
+          "Something went wrong. Try again.",
+        {
+          variant: "error",
+          anchorOrigin: {
+            horizontal: "center",
+            vertical: "top",
+          },
+          autoHideDuration: 3000,
+        },
+      );
+    }
+  };
 
   return (
     <>
@@ -65,6 +109,9 @@ export default function UserProfilePage() {
                 <ProfileCard
                   profile={profile}
                   setBlockConfirmation={setBlockConfirmation}
+                  setShowReportModal={setShowReportModal}
+                  handleUnblockUser={handleUnblockUser}
+                  isUnblocking={isUnblocking}
                 />
 
                 <ProviderDetails details={details} profile={profile} />
@@ -78,8 +125,27 @@ export default function UserProfilePage() {
         isOpen={blockConfirmation}
         refetch={refetch}
         onClose={() => setBlockConfirmation(false)}
+        setBlockedSuccess={setBlockedSuccess}
       />
-      {/* <BlockSuccess /> */}
+      <BlockSuccess
+        setBlockedSuccess={setBlockedSuccess}
+        blockedSuccess={blockedSuccess}
+      />
+
+      {showReportModal && (
+        <ReportUserModal
+          reportedId={profile?.id}
+          onClose={() => setShowReportModal(false)}
+          setShowReportSuccessModal={setShowReportSuccessModal}
+        />
+      )}
+
+      {showReportSuccessModal && (
+        <ReportSuccessModal
+          isOpen={showReportSuccessModal}
+          setShowReportSuccessModal={setShowReportSuccessModal}
+        />
+      )}
     </>
   );
 }

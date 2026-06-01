@@ -10,6 +10,7 @@ const ResendOtp = ({
   onResend,
   resendError,
   setResendError,
+  handleResendOtp,
 }) => {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isActive, setIsActive] = useState(true);
@@ -40,7 +41,7 @@ const ResendOtp = ({
 
     try {
       setLoading(true);
-
+      // handleResendOtp();
       await resendOtp({ email: signupData?.email }).unwrap();
 
       setTimeLeft(duration);

@@ -1,6 +1,12 @@
 import { User } from "lucide-react";
 
-export default function ProfileCard({ profile, setBlockConfirmation }) {
+export default function ProfileCard({
+  profile,
+  setBlockConfirmation,
+  setShowReportModal,
+  handleUnblockUser,
+  isUnblocking,
+}) {
   return (
     <div className="mb-6 rounded-[1.5rem] foreground p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
       <div className="flex items-center gap-6">
@@ -35,17 +41,29 @@ export default function ProfileCard({ profile, setBlockConfirmation }) {
       <div className="flex items-center justify-end gap-3">
         <button
           type="button"
-          className="rounded-xl w-full sm:w-auto gradient-bg px-8 py-3.5 text-[15px] font-medium text-white"
+          disabled={profile?.isReported}
+          onClick={() => setShowReportModal(true)}
+          className="rounded-xl w-full sm:w-auto gradient-bg px-8 py-3.5 text-[15px] font-medium text-white disabled:opacity-60 disabled:cursor-not-allowed"
         >
           Report User
         </button>
-        <button
-          type="button"
-          onClick={() => setBlockConfirmation(true)}
-          className="rounded-xl w-full sm:w-auto bg-[#EA5757] px-8 py-3.5 text-[15px] font-medium text-white"
-        >
-          Block User
-        </button>
+        {profile?.isBlocked ? (
+          <button
+            type="button"
+            onClick={() => handleUnblockUser()}
+            className="rounded-xl w-full sm:w-auto bg-[#EA5757] px-8 py-3.5 text-[15px] font-medium text-white"
+          >
+            {isUnblocking ? "Unblocking..." : "Unblock User"}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setBlockConfirmation(true)}
+            className="rounded-xl w-full sm:w-auto bg-[#EA5757] px-8 py-3.5 text-[15px] font-medium text-white"
+          >
+            Block User
+          </button>
+        )}
       </div>
     </div>
   );

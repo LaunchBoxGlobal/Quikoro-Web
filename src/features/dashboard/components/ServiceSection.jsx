@@ -8,6 +8,8 @@ import Error from "../../../components/ui/Error";
 import { Calendar } from "lucide-react";
 import { FcServices } from "react-icons/fc";
 import { MdOutlineHomeRepairService } from "react-icons/md";
+import { useState } from "react";
+import Pagination from "../../../components/ui/Pagination";
 
 export default function ServiceSection({
   services,
@@ -15,6 +17,9 @@ export default function ServiceSection({
   isLoading,
   activeTab,
   setActiveTab,
+  pagination,
+  page,
+  setPage,
 }) {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
@@ -73,6 +78,14 @@ export default function ServiceSection({
             </>
           )}
         </>
+      )}
+
+      {pagination?.totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={pagination.totalPages}
+          onPageChange={setPage}
+        />
       )}
     </section>
   );

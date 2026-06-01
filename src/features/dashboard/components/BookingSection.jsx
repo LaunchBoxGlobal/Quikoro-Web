@@ -16,6 +16,7 @@ export default function BookingSection() {
   const { data, isLoading, isError, isFetching } = useGetBookingsQuery(
     {
       page: 1,
+      limit: 20,
       status: activeFilter === "all" ? "" : activeFilter,
     },
     {

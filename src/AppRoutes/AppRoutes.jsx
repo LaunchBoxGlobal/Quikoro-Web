@@ -119,17 +119,17 @@ const AppRoutes = () => {
             <Route
               path="/complete-profile"
               element={
-                <AccountStatusGate user={user}>
-                  <CompleteProfilePage />
-                </AccountStatusGate>
+                // <AccountStatusGate user={user}>
+                <CompleteProfilePage />
+                // </AccountStatusGate>
               }
             />
             <Route
               path="/provider/identity-verification"
               element={
-                <AccountStatusGate user={user}>
-                  <IdentityVerificationPage />
-                </AccountStatusGate>
+                // <AccountStatusGate user={user}>
+                <IdentityVerificationPage />
+                // </AccountStatusGate>
               }
             />
             <Route

@@ -87,44 +87,69 @@ export default function EditServiceForm({ service }) {
 
         const formData = new FormData();
 
+        // Object.keys(values).forEach((key) => {
+        //   if (values[key] !== null && values[key] !== undefined) {
+        //     // availableDays
+        //     if (key === "availableDays") {
+        //       formData.append(key, JSON.stringify(values[key]));
+        //     }
+
+        //     // category object
+        //     else if (key === "category") {
+        //       formData.append(key, values[key]?.value);
+        //     }
+
+        //     // images
+        //     else if (key === "images") {
+        //       // remaining existing cloudinary urls
+        //       existingImages.forEach((image) => {
+        //         formData.append("images", image);
+        //       });
+
+        //       // newly uploaded files
+        //       values.images.forEach((file) => {
+        //         formData.append("images", file);
+        //       });
+        //     }
+
+        //     // normal fields
+        //     else {
+        //       formData.append(key, values[key]);
+        //     }
+        //   }
+        // });
+
         Object.keys(values).forEach((key) => {
           if (values[key] !== null && values[key] !== undefined) {
-            // availableDays
             if (key === "availableDays") {
               formData.append(key, JSON.stringify(values[key]));
-            }
-
-            // category object
-            else if (key === "category") {
+            } else if (key === "category") {
               formData.append(key, values[key]?.value);
-            }
-
-            // images
-            else if (key === "images") {
-              // remaining existing cloudinary urls
+            } else if (key === "images") {
+              // existing image urls
               existingImages.forEach((image) => {
-                formData.append("images", image);
+                // formData.append("existingImages", image);
+                formData.append(
+                  "existingImages",
+                  JSON.stringify(existingImages),
+                );
               });
 
               // newly uploaded files
               values.images.forEach((file) => {
                 formData.append("images", file);
               });
-            }
-
-            // normal fields
-            else {
+            } else {
               formData.append(key, values[key]);
             }
           }
         });
-
         const res = await updateService({
           id,
           data: formData,
         }).unwrap();
 
-        navigate(`/provider/my-services/${res?.data?.id}`);
+        navigate(`/provider/my-services/${service?.id}`);
       } catch (error) {
         console.error("service update error >>> ", error);
 
@@ -164,6 +189,8 @@ export default function EditServiceForm({ service }) {
 
   const handleRemoveExistingImage = (imageToRemove) => {
     setExistingImages((prev) => prev.filter((img) => img !== imageToRemove));
+
+    setImagesError("");
   };
 
   const handleRemoveNewImage = (indexToRemove) => {
@@ -172,6 +199,8 @@ export default function EditServiceForm({ service }) {
     );
 
     formik.setFieldValue("images", updatedImages);
+
+    setImagesError("");
   };
 
   return (
@@ -336,12 +365,14 @@ export default function EditServiceForm({ service }) {
                   files.length;
 
                 if (totalImages > 5) {
-                  setApiError("Maximum 5 images allowed.");
+                  setImagesError(
+                    "Maximum 5 images allowed including existing images.",
+                  );
 
                   return;
                 }
 
-                setApiError("");
+                setImagesError("");
 
                 formik.setFieldValue("images", [
                   ...formik.values.images,

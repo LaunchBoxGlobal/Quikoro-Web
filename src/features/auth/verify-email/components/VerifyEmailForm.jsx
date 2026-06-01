@@ -113,7 +113,7 @@ const VerifyEmailForm = () => {
       <Modal
         isOpen={showModal}
         onClose={handleCloseModal}
-        icon={SuccessIcon}
+        icon={"/check-icon.png"}
         alt={"Success icon"}
         width={107}
         height={107}

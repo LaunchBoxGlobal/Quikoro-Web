@@ -24,7 +24,7 @@ export const serviceApi = createApi({
         url: `services/${id}`,
         method: "GET",
       }),
-      invalidatesTags: ["Service"],
+      providesTags: ["Service"],
     }),
 
     // get services (provider)
@@ -42,8 +42,8 @@ export const serviceApi = createApi({
           params.append("location", location);
         }
 
-        if (category) {
-          params.append("category", category);
+        if (category && category !== "ALL") {
+          params.append("categories", category);
         }
 
         return {
@@ -69,10 +69,9 @@ export const serviceApi = createApi({
           params.append("location", location);
         }
 
-        if (category) {
-          params.append("category", category);
+        if (category && category !== "ALL") {
+          params.append("categories", category);
         }
-
         return {
           url: `services?${params.toString()}`,
           method: "GET",
@@ -88,6 +87,7 @@ export const serviceApi = createApi({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Service"],
     }),
 
     deleteService: builder.mutation({
@@ -96,6 +96,7 @@ export const serviceApi = createApi({
         method: "DELETE",
         body: {},
       }),
+      invalidatesTags: ["Service"],
     }),
   }),
 });
