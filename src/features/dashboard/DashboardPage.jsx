@@ -1,46 +1,79 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import useUpdateTitle from "../../hooks/useUpdateTitle";
 import BookingSection from "./components/BookingSection";
 import ServiceSection from "./components/ServiceSection";
 import HeroSection from "./components/HeroSections";
 import {
   useGetMyServicesQuery,
-  useGetServiceQuery,
   useGetServicesQuery,
 } from "../../services/serviceApi/serviceApi";
 import Loader from "../../components/ui/loader/Loader";
 import { useGetUserProfileQuery } from "../../services/userService/userApi";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../services/userService/userSlice";
 
 const DashboardPage = () => {
   useUpdateTitle("Dashboard");
-  const user = useSelector((state) => state.user?.user);
+  const dispatch = useDispatch();
+
   const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState(null);
+
   const location = searchParams.get("location") || "";
   const search = searchParams.get("service") || "";
-  const isCustomer = user?.role === "CUSTOMER";
-  const [activeTab, setActiveTab] = useState(null);
+
+  // Fetch authenticated user's profile
+  const {
+    data: profileData,
+    isLoading: profileLoading,
+    isError: profileError,
+  } = useGetUserProfileQuery();
+
+  if (profileLoading) {
+    return <Loader />;
+  }
+
+  if (profileError || !profileData?.data) {
+    return <div>Failed to load profile.</div>;
+  }
+
+  const user = profileData.data;
+  const isCustomer = user.role === "CUSTOMER";
+
+  useEffect(() => {
+    if (!user) return;
+    dispatch(setUser(user));
+  }, [user]);
 
   const {
     data: myServicesData,
     isLoading: myServicesLoading,
     isError: myServicesError,
   } = useGetMyServicesQuery(
-    { page: 1, search, location, category: activeTab },
+    {
+      page: 1,
+      search,
+      location,
+      category: activeTab,
+    },
     {
       skip: isCustomer,
       refetchOnFocus: true,
     },
   );
 
-  // Public services
   const {
     data: publicServicesData,
     isLoading: publicServicesLoading,
     isError: publicServicesError,
   } = useGetServicesQuery(
-    { page: 1, search, location, category: activeTab },
+    {
+      page: 1,
+      search,
+      location,
+      category: activeTab,
+    },
     {
       skip: !isCustomer,
       refetchOnFocus: true,
@@ -51,8 +84,11 @@ const DashboardPage = () => {
     ? publicServicesData?.data?.data
     : myServicesData?.data?.data;
 
-  const isLoading = isCustomer ? publicServicesLoading : myServicesLoading;
-  const isApiError = myServicesError || publicServicesError;
+  const servicesLoading = isCustomer
+    ? publicServicesLoading
+    : myServicesLoading;
+
+  const servicesError = isCustomer ? publicServicesError : myServicesError;
 
   return (
     <>
@@ -60,8 +96,8 @@ const DashboardPage = () => {
 
       <ServiceSection
         services={services}
-        isLoading={isLoading}
-        isError={isApiError}
+        isLoading={servicesLoading}
+        isError={servicesError}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
       />

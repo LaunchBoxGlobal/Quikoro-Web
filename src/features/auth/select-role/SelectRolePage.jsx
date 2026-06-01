@@ -52,10 +52,12 @@ export default function SelectRolePage() {
   };
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col items-center justify-center p-6 font-sans text-gray-900">
+    <div className="min-h-screen w-full bg-transparent flex flex-col items-center justify-center p-6 text-gray-900">
       <div className="w-full max-w-[400px] flex flex-col pt-8 pb-12 space-y-4">
         <div className="text-center">
-          <h1 className="text-[32px] font-bold tracking-tight mb-1">Fixly</h1>
+          <h1 className="text-[32px] font-bold tracking-tight mb-1">
+            Quickoro
+          </h1>
           <p className="text-[16px] text-gray-500">
             Your trusted service marketplace
           </p>
@@ -63,7 +65,7 @@ export default function SelectRolePage() {
 
         {error && <FormErrorMessage apiError={error} />}
 
-        <div className="flex flex-col gap-4 mb-8">
+        <div className="flex flex-col gap-4 mb-8 w-full">
           <button
             onClick={() => setSelectedRole("customer")}
             className={`relative flex items-center p-4 rounded-[20px] transition-all text-left w-full

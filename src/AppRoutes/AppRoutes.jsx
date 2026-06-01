@@ -116,10 +116,21 @@ const AppRoutes = () => {
             <Route path="/reset-password" element={<SetNewPasswordPage />} />
           </Route>
           <Route element={<PrivateRoutes />}>
-            <Route path="/complete-profile" element={<CompleteProfilePage />} />
+            <Route
+              path="/complete-profile"
+              element={
+                <AccountStatusGate user={user}>
+                  <CompleteProfilePage />
+                </AccountStatusGate>
+              }
+            />
             <Route
               path="/provider/identity-verification"
-              element={<IdentityVerificationPage />}
+              element={
+                <AccountStatusGate user={user}>
+                  <IdentityVerificationPage />
+                </AccountStatusGate>
+              }
             />
             <Route
               path="/buyer/complete-profile"

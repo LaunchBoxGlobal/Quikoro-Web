@@ -98,10 +98,10 @@ export default function ChangePasswordPage() {
         />
 
         <button type="button" onClick={() => setShow((prev) => !prev)}>
-          {show ? (
-            <IoEyeOff className="text-xl" />
+          {!show ? (
+            <IoEyeOff className="text-xl text-gray-400" />
           ) : (
-            <IoEye className="text-xl" />
+            <IoEye className="text-xl text-gray-400" />
           )}
         </button>
       </div>
