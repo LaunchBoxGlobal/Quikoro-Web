@@ -10,7 +10,7 @@ export const statusStyles = {
 export const filters = [
   { title: "All", query: "all" },
   { title: "Pending", query: "PENDING" },
-  { title: "Accepted", query: "INTERESTED" },
+  { title: "Interested", query: "INTERESTED" },
   { title: "In Progress", query: "IN_PROGRESS" },
   { title: "Completed", query: "COMPLETED" },
   { title: "Cancelled", query: "CANCELLED" },

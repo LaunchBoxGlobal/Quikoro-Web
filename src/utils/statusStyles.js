@@ -15,8 +15,8 @@ export const statusStyles = {
   },
 
   IN_PROGRESS: {
-    bg: "bg-yellow-50",
-    text: "text-yellow-600",
+    bg: "bg-[#9E66FF1A]",
+    text: "text-indigo-500",
   },
 
   CANCELLED: {

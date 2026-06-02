@@ -52,6 +52,16 @@ export const bookingApi = createApi({
         body: { status },
       }),
     }),
+
+    // write a reivew
+    writeReview: builder.mutation({
+      query: (data) => ({
+        url: `ratings`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Bookings"],
+    }),
   }),
 });
 
@@ -61,4 +71,5 @@ export const {
   useGetBookingQuery,
   useUpdateBookingMutation,
   useUpdateBookingStatusMutation,
+  useWriteReviewMutation,
 } = bookingApi;

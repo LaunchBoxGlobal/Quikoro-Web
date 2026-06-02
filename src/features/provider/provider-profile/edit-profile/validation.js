@@ -1,7 +1,10 @@
 import * as Yup from "yup";
 
 export const editProfileSchema = Yup.object({
-  fullName: Yup.string().required("Full name is required"),
+  fullName: Yup.string()
+    .min(3, "Minimum 3 characters")
+    .max(25, "Name cannot exceed 25 characters")
+    .required("Full name is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),
 

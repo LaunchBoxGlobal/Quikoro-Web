@@ -36,7 +36,7 @@ export default function ServiceDetails() {
           />
 
           {isLoading ? (
-            <div className="w-full min-h-[50vh] flex items-center justify-center bg-white">
+            <div className="w-full min-h-[50vh] rounded-3xl pt-20 flex items-center justify-center bg-white">
               <Loader />
             </div>
           ) : (

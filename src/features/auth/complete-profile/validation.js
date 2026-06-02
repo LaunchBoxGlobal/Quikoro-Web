@@ -32,7 +32,7 @@ export const validationSchema = Yup.object({
   profilePicture: Yup.mixed().nullable(),
   fullName: Yup.string()
     .min(3, "Minimum 3 characters")
-    .max(50, "Name cannot exceed 50 characters")
+    .max(25, "Name cannot exceed 25 characters")
     .required("Full name is required"),
 
   email: Yup.string().email("Invalid email").required("Email is required"),

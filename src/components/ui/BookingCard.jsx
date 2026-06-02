@@ -2,6 +2,7 @@ import { User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
 import { useSelector } from "react-redux";
+import { formatBookingStatus } from "../../utils/formatBookingStatus";
 
 export default function BookingCard({ booking }) {
   const user = useSelector((state) => state.user.user);
@@ -25,7 +26,7 @@ export default function BookingCard({ booking }) {
           <span
             className={`rounded-full px-3 py-1 text-xs font-semibold ${booking?.status === "INTERESTED" ? "bg-[#0089DE1A] text-[#0089DE]" : booking?.status === "CANCELLED" ? "bg-red-100 text-red-500" : booking?.status === "COMPLETED" ? "bg-green-100 text-green-500" : "bg-orange-100 text-orange-500"}`}
           >
-            {booking?.status}
+            {formatBookingStatus(booking?.status)}
           </span>
         </div>
 

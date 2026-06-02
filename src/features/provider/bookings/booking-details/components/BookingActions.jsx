@@ -9,6 +9,7 @@ export default function BookingActions({
   handleUpdateStatus,
   setAcceptBooking,
   setCancellationModal,
+  handleToggleMarkCompleteJobModal,
 }) {
   const user = useSelector((state) => state.user.user);
 
@@ -53,7 +54,7 @@ export default function BookingActions({
               <button
                 type="button"
                 onClick={() => handleUpdateStatus("NOT_INTERESTED")}
-                className="w-full sm:w-auto rounded-xl bg-[#FAFAFA] border border-[#E5E5E5] px-8 py-3 font-medium text-black"
+                className="w-full sm:w-auto rounded-xl bg-[#0084AA]/20 border border-[#E5E5E5] px-8 py-3 font-medium text-black"
               >
                 Not Interested
               </button>
@@ -61,7 +62,7 @@ export default function BookingActions({
               <button
                 type="button"
                 onClick={() => setShowAcceptBookingConfirmation(true)}
-                className="w-full sm:w-auto rounded-xl bg-[#1c1c1e] px-8 py-3 font-medium text-white transition-colors hover:bg-black"
+                className="w-full sm:w-auto rounded-xl gradient-bg px-8 py-3 font-medium text-white transition-colors hover:bg-black"
               >
                 Interested
               </button>
@@ -101,8 +102,8 @@ export default function BookingActions({
               <button
                 type="button"
                 // disabled={booking?.status === "INTERESTED"}
-                onClick={() => handleUpdateStatus("INTERESTED")}
-                className="w-full sm:w-auto rounded-xl bg-[#1c1c1e] px-8 py-3 font-medium text-white transition-colors hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed"
+                onClick={() => handleToggleMarkCompleteJobModal()}
+                className="w-full sm:w-auto rounded-xl gradient-bg px-8 py-3 font-medium text-white transition-colors hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 Mark As Completed
               </button>

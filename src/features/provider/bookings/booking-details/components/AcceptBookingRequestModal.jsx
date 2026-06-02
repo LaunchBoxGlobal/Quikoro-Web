@@ -55,19 +55,6 @@ export const AdditionNotesForm = ({
     await updateBookingStatus({ status: "IN_PROGRESS", id }).unwrap();
     setAcceptBooking(false);
     setRequestAcceptedSuccessModal(true);
-    // if (status === "INTERESTED") {
-    //   refetch();
-    //   enqueueSnackbar("Booking request accepted", {
-    //     variant: "success",
-    //     autoHideDuration: 3000,
-    //     anchorOrigin: {
-    //       vertical: "top",
-    //       horizontal: "center",
-    //     },
-    //   });
-
-    //   return;
-    // }
   };
 
   return (
@@ -101,7 +88,7 @@ export const AdditionNotesForm = ({
         </button>
         <button
           type="submit"
-          className="bg-[var(--primary)] text-white py-3 rounded-lg font-medium"
+          className="gradient-bg text-white py-3 rounded-lg font-medium"
         >
           {isLoading ? "Loading..." : "Yes"}
         </button>

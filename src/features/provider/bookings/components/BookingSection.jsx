@@ -14,10 +14,8 @@ export default function BookingSection() {
   const user = useSelector((state) => state.user.user);
   const [activeFilter, setActiveFilter] = useState("all");
 
-  const [searchParams, setSearchParams] = useSearchParams(); // ← single instance
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
-
-  // const activeFilter = searchParams.get("booking-status") || "all";
 
   const { data, isLoading, isFetching, isError } = useGetBookingsQuery(
     {

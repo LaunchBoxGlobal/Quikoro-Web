@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import BookingHeader from "./components/BookingHeader";
 import BookingCard from "./components/BookingCard";
 import Modal from "../../../../components/ui/Modal";
-import {
-  GreenSuccessIcon,
-  LogoPlaceholder,
-  MessageIcon,
-} from "../../../../assets/export";
+import { MessageIcon } from "../../../../assets/export";
 import BookingModalDetails from "./components/BookingModalDetails";
 import BookingActions from "./components/BookingActions";
 import useUpdateTitle from "../../../../hooks/useUpdateTitle";
@@ -21,6 +17,8 @@ import { useSelector } from "react-redux";
 import AcceptBookingRequestModal from "./components/AcceptBookingRequestModal";
 import CancellationModal from "./components/CancellationModal";
 import RequestAcceptedSuccessModal from "./components/RequestAcceptedSuccessModal";
+import MarkJobCompletedConfirmationModal from "./components/MarkJobCompletedConfirmationModal";
+import ReviewModal from "./components/ReviewModal";
 
 const BookingDetailsPage = () => {
   useUpdateTitle("Booking Details");
@@ -38,6 +36,11 @@ const BookingDetailsPage = () => {
   const [cancellationModal, setCancellationModal] = useState(false);
   const [cancellationSuccessModal, setCancellationSuccessModal] =
     useState(false);
+  const [showCompleteJobModal, setShowCompleteJobModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+
+  const handleToggleMarkCompleteJobModal = () =>
+    setShowCompleteJobModal((prev) => !prev);
 
   const { data, isLoading, isError, error, refetch } = useGetBookingQuery(id, {
     refetchOnFocus: true,
@@ -93,6 +96,7 @@ const BookingDetailsPage = () => {
         handleUpdateStatus={handleUpdateStatus}
         setAcceptBooking={setAcceptBooking}
         setCancellationModal={setCancellationModal}
+        handleToggleMarkCompleteJobModal={handleToggleMarkCompleteJobModal}
       />
 
       {apiError && (
@@ -124,12 +128,12 @@ const BookingDetailsPage = () => {
 
       {/* Confirmation Modal */}
       <Modal
-        icon={LogoPlaceholder}
+        icon={"/thumb-up-icon.png"}
         isOpen={showAcceptBookingConfirmation}
         onClose={() => setShowAcceptBookingConfirmation(false)}
         height={106}
         width={106}
-        title={`Accept Booking Request?`}
+        title={`Mark Interested`}
         description={`Are you sure you want to accept this booking? The customer will be notified and the job will be added to your schedule.`}
         children={
           <ModalActions
@@ -180,6 +184,22 @@ const BookingDetailsPage = () => {
         setApiError={setApiError}
         setCancellationSuccessModal={setCancellationSuccessModal}
       />
+
+      {/* Mark Job as completed confirmation modal - yes/no */}
+      <MarkJobCompletedConfirmationModal
+        showCompleteJobModal={showCompleteJobModal}
+        onClose={handleToggleMarkCompleteJobModal}
+        refetch={refetch}
+        setShowReviewModal={setShowReviewModal}
+        id={id}
+      />
+
+      {/* Review Modal */}
+      <ReviewModal
+        isOpen={showReviewModal}
+        setIsOpen={setShowReviewModal}
+        booking={booking}
+      />
     </div>
   );
 };
@@ -197,7 +217,7 @@ export const ModalActions = ({
       <button
         type="button"
         onClick={() => setShowAcceptBookingConfirmation(false)}
-        className="bg-[var(--secondary-button-bg)] text-black py-3 rounded-lg font-medium"
+        className="bg-[#0084AA]/20 text-black py-3 rounded-lg font-medium"
       >
         No
       </button>
@@ -208,7 +228,7 @@ export const ModalActions = ({
           // setRequestAcceptedSuccessModal(true);
           // setShowAcceptBookingConfirmation(false);
         }}
-        className="bg-[var(--primary)] text-white py-3 rounded-lg font-medium"
+        className="gradient-bg text-white py-3 rounded-lg font-medium"
       >
         {isUpdatingStatus ? "Loading..." : "Yes"}
       </button>

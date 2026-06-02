@@ -49,11 +49,6 @@ export default function BookingCard({ booking }) {
               </div>
 
               <div className="flex flex-row-reverse sm:flex-row items-center sm:items-start justify-end gap-6 sm:gap-8">
-                {/* <div
-                  className={`rounded-xl bg-orange-50 px-6 py-2.5 text-sm font-semibold text-orange-500`}
-                >
-                  {booking?.status}
-                </div> */}
                 <div
                   className={`rounded-xl px-6 py-2.5 text-sm font-semibold ${currentStatus.bg} ${currentStatus.text}`}
                 >
@@ -90,16 +85,20 @@ export default function BookingCard({ booking }) {
             {booking?.additionalNotes && (
               <div className="w-full flex items-start justify-between gap-4 flex-wrap">
                 <NotesSection booking={booking} />
-                <div className="">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditModalOpen((prev) => !prev)}
-                    className="flex items-center gap-1.5 text-sm secondary-text font-medium"
-                  >
-                    <Pencil size={16} />
-                    <span>Edit</span>
-                  </button>
-                </div>
+                {user?.role === "CUSTOMER" &&
+                  booking?.status !== "CANCELLED" &&
+                  booking?.status !== "COMPLETE" && (
+                    <div className="">
+                      <button
+                        type="button"
+                        onClick={() => setIsEditModalOpen((prev) => !prev)}
+                        className="flex items-center gap-1.5 text-sm secondary-text font-medium"
+                      >
+                        <Pencil size={16} />
+                        <span>Edit</span>
+                      </button>
+                    </div>
+                  )}
               </div>
             )}
           </div>
