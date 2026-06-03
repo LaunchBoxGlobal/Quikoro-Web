@@ -13,12 +13,12 @@ import Loader from "../../components/ui/loader/Loader";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import BlockConfirmation from "./components/BlockConfirmation";
-import BlockSuccess from "./components/BlockSuccess";
 import { BiError } from "react-icons/bi";
 import ReportUserModal from "./components/ReportUserModal";
 import ReportSuccessModal from "./components/ReportSuccessModal";
 import { enqueueSnackbar } from "notistack";
 import UserDetails from "./components/UserDetails";
+import UserBlocked from "./components/UserBlocked";
 
 export const details = [
   { label: "Full Name", value: "John Doe" },
@@ -47,6 +47,7 @@ export default function UserProfilePage() {
 
   const { data, isLoading, isError, refetch } = useGetUserProfileByIdQuery(id);
   const profile = data?.data;
+  const isBlockedByUser = profile?.isBlockedByUser;
 
   const [unblockUser, { isLoading: isUnblocking }] = useUnblockUserMutation();
 
@@ -107,15 +108,21 @@ export default function UserProfilePage() {
               </div>
             ) : (
               <>
-                <ProfileCard
-                  profile={profile}
-                  setBlockConfirmation={setBlockConfirmation}
-                  setShowReportModal={setShowReportModal}
-                  handleUnblockUser={handleUnblockUser}
-                  isUnblocking={isUnblocking}
-                />
-
-                <UserDetails details={details} profile={profile} />
+                {isBlockedByUser ? (
+                  <UserBlocked />
+                ) : (
+                  <>
+                    <ProfileCard
+                      profile={profile}
+                      setBlockConfirmation={setBlockConfirmation}
+                      setShowReportModal={setShowReportModal}
+                      handleUnblockUser={handleUnblockUser}
+                      isUnblocking={isUnblocking}
+                      isBlockedByUser={isBlockedByUser}
+                    />
+                    <UserDetails details={details} profile={profile} />
+                  </>
+                )}
               </>
             )}
           </>
@@ -127,10 +134,6 @@ export default function UserProfilePage() {
         refetch={refetch}
         onClose={() => setBlockConfirmation(false)}
         setBlockedSuccess={setBlockedSuccess}
-      />
-      <BlockSuccess
-        setBlockedSuccess={setBlockedSuccess}
-        blockedSuccess={blockedSuccess}
       />
 
       {showReportModal && (

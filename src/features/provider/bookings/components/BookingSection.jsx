@@ -9,10 +9,12 @@ import { useGetBookingsQuery } from "../../../../services/bookingApi/bookingApi"
 import Loader from "../../../../components/ui/loader/Loader";
 import { useState } from "react";
 import Error from "../../../../components/ui/Error";
+import Pagination from "../../../../components/ui/Pagination";
 
 export default function BookingSection() {
   const user = useSelector((state) => state.user.user);
   const [activeFilter, setActiveFilter] = useState("ALL");
+  const [page, setPage] = useState(1);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
@@ -30,6 +32,7 @@ export default function BookingSection() {
   );
 
   const bookings = data?.data?.data;
+  const pagination = data?.data?.pagination;
 
   return (
     <section className="mb-16 rounded-[2rem] foreground p-8 lg:p-10">
@@ -76,6 +79,14 @@ export default function BookingSection() {
             </>
           )}
         </>
+      )}
+
+      {pagination?.totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          totalPages={pagination.totalPages}
+          onPageChange={setPage}
+        />
       )}
     </section>
   );

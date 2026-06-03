@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Modal from "../../../components/ui/Modal";
 import { useBlockUserMutation } from "../../../services/userService/userApi";
 import { useParams } from "react-router-dom";
@@ -6,23 +6,20 @@ import { enqueueSnackbar } from "notistack";
 
 const BlockConfirmation = ({ isOpen, onClose, refetch, setBlockedSuccess }) => {
   const [blockUser, { isLoading }] = useBlockUserMutation();
-
+  const timeoutRef = useRef(null);
   const { id } = useParams();
-
   const [isBlocked, setIsBlocked] = useState(false);
 
   const handleBlock = async () => {
     try {
       await blockUser({ blockedId: id }).unwrap();
 
-      // Change modal content
       setIsBlocked(true);
 
-      // Auto close after 4 sec
-      setTimeout(() => {
-        refetch();
+      timeoutRef.current = setTimeout(() => {
         handleClose();
         setBlockedSuccess(true);
+        refetch();
       }, 4000);
     } catch (error) {
       enqueueSnackbar(

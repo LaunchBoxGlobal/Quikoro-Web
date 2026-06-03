@@ -9,12 +9,14 @@ import Loader from "../../../../components/ui/loader/Loader";
 import Error from "../../../../components/ui/Error";
 import CategoryTabs from "../../../dashboard/components/CategoryTabs";
 import { MdOutlineHomeRepairService } from "react-icons/md";
+import Pagination from "../../../../components/ui/Pagination";
 
 const ServicesSection = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
   const [activeTab, setActiveTab] = useState(null);
+  const [page, setPage] = useState(1);
   const { data, isLoading, isError, isFetching } = useGetMyServicesQuery(
     {
       page: 1,
@@ -27,6 +29,8 @@ const ServicesSection = () => {
   );
 
   const services = data?.data?.data;
+  const pagination = data?.data?.pagination;
+
   return (
     <main className="w-full mb-16 min-h-screen">
       <section className="rounded-[2rem] foreground p-8 lg:p-10">
@@ -79,6 +83,14 @@ const ServicesSection = () => {
               </>
             )}
           </>
+        )}
+
+        {pagination?.totalPages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={pagination.totalPages}
+            onPageChange={setPage}
+          />
         )}
       </section>
     </main>

@@ -1,2 +1,1 @@
-# fixly
-# Quikoro-Web
+# quikoro-Web
