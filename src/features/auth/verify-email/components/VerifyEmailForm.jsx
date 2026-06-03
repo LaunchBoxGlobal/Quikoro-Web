@@ -76,10 +76,10 @@ const VerifyEmailForm = () => {
         className="w-full max-w-[350px] relative space-y-6"
       >
         <img
-          src={LogoPlaceholder}
+          src={"/verify-otp-icon.png"}
           alt="verify otp icon"
-          width={146}
-          height={146}
+          width={72}
+          height={72}
           className="mx-auto"
         />
 

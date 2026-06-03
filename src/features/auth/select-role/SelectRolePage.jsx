@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSignupData } from "../../../services/authApi/authSlice";
 import FormErrorMessage from "../../../components/ui/FormErrorMessage";
+import { LogoPlaceholder } from "../../../assets/export";
 
 const WorkerIcon = () => (
   <svg
@@ -42,7 +43,7 @@ export default function SelectRolePage() {
 
   const handleNavigate = () => {
     if (!selectedRole) {
-      setError("Please choose how you'd like to use Fixly.");
+      setError("Please choose how you'd like to use quikoro.");
       return;
     }
 
@@ -55,10 +56,14 @@ export default function SelectRolePage() {
     <div className="min-h-screen w-full bg-transparent flex flex-col items-center justify-center p-6 text-gray-900">
       <div className="w-full max-w-[400px] flex flex-col pt-8 pb-12 space-y-4">
         <div className="text-center">
-          <h1 className="text-[32px] font-bold tracking-tight mb-1">
-            Quickoro
-          </h1>
-          <p className="text-[16px] text-gray-500">
+          <img
+            src={LogoPlaceholder}
+            alt="logo"
+            width={233}
+            height={65}
+            className="mx-auto"
+          />
+          <p className="text-[16px] text-gray-500 mt-4 mb-3">
             Your trusted service marketplace
           </p>
         </div>

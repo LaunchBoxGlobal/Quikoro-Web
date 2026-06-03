@@ -14,6 +14,7 @@ import { useForgotPasswordMutation } from "../../../../services/authApi/authApi"
 import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
 import { useDispatch } from "react-redux";
 import { setSignupData } from "../../../../services/authApi/authSlice";
+import { ChevronLeft } from "lucide-react";
 
 const ForgotPasswordForm = () => {
   const navigate = useNavigate();
@@ -60,10 +61,10 @@ const ForgotPasswordForm = () => {
         className="w-full max-w-[350px] relative space-y-7"
       >
         <img
-          src={LogoPlaceholder}
+          src={"/set-new-password-icon.png"}
           alt="forgot password icon"
-          width={106}
-          height={106}
+          width={72}
+          height={72}
           className="mx-auto"
         />
 
@@ -101,7 +102,9 @@ const ForgotPasswordForm = () => {
 
       <div className="w-full flex justify-center mt-10">
         <Link to={"/login"} className="flex items-center gap-1">
-          <img src={ArrowLeft} alt="arrow left icon" width={18} height={18} />
+          <div className="gradient-bg rounded-full w-[18px] h-[18px] flex items-center justify-center">
+            <ChevronLeft color="#fff" size={12} />
+          </div>
           <span className="uppercase text-xs font-semibold">back</span>
         </Link>
       </div>

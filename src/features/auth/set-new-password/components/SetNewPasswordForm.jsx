@@ -81,10 +81,10 @@ const SetNewPasswordForm = () => {
         className="w-full max-w-[350px] relative space-y-7"
       >
         <img
-          src={LogoPlaceholder}
+          src={"/set-new-password-icon.png"}
           alt="forgot password icon"
-          width={146}
-          height={146}
+          width={72}
+          height={72}
           className="mx-auto"
         />
 
