@@ -24,6 +24,8 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   const receiverId =
     user?.role === "CUSTOMER" ? booking?.provider?.id : booking?.customer?.id;
   const [loadingMessages, setLoadingMessages] = useState(false);
+  const chatUser =
+    user?.role === "CUSTOMER" ? booking?.provider : booking?.customer;
 
   // OLD MESSAGES
   useEffect(() => {
@@ -66,7 +68,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
     });
 
     socket.on("new-message", (msg) => {
-      // console.log("RECEIVED NEW MESSAGES >>> ", msg);
+      console.log("RECEIVED NEW MESSAGES >>> ", msg);
       const normalized = {
         id: msg.message?.id,
         message: msg.message?.message,
@@ -110,8 +112,16 @@ const ChatWindow = ({ setOpenChat, booking }) => {
     setSelectedFiles((prev) => [...prev, ...mapped]);
   };
 
+  // const removeFile = (index) => {
+  //   setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  // };
   const removeFile = (index) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+
+    // Reset file input so same file can be selected again
+    if (fileRef.current) {
+      fileRef.current.value = "";
+    }
   };
 
   const handleSend = async () => {
@@ -174,19 +184,8 @@ const ChatWindow = ({ setOpenChat, booking }) => {
             }
           }),
         );
-
-        // STEP 3: DETERMINE TYPE
-        // const hasImage = media.some((m) => m.type.startsWith("image/"));
-
-        // const hasAudio = media.some((m) => m.type.startsWith("audio/"));
-
-        // if (hasImage) {
-        //   type = "IMAGE";
-        // } else if (hasAudio) {
-        //   type = "";
-        // }
       }
-      // STEP 4: SOCKET PAYLOAD
+      // STEP 3: SOCKET PAYLOAD
       const payload = {
         bookingId: id,
         senderId: user?.id,
@@ -224,7 +223,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   return (
     <div className="fixed bottom-4 right-6 z-50 w-[95%] max-w-[520px] h-[650px] bg-white rounded-[32px] overflow-hidden flex flex-col custom-shadow">
       {/* HEADER */}
-      <ChatHeader setOpenChat={setOpenChat} />
+      <ChatHeader setOpenChat={setOpenChat} chatUser={chatUser} />
 
       {/* MESSAGES */}
       {loadingMessages ? (

@@ -1,15 +1,23 @@
 import { User, X } from "lucide-react";
 import React from "react";
 
-const ChatHeader = ({ setOpenChat }) => {
+const ChatHeader = ({ setOpenChat, chatUser }) => {
   return (
     <div className="gradient-bg min-h-[86px] px-4 flex items-center justify-between">
       <div className="flex gap-2 items-center">
-        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-          <User />
-        </div>
+        {chatUser?.profilePicture ? (
+          <img
+            src={chatUser?.profilePicture}
+            alt={`${chatUser?.fullName} profile picture`}
+            className="w-12 h-12 rounded-full object-cover"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+            <User />
+          </div>
+        )}
 
-        <h2 className="text-white">Chat</h2>
+        <h2 className="text-white">{chatUser?.fullName}</h2>
       </div>
 
       <button onClick={() => setOpenChat(false)}>

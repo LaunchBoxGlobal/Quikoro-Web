@@ -27,7 +27,7 @@ const MarkJobCompletedConfirmationModal = ({
       return;
     }
     try {
-      await updateBookingStatus({ status: "COMPLETED", id }).unwrap();
+      await updateBookingStatus({ id, data: { status: "COMPLETED" } }).unwrap();
       //   onClose();
       setIsCompleted(true);
       //   setShowReviewModal(true);

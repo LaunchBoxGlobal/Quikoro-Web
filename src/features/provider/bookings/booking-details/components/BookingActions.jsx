@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { ChatIcon } from "../../../../../assets/export";
-import { useUpdateBookingStatusMutation } from "../../../../../services/bookingApi/bookingApi";
 
 export default function BookingActions({
   setShowAcceptBookingConfirmation,

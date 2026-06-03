@@ -9,7 +9,6 @@ import ServiceProviderInfo from "./ServiceProviderInfo";
 
 export default function ServiceTopSection({ service }) {
   const user = useSelector((state) => state.user);
-  console.log(service);
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
       {/* Image */}

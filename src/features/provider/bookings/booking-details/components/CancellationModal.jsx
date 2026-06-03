@@ -57,7 +57,7 @@ export const AdditionNotesForm = ({
 
   const handleSubmit = async () => {
     try {
-      await updateBookingStatus({ status: "CANCELLED", id }).unwrap();
+      await updateBookingStatus({ id, data: { status: "CANCELLED" } }).unwrap();
       setCancellationSuccessModal(true);
     } catch (error) {
       setApiError(error?.data?.error || "Something went wrong");

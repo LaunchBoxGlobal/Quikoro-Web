@@ -53,7 +53,7 @@ export const AdditionNotesForm = ({
 
   const handleSubmit = async () => {
     try {
-      await updateBookingStatus({ status: "CANCELLED", id }).unwrap();
+      await updateBookingStatus({ id, data: { status: "CANCELLED" } }).unwrap();
       if (status === "INTERESTED") {
         refetch();
         enqueueSnackbar("Booking has been cancelled.", {

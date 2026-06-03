@@ -8,7 +8,7 @@ export const statusStyles = {
 };
 
 export const filters = [
-  { title: "All", query: "all" },
+  { title: "All", query: "ALL" },
   { title: "Pending", query: "PENDING" },
   { title: "Interested", query: "INTERESTED" },
   { title: "In Progress", query: "IN_PROGRESS" },

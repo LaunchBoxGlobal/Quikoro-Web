@@ -58,7 +58,7 @@ const BookingDetailsPage = () => {
     }
 
     try {
-      await updateBookingStatus({ status, id }).unwrap();
+      await updateBookingStatus({ id, data: { status } }).unwrap();
       refetch();
 
       if (status === "INTERESTED") {

@@ -51,8 +51,14 @@ export const AdditionNotesForm = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await updateBookingStatus({ status: "IN_PROGRESS", id }).unwrap();
+    const payload = {
+      status: "IN_PROGRESS",
+      additionalNotes: notes,
+    };
+    await updateBookingStatus({
+      id,
+      data: payload,
+    }).unwrap();
     setAcceptBooking(false);
     setRequestAcceptedSuccessModal(true);
   };

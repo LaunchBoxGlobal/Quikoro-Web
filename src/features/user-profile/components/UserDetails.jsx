@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
-import DetailsRow from "./DetailsRow";
 
-export default function ProviderDetails({ details, profile }) {
+export default function UserDetails({ details, profile }) {
   const user = useSelector((state) => state.user.user);
   const userAddress = [
     profile?.streetAddress,
@@ -38,32 +37,6 @@ export default function ProviderDetails({ details, profile }) {
               </div>
               <div className="text-[15px] font-medium text-gray-900">
                 {profile?.phoneNumber || "N/A"}
-              </div>
-            </div>
-            <div className="border border-gray-200 w-full" />
-          </>
-        )}
-
-        {/* Speciality */}
-        {user && user?.role === "PROVIDER" && (
-          <>
-            <div className="py-5">
-              <div className="mb-1.5 text-[13px] text-gray-500">Speciality</div>
-              <div className="text-[15px] font-medium text-gray-900">
-                {profile?.speciality || "N/A"}
-              </div>
-            </div>
-            <div className="border border-gray-200 w-full" />
-          </>
-        )}
-
-        {/* Experience */}
-        {user && user?.role === "PROVIDER" && (
-          <>
-            <div className="py-5">
-              <div className="mb-1.5 text-[13px] text-gray-500">Experience</div>
-              <div className="text-[15px] font-medium text-gray-900">
-                {profile?.yearsOfExperience || "N/A"}
               </div>
             </div>
             <div className="border border-gray-200 w-full" />

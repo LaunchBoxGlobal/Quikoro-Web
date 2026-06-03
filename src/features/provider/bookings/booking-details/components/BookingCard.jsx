@@ -21,6 +21,9 @@ export default function BookingCard({ booking }) {
     text: "text-gray-500",
   };
 
+  const currentUser =
+    user?.role === "CUSTOMER" ? booking?.customer : booking?.provider;
+
   return (
     <>
       <section className="mb-10 lg:mb-24 rounded-[2rem] bg-[var(--gray-bg)] p-6 lg:p-8">
@@ -28,9 +31,13 @@ export default function BookingCard({ booking }) {
           {/* Left Image */}
           <div className="flex h-64 lg:h-auto lg:w-72 shrink-0 items-center justify-center rounded-xl bg-[#18181b]">
             <img
-              src={booking?.services?.images[0]}
-              alt=""
-              className="w-full h-full object-cover rounded-xl"
+              src={
+                booking?.service?.images?.length > 0
+                  ? booking?.service?.images[0]
+                  : "/user-profile-placeholder.png"
+              }
+              alt={`${booking?.service?.name} picture`}
+              className="w-full h-full object-cover rounded-xl lg:max-h-72"
             />
           </div>
 
@@ -69,7 +76,9 @@ export default function BookingCard({ booking }) {
               <BookingInfoItem
                 label="Date"
                 value={
-                  booking?.createdAt ? formatDate(booking?.createdAt) : "N/A"
+                  booking?.scheduledAt
+                    ? formatDate(booking?.scheduledAt)
+                    : "N/A"
                 }
               />
 

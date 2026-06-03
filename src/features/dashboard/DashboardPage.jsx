@@ -12,6 +12,7 @@ import { useGetUserProfileQuery } from "../../services/userService/userApi";
 import { useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../services/userService/userSlice";
+import { BiError } from "react-icons/bi";
 
 const DashboardPage = () => {
   useUpdateTitle("Dashboard");
@@ -36,7 +37,12 @@ const DashboardPage = () => {
   }
 
   if (profileError || !profileData?.data) {
-    return <div>Failed to load profile.</div>;
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center gap-2 bg-white custom-shadow rounded-3xl">
+        <BiError className="text-gray-500" size={20} />
+        <p className="text-gray-500">Failed to load profile.</p>
+      </div>
+    );
   }
 
   const user = profileData.data;

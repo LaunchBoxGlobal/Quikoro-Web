@@ -18,6 +18,7 @@ import { BiError } from "react-icons/bi";
 import ReportUserModal from "./components/ReportUserModal";
 import ReportSuccessModal from "./components/ReportSuccessModal";
 import { enqueueSnackbar } from "notistack";
+import UserDetails from "./components/UserDetails";
 
 export const details = [
   { label: "Full Name", value: "John Doe" },
@@ -114,7 +115,7 @@ export default function UserProfilePage() {
                   isUnblocking={isUnblocking}
                 />
 
-                <ProviderDetails details={details} profile={profile} />
+                <UserDetails details={details} profile={profile} />
               </>
             )}
           </>

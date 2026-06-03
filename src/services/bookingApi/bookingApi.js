@@ -9,10 +9,24 @@ export const bookingApi = createApi({
   endpoints: (builder) => ({
     // get all bookings
     getBookings: builder.query({
-      query: ({ page = 1, status = "PENDING", search }) => ({
-        url: `bookings?page=${page}${status ? `&status=${status}` : ""}${search ? `&search=${search}` : ""}`,
-        method: "GET",
-      }),
+      query: ({ page = 1, status = "PENDING", search }) => {
+        const params = new URLSearchParams();
+
+        params.append("page", page);
+
+        if (status && status !== "ALL") {
+          params.append("status", status);
+        }
+
+        if (search) {
+          params.append("search", search);
+        }
+
+        return {
+          url: `bookings?${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Bookings"],
     }),
 
@@ -46,10 +60,15 @@ export const bookingApi = createApi({
 
     // update booking status by provider and customer
     updateBookingStatus: builder.mutation({
-      query: ({ status, id }) => ({
+      // query: ({ status, id }) => ({
+      //   url: `bookings/${id}/status`,
+      //   method: "PATCH",
+      //   body: { status },
+      // }),
+      query: ({ id, data }) => ({
         url: `bookings/${id}/status`,
         method: "PATCH",
-        body: { status },
+        body: data,
       }),
     }),
 

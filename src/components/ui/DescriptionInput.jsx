@@ -8,6 +8,7 @@ const DescriptionInput = ({
   onChange,
   onBlur,
   error,
+  bgColor = "#F5F5F5",
 }) => {
   return (
     <div className="w-full relative space-y-1">
@@ -25,7 +26,7 @@ const DescriptionInput = ({
         onBlur={onBlur}
         rows={5}
         placeholder={placeholder}
-        className={`w-full bg-[#fff] rounded-[12px] text-sm p-4 focus:outline-[var(--primary)] placeholder:text-[var(--secondary)] resize-none ${error ? "border border-red-500" : ""}`}
+        className={`w-full ${bgColor ? `bg-[${bgColor}]` : `bg-[#fff]`} rounded-[12px] text-sm p-4 focus:outline-[var(--primary)] placeholder:text-[var(--secondary)] resize-none ${error ? "border border-red-500" : ""}`}
       />
 
       {/* Error message */}

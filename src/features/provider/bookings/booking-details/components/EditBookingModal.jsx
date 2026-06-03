@@ -133,19 +133,11 @@ const EditBookingModal = ({ onClose, service }) => {
         <div className="w-full bg-[#F3F3F3] p-3 flex items-center justify-between gap-4 mt-5 rounded-[12px]">
           <div className="flex items-center gap-2">
             <div className="min-w-[69px] max-w-[69px] h-[69px] flex items-center justify-center bg-white rounded-[12px] overflow-hidden">
-              {service?.images?.length > 0 ? (
-                <img
-                  src={service?.images[0]}
-                  alt="service"
-                  className="object-cover w-full h-full"
-                />
-              ) : (
-                <img
-                  src={LogoPlaceholder}
-                  alt="service"
-                  className="object-cover"
-                />
-              )}
+              <img
+                src={service?.service?.images[0]}
+                alt="service"
+                className="object-cover w-full h-full"
+              />
             </div>
 
             <div>

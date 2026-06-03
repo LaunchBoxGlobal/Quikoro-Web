@@ -12,7 +12,7 @@ import Error from "../../../../components/ui/Error";
 
 export default function BookingSection() {
   const user = useSelector((state) => state.user.user);
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeFilter, setActiveFilter] = useState("ALL");
 
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
@@ -60,7 +60,7 @@ export default function BookingSection() {
           ) : (
             <>
               {bookings?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {bookings.map((booking) => (
                     <BookingCard key={booking.id} booking={booking} />
                   ))}

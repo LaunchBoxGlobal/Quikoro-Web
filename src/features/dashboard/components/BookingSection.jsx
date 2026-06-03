@@ -12,18 +12,20 @@ import Error from "../../../components/ui/Error";
 export default function BookingSection() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeFilter, setActiveFilter] = useState("ALL");
   const { data, isLoading, isError, isFetching } = useGetBookingsQuery(
     {
       page: 1,
       limit: 20,
-      status: activeFilter === "all" ? "" : activeFilter,
+      status: activeFilter,
     },
     {
       refetchOnMountOrArgChange: true,
     },
   );
-  const bookings = data?.data;
+  const bookings = data?.data?.data;
+  const pagination = data?.data?.pagination;
+
   return (
     <section className="mb-12 foreground rounded-[2rem] bg-[var(--gray-bg)] p-8 lg:p-10">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
@@ -54,7 +56,7 @@ export default function BookingSection() {
           ) : (
             <>
               {bookings?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {bookings?.map((booking) => (
                     <BookingCard key={booking.id} booking={booking} />
                   ))}

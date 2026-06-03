@@ -12,9 +12,31 @@ export default function BookingCard({ booking }) {
       <div className="rounded-2xl bg-[var(--gray-bg)] p-6 shadow-sm">
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 min-w-12 items-center justify-center rounded-full bg-[#18181b] text-white">
-              <User size={24} />
-            </div>
+            {user?.role === "CUSTOMER" ? (
+              <div className="flex h-12 min-w-12 max-w-12 items-center justify-center rounded-full bg-[#18181b] text-white">
+                {booking?.customer?.profilePicture ? (
+                  <img
+                    src={booking?.customer?.profilePicture}
+                    alt=""
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User size={24} />
+                )}
+              </div>
+            ) : (
+              <div className="flex h-12 min-w-12 max-w-12 items-center justify-center rounded-full bg-[#18181b] text-white">
+                {booking?.provider?.profilePicture ? (
+                  <img
+                    src={booking?.provider?.profilePicture}
+                    alt=""
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <User size={24} />
+                )}
+              </div>
+            )}
 
             <span className="font-semibold text-base leading-none">
               {user?.role === "CUSTOMER"
