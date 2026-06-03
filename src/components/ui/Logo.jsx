@@ -2,7 +2,15 @@ import React from "react";
 
 const Logo = () => {
   return (
-    <div className="text-2xl lg:text-3xl font-bold tracking-tight">LOGO</div>
+    <div>
+      <img
+        src="/logo.png"
+        alt="quikoro logo"
+        width={203}
+        height={57}
+        className="w-[140px] lg:w-[180px]"
+      />
+    </div>
   );
 };
 

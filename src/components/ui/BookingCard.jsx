@@ -14,9 +14,9 @@ export default function BookingCard({ booking }) {
           <div className="flex items-center gap-3">
             {user?.role === "CUSTOMER" ? (
               <div className="flex h-12 min-w-12 max-w-12 items-center justify-center rounded-full bg-[#18181b] text-white">
-                {booking?.customer?.profilePicture ? (
+                {booking?.provider?.profilePicture ? (
                   <img
-                    src={booking?.customer?.profilePicture}
+                    src={booking?.provider?.profilePicture}
                     alt=""
                     className="w-full h-full rounded-full object-cover"
                   />
@@ -26,9 +26,9 @@ export default function BookingCard({ booking }) {
               </div>
             ) : (
               <div className="flex h-12 min-w-12 max-w-12 items-center justify-center rounded-full bg-[#18181b] text-white">
-                {booking?.provider?.profilePicture ? (
+                {booking?.customer?.profilePicture ? (
                   <img
-                    src={booking?.provider?.profilePicture}
+                    src={booking?.customer?.profilePicture}
                     alt=""
                     className="w-full h-full rounded-full object-cover"
                   />

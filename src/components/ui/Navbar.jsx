@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
 import NotificationCount from "./NotificationCount";
 import Logo from "./Logo";
@@ -18,13 +18,29 @@ export default function Navbar() {
         {/* NAV LINKS */}
         <nav className="hidden items-center gap-8 md:flex font-medium text-gray-900 text-[15px]">
           {NAVBAR_LINKS?.map((link) => (
-            <Link
-              to={link?.path}
-              key={link?.path}
-              className="font-medium text-black hover:opacity-70 transition outline-none"
+            <NavLink
+              key={link.path}
+              to={link.path}
+              end={link.path === "/"}
+              className={({ isActive }) =>
+                `relative py-2 font-medium transition outline-none${
+                  isActive
+                    ? `
+          bg-gradient-to-l from-[#0084AA] to-[#003544] bg-clip-text text-transparent after:absolute after:bottom-0 after:left-0 after:w-[70%] after:h-[2px] after:bg-gradient-to-l after:from-[#0084AA] after:to-[#003544] after:rounded-full
+        `
+                    : "text-black hover:opacity-70"
+                }`
+              }
             >
-              {link?.title}
-            </Link>
+              {link.title}
+            </NavLink>
+            // <Link
+            //   to={link?.path}
+            //   key={link?.path}
+            //   className="font-medium text-black hover:opacity-70 transition outline-none"
+            // >
+            //   {link?.title}
+            // </Link>
           ))}
         </nav>
 
