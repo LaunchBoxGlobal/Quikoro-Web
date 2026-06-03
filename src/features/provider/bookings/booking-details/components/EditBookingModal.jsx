@@ -122,15 +122,10 @@ const EditBookingModal = ({ onClose, service }) => {
         {/* title */}
         <h2 className="text-[24px] font-bold text-start">Edit Request</h2>
 
-        {/* description */}
-        <p className="text-base text-[var(--secondary)] text-start mt-1">
-          Edit the details for your service
-        </p>
-
         {apiError && <FormErrorMessage apiError={apiError} />}
 
         {/* service card */}
-        <div className="w-full bg-[#F3F3F3] p-3 flex items-center justify-between gap-4 mt-5 rounded-[12px]">
+        {/* <div className="w-full bg-[#F3F3F3] p-3 flex items-center justify-between gap-4 mt-5 rounded-[12px]">
           <div className="flex items-center gap-2">
             <div className="min-w-[69px] max-w-[69px] h-[69px] flex items-center justify-center bg-white rounded-[12px] overflow-hidden">
               <img
@@ -157,20 +152,17 @@ const EditBookingModal = ({ onClose, service }) => {
               <Star size={14} />
               <span className="text-sm font-semibold text-black">4.7</span>
             </div>
-
-            <div className="w-[65px] bg-black text-white py-2 rounded-full text-[10px] font-semibold text-center">
-              Boosted
-            </div>
           </div>
-        </div>
+        </div> */}
 
         {/* form */}
         <form onSubmit={formik.handleSubmit} className="w-full mt-4">
           <div className="space-y-3">
             {/* Date */}
-            <Input
+            {/* <Input
               type="date"
               label="Date"
+              disabled={true}
               name="date"
               min={today}
               value={formik.values.date}
@@ -178,20 +170,21 @@ const EditBookingModal = ({ onClose, service }) => {
               onBlur={formik.handleBlur}
               error={formik.errors.date}
               touched={formik.touched.date}
-            />
+            /> */}
 
             {/* Address */}
-            <Input
+            {/* <Input
               type="text"
               label="Service Address"
               name="serviceAddress"
+              disabled={true}
               placeholder="Enter your service address"
               value={formik.values.serviceAddress}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.errors.serviceAddress}
               touched={formik.touched.serviceAddress}
-            />
+            /> */}
 
             {/* Notes */}
             <DescriptionInput
@@ -209,8 +202,8 @@ const EditBookingModal = ({ onClose, service }) => {
           <div className="w-full mt-4">
             <Button
               type="submit"
-              text="Send"
-              loader="Sending..."
+              text="Save Changes"
+              loader="Saving..."
               isLoading={formik.isSubmitting}
               disabled={formik.isSubmitting || !formik.isValid}
             />

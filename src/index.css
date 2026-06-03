@@ -63,7 +63,7 @@
 }
 
 .gray-button {
-  @apply w-full h-[48px] px-5 text-black rounded-[12px] font-medium bg-[#0084AA]/20 shadow-sm flex items-center justify-center;
+  @apply w-full h-[48px] px-5 text-black rounded-[12px] font-medium bg-gray-200 shadow-sm flex items-center justify-center;
 }
 
 .gradientImageBackground {
