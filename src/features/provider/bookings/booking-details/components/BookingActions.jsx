@@ -9,6 +9,7 @@ export default function BookingActions({
   setAcceptBooking,
   setCancellationModal,
   handleToggleMarkCompleteJobModal,
+  setShowReviewModal,
 }) {
   const user = useSelector((state) => state.user.user);
 
@@ -109,6 +110,18 @@ export default function BookingActions({
             </div>
           )}
         </>
+      )}
+
+      {!booking?.isRated && booking?.status === "COMPLETED" && (
+        <div className="w-full flex justify-end">
+          <button
+            type="button"
+            onClick={() => setShowReviewModal(true)}
+            className="w-full sm:w-auto rounded-xl gradient-bg border-none px-8 py-3 font-medium text-white"
+          >
+            Write A Review
+          </button>
+        </div>
       )}
     </div>
   );

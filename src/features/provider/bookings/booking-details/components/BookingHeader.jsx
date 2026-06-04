@@ -14,6 +14,7 @@ const BookingHeader = ({
   setAcceptBooking,
   setCancellationModal,
   handleToggleMarkCompleteJobModal,
+  setShowReviewModal,
 }) => {
   const [message, setMessage] = useState("");
 
@@ -37,6 +38,7 @@ const BookingHeader = ({
           setAcceptBooking={setAcceptBooking}
           setCancellationModal={setCancellationModal}
           handleToggleMarkCompleteJobModal={handleToggleMarkCompleteJobModal}
+          setShowReviewModal={setShowReviewModal}
         />
       </div>
       {openChat && <ChatWindow setOpenChat={setOpenChat} booking={booking} />}

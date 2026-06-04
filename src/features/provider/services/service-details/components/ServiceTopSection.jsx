@@ -9,6 +9,14 @@ import ServiceProviderInfo from "./ServiceProviderInfo";
 
 export default function ServiceTopSection({ service }) {
   const user = useSelector((state) => state.user);
+  const ratings = service?.ratings || [];
+
+  const averageRating =
+    ratings.length > 0
+      ? ratings.reduce((sum, item) => sum + item.rating, 0) / ratings.length
+      : 0;
+
+  const roundedRating = Number(averageRating.toFixed(1));
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
       {/* Image */}
@@ -38,9 +46,13 @@ export default function ServiceTopSection({ service }) {
             </p>
 
             <div className="flex items-center gap-1.5 text-[15px] font-semibold text-gray-900">
-              <StarRating />
+              <StarRating rating={averageRating} />
 
-              <span className="ml-1 leading-none">4.5</span>
+              <span className="ml-1 leading-none">{roundedRating}</span>
+
+              <span className="text-gray-500 font-normal">
+                ({ratings.length} {ratings.length === 1 ? "review" : "reviews"})
+              </span>
             </div>
           </div>
           {user && user?.user?.role === "CUSTOMER" && (

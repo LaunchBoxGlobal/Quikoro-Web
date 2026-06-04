@@ -20,12 +20,6 @@ export default function ServiceDetails() {
 
   const user = useSelector((state) => state.user);
 
-  const reviews = Array(3).fill({
-    name: "Mike Smith",
-    rating: 4.5,
-    text: "The standard Lorem Ipsum passage, used since the Lorem ipsum dolor sit sed do eiusmod The standard Lorem Ipsum passage, used since the Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. tempor incididunt ut labore et dolore magna aliqua.",
-  });
-
   return (
     <>
       <div className="min-h-screen w-full text-gray-900">
@@ -40,7 +34,7 @@ export default function ServiceDetails() {
               <Loader />
             </div>
           ) : (
-            <ServiceHero reviews={reviews} service={service} />
+            <ServiceHero service={service} />
           )}
         </div>
       </div>

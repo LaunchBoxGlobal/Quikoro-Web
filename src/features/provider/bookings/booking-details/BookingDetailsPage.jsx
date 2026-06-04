@@ -19,6 +19,8 @@ import CancellationModal from "./components/CancellationModal";
 import RequestAcceptedSuccessModal from "./components/RequestAcceptedSuccessModal";
 import MarkJobCompletedConfirmationModal from "./components/MarkJobCompletedConfirmationModal";
 import ReviewModal from "./components/ReviewModal";
+import Reviews from "./components/Reviews";
+import { BiError } from "react-icons/bi";
 
 const BookingDetailsPage = () => {
   useUpdateTitle("Booking Details");
@@ -97,6 +99,7 @@ const BookingDetailsPage = () => {
         setAcceptBooking={setAcceptBooking}
         setCancellationModal={setCancellationModal}
         handleToggleMarkCompleteJobModal={handleToggleMarkCompleteJobModal}
+        setShowReviewModal={setShowReviewModal}
       />
 
       {apiError && (
@@ -111,7 +114,16 @@ const BookingDetailsPage = () => {
         </div>
       ) : (
         <>
-          <BookingCard booking={booking} />
+          {isError ? (
+            <div className="w-full h-[50vh] flex items-center justify-center gap-2 bg-white pt-5 rounded-3xl">
+              <BiError size={22} className="text-gray-500" />
+              <p className="text-gray-500 font-medium">
+                Something went wrong. Try again.
+              </p>
+            </div>
+          ) : (
+            <BookingCard booking={booking} />
+          )}
         </>
       )}
 
