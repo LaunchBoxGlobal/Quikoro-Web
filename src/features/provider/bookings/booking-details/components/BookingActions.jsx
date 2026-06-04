@@ -67,7 +67,7 @@ export default function BookingActions({
               </button>
             </div>
           )}
-          {user?.role === "PROVIDER" && booking?.status === "INTERESTED" && (
+          {/* {user?.role === "PROVIDER" && booking?.status === "INTERESTED" && (
             <div className="w-full flex justify-end">
               <button
                 type="button"
@@ -77,16 +77,16 @@ export default function BookingActions({
                 Decline
               </button>
 
-              {/* <button
+              <button
                 type="button"
                 disabled={booking?.status === "INTERESTED"}
                 onClick={() => handleUpdateStatus("INTERESTED")}
                 className="w-full sm:w-auto rounded-xl bg-[#1c1c1e] px-8 py-3 font-medium text-white transition-colors hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 Accepted
-              </button> */}
+              </button>
             </div>
-          )}
+          )} */}
 
           {user?.role === "PROVIDER" && booking?.status === "IN_PROGRESS" && (
             <div className="w-full flex items-center justify-end gap-3">

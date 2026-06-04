@@ -55,7 +55,7 @@ export default function BookingCard({ booking }) {
         <p className="text-gray-500 text-[15px]">{booking?.service?.name}</p>
 
         <div className="mt-2 flex items-center gap-2 text-[15px] text-gray-500">
-          <span>{formatDate(booking?.createdAt)}</span>
+          <span>{formatDate(booking?.scheduledAt)}</span>
 
           {/* <span className="text-gray-400">•</span>
 

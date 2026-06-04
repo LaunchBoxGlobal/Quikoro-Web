@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { calculateAge } from "../../../utils/calculateAge";
 
 export default function UserDetails({ details, profile }) {
   const user = useSelector((state) => state.user.user);
@@ -11,10 +12,12 @@ export default function UserDetails({ details, profile }) {
   ]
     .filter(Boolean)
     .join(", ");
+
+  console.log(profile);
   return (
     <div className="mb-16 rounded-[1.5rem] foreground p-8 lg:p-10">
       <h2 className="mb-6 text-[22px] font-bold tracking-tight text-gray-900">
-        Provider Details
+        User Details
       </h2>
       <div className="border border-gray-200 w-full" />
 
@@ -37,6 +40,32 @@ export default function UserDetails({ details, profile }) {
               </div>
               <div className="text-[15px] font-medium text-gray-900">
                 {profile?.phoneNumber || "N/A"}
+              </div>
+            </div>
+            <div className="border border-gray-200 w-full" />
+          </>
+        )}
+
+        {/* Experience */}
+        {user?.role === "CUSTOMER" && profile?.yearsOfExperience && (
+          <>
+            <div className="py-5">
+              <div className="mb-1.5 text-[13px] text-gray-500">Experience</div>
+              <div className="text-[15px] font-medium text-gray-900">
+                {profile?.yearsOfExperience || "N/A"}
+              </div>
+            </div>
+            <div className="border border-gray-200 w-full" />
+          </>
+        )}
+
+        {/* Age */}
+        {user?.role === "CUSTOMER" && profile?.dateOfBirth && (
+          <>
+            <div className="py-5">
+              <div className="mb-1.5 text-[13px] text-gray-500">Age</div>
+              <div className="text-[15px] font-medium text-gray-900">
+                {calculateAge(profile?.dateOfBirth) || "N/A"}
               </div>
             </div>
             <div className="border border-gray-200 w-full" />
