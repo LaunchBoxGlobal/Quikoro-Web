@@ -1,6 +1,6 @@
 import { FaCircleUser } from "react-icons/fa6";
 import { useGetUsersQuery } from "../../../services/userApi/userApi";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import PageLoader from "../../../components/ui/PageLoader";
 import ErrorPage from "../../../components/ui/PageError";
 import Pagination from "../../../components/ui/Pagination";
@@ -71,12 +71,12 @@ const UsersTable = () => {
                   <td className="px-6 py-4">{user?.email}</td>
                   <td className="px-6 py-4">{getAddress(user) || "N/A"}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <button
-                      type="button"
+                    <Link
+                      to={`/users/details/${user?.id}`}
                       className="gradient-text font-medium underline decoration-[#0084AA]"
                     >
                       View Details
-                    </button>
+                    </Link>
                   </td>
                 </tr>
               );

@@ -3,10 +3,13 @@ import Sidebar from "./Sidebar";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import Cookies from "js-cookie";
 import { Outlet } from "react-router-dom";
+import useInternetStatus from "../../hooks/useInternetStatus";
+import NoInternet from "./NoInternet";
 
 const MainLayout = ({ pages }) => {
   const sidebarRef = useRef(null);
   const [isOpen, setisOpen] = useState(false);
+  const isOnline = useInternetStatus();
   const admin = Cookies.get("adminData")
     ? JSON.parse(Cookies.get("adminData"))
     : null;
@@ -14,6 +17,8 @@ const MainLayout = ({ pages }) => {
   const toggleModal = () => {
     setisOpen(!isOpen);
   };
+
+  if (!isOnline) return <NoInternet />;
 
   return (
     <div className="w-screen h-screen flex justify-start items-start bg-transparent relative overflow-hidden body-image">
@@ -27,7 +32,7 @@ const MainLayout = ({ pages }) => {
           ref={sidebarRef}
           className={`fixed top-0 left-0 transition-all duration-200  ${
             isOpen ? " lg:translate-x-0" : "-translate-x-full lg:translate-x-0"
-          } lg:static w-[60%] z-[2000] lg:z-auto py-5 pl-5 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start h-full`}
+          } lg:static w-[60%] z-[1000] lg:z-auto py-5 pl-5 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start h-full`}
         >
           <Sidebar />
         </div>
@@ -55,7 +60,7 @@ const MainLayout = ({ pages }) => {
             </div>
           </div>
         </div>
-        <div className="w-full bg-transparent rounded-[16px] lg:rounded-[32px] p-6 mt-6 text-black custom-shadow z-50 relative">
+        <div className="w-full bg-white rounded-[16px] lg:rounded-[32px] p-6 mt-6 text-black custom-shadow z-50 relative">
           <Outlet />
         </div>
       </div>

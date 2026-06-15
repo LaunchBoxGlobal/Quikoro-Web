@@ -43,12 +43,49 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    banUnbanUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admin/users/${id}/ban`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    getProviderServicesAndBookings: builder.query({
+      query: ({ endpoint }) => ({
+        url: endpoint,
+      }),
+    }),
+
+    getProviderBookings: builder.query({
+      query: ({ providerId, page = 1, status, search }) => {
+        const params = new URLSearchParams();
+
+        params.append("page", page);
+
+        if (search) params.append("search", search);
+
+        if (status && status !== "ALL") {
+          params.append("status", status);
+        }
+
+        return {
+          url: `/admin/providers/${providerId}/bookings?${params.toString()}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
 export const {
   useGetProfileQuery,
+  useGetProviderBookingsQuery,
   useGetUsersQuery,
   useGetUserQuery,
   useAcceptRejectAccountMutation,
+  useBanUnbanUserMutation,
+  useGetProviderServicesAndBookingsQuery,
 } = userApi;
