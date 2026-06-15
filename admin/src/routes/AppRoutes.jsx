@@ -15,18 +15,21 @@ const AppRoutes = () => {
   return (
     <Suspense fallback={<SuspenseLoader />}>
       <Routes>
-        {/* <Route element={<PublicRoutes />}> */}
-        <Route path="/login" element={<LoginPage />} />
-        {/* </Route> */}
+        <Route element={<PublicRoutes />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
 
         <Route element={<MainLayout />}>
-          {/* <Route element={<PrivateRoutes />}> */}
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/users" element={<UsersPage />} />
-          <Route path="/service-providers" element={<ServiceProvidersPage />} />
-          <Route path="/users/details/:id" element={<UserDetailsPage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          {/* </Route> */}
+          <Route element={<PrivateRoutes />}>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/users" element={<UsersPage />} />
+            <Route
+              path="/service-providers"
+              element={<ServiceProvidersPage />}
+            />
+            <Route path="/users/details/:id" element={<UserDetailsPage />} />
+            <Route path="/categories" element={<CategoriesPage />} />
+          </Route>
         </Route>
       </Routes>
     </Suspense>

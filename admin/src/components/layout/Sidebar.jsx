@@ -12,8 +12,8 @@ const Sidebar = () => {
   };
 
   const handleLogout = async () => {
-    Cookies.remove("look_alike_admin_token");
-    Cookies.remove("look_alike_admin");
+    Cookies.remove("adminToken");
+    Cookies.remove("adminData");
     navigate("/login");
   };
   return (
