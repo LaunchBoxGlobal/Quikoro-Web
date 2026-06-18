@@ -12,6 +12,7 @@ import DeleteAccountPage from "./DeleteAccountPage";
 import TermsConditions from "./TermsConditions";
 import PrivacyPolicy from "./PrivacyPolicy";
 import useUpdateTitle from "../../hooks/useUpdateTitle";
+import BlockedUsersPage from "./BlockedUsersPage";
 
 export default function SettingsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,8 +29,8 @@ export default function SettingsPage() {
       case "notification":
         return <NotificationPage />;
 
-      // case "boosted-history":
-      //   return <BoostedHistoryPage />;
+      case "blocked-users":
+        return <BlockedUsersPage />;
 
       case "change-password":
         return <ChangePasswordPage />;

@@ -195,7 +195,7 @@ const LiveProfileCapture = ({
       {/* Camera Modal */}
       {cameraOpen && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-4 w-full max-w-md flex flex-col items-center gap-4">
+          <div className="bg-white rounded-2xl p-4 w-full max-w-[70%] flex flex-col items-center justify-center gap-4 min-h-[80vh]">
             <h2 className="text-lg font-semibold">Take a Selfie</h2>
 
             {/* Live Camera */}
@@ -211,11 +211,11 @@ const LiveProfileCapture = ({
             <canvas ref={canvasRef} className="hidden" />
 
             {/* Buttons */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mt-5">
               <button
                 type="button"
                 onClick={capturePhoto}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                className="primary-button"
               >
                 Capture
               </button>
@@ -226,7 +226,7 @@ const LiveProfileCapture = ({
                   stopCamera();
                   setCameraOpen(false);
                 }}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 text-white px-6 py-3 rounded-xl"
               >
                 Cancel
               </button>

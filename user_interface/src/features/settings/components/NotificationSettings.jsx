@@ -51,14 +51,12 @@ export default function NotificationSettings() {
 
   return (
     <div>
-      <h2 className="text-[28px] md:text-[30px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-10">
+      <h2 className="text-[28px] md:text-[30px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-5">
         Notification
       </h2>
 
       <div className="flex flex-col">
-        <hr className="border-gray-200" />
-
-        <div className="flex items-center justify-between py-5">
+        <div className="flex items-center justify-between">
           <div>
             <h3 className="text-[17px] font-medium text-black">
               Push Notifications

@@ -22,23 +22,69 @@ const DashboardPage = () => {
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("ALL");
 
-  const location = searchParams.get("location") || "";
   const search = searchParams.get("service") || "";
 
-  // Fetch authenticated user's profile
   const {
     data: profileData,
     isLoading: profileLoading,
     isError: profileError,
   } = useGetUserProfileQuery();
 
-  const user = profileData.data;
-  const isCustomer = user.role === "CUSTOMER";
+  const user = profileData?.data;
+  const isCustomer = user?.role === "CUSTOMER";
 
+  // Services are filtered by whatever address the user has saved on their
+  // profile (set via the Navbar location picker) — not by a URL param.
+  // If your backend actually expects lat/lng for proximity search rather
+  // than the formatted address string, swap this for user?.latitude /
+  // user?.longitude and adjust the service queries accordingly.
+  const location = user?.location || "";
+
+  // All hooks run unconditionally, every render — `skip` is what gates them,
+  // not an early return. (The previous version called these hooks after an
+  // early return, which breaks the Rules of Hooks.)
   useEffect(() => {
     if (!user) return;
     dispatch(setUser(user));
-  }, [user]);
+  }, [user, dispatch]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeTab, search, location]);
+
+  const {
+    data: myServicesData,
+    isLoading: myServicesLoading,
+    isError: myServicesError,
+  } = useGetMyServicesQuery(
+    {
+      page,
+      search,
+      location,
+      category: activeTab,
+    },
+    {
+      skip: !user || isCustomer,
+      refetchOnFocus: true,
+    },
+  );
+
+  const {
+    data: publicServicesData,
+    isLoading: publicServicesLoading,
+    isError: publicServicesError,
+  } = useGetServicesQuery(
+    {
+      page,
+      search,
+      location,
+      category: activeTab,
+    },
+    {
+      skip: !user || !isCustomer,
+      refetchOnFocus: true,
+    },
+  );
 
   if (profileLoading) {
     return <Loader />;
@@ -52,42 +98,6 @@ const DashboardPage = () => {
       </div>
     );
   }
-
-  const {
-    data: myServicesData,
-    isLoading: myServicesLoading,
-    isError: myServicesError,
-    isFetching: isFetchingMyServices,
-  } = useGetMyServicesQuery(
-    {
-      page,
-      search,
-      location,
-      category: activeTab,
-    },
-    {
-      skip: isCustomer,
-      refetchOnFocus: true,
-    },
-  );
-
-  const {
-    data: publicServicesData,
-    isLoading: publicServicesLoading,
-    isError: publicServicesError,
-    isFetching: isFetchingPublicServices,
-  } = useGetServicesQuery(
-    {
-      page,
-      search,
-      location,
-      category: activeTab,
-    },
-    {
-      skip: !isCustomer,
-      refetchOnFocus: true,
-    },
-  );
 
   const services = isCustomer
     ? publicServicesData?.data?.data
@@ -103,10 +113,6 @@ const DashboardPage = () => {
     ? publicServicesData?.data?.pagination
     : myServicesData?.data?.pagination;
 
-  useEffect(() => {
-    setPage(1);
-  }, [activeTab, search, location]);
-
   return (
     <>
       {isCustomer ? <HeroSection /> : <BookingSection />}
@@ -117,7 +123,6 @@ const DashboardPage = () => {
         isError={servicesError}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        pagination={pagination}
         pagination={pagination}
         page={page}
         setPage={setPage}

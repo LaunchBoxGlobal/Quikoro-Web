@@ -85,6 +85,15 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
+    updateLocation: builder.mutation({
+      query: (data) => ({
+        url: `users/location`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -97,4 +106,5 @@ export const {
   // useReportUserMutation,
   useChangePasswordMutation,
   useReportUserMutation,
+  useUpdateLocationMutation,
 } = userApi;

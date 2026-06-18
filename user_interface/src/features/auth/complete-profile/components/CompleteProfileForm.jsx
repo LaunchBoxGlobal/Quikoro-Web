@@ -257,9 +257,13 @@ const CompleteProfileForm = () => {
             </label>
             <CountrySelect
               containerClassName="w-full"
-              inputClassName={selectClassName(
-                formik.touched.country && formik.errors.country,
-              )}
+              inputClassName={`w-full border h-[39px] px-[15px] rounded-[8px] outline-none disabled:cursor-not-allowed 
+        ${
+          formik.touched.country && formik.errors.country
+            ? "border-red-500"
+            : "border-gray-200"
+        }
+      `}
               placeHolder="Select Country"
               value={formik.values.country}
               onChange={(val) => {
@@ -287,9 +291,13 @@ const CompleteProfileForm = () => {
             <StateSelect
               countryid={formik.values.countryId || 0}
               containerClassName="w-full"
-              inputClassName={selectClassName(
-                formik.touched.state && formik.errors.state,
-              )}
+              inputClassName={`w-full border h-[39px] px-[15px] rounded-[8px] outline-none 
+        ${
+          formik.touched.state && formik.errors.state
+            ? "border-red-500"
+            : "border-gray-200"
+        }
+      `}
               placeHolder="Select State"
               value={formik.values.state}
               onChange={(val) => {
@@ -308,15 +316,19 @@ const CompleteProfileForm = () => {
           </div>
 
           {/* City */}
-          <div className="w-full flex flex-col gap-1">
+          <div className="w-full flex flex-col gap-1 pt-2">
             <label className="text-sm font-semibold leading-none">City</label>
             <CitySelect
               countryid={formik.values.countryId || 0}
               stateid={formik.values.stateId || 0}
               containerClassName="w-full"
-              inputClassName={selectClassName(
-                formik.touched.city && formik.errors.city,
-              )}
+              inputClassName={`w-full border h-[39px] px-[15px] rounded-[8px] outline-none 
+        ${
+          formik.touched.city && formik.errors.city
+            ? "border-red-500"
+            : "border-gray-200"
+        }
+      `}
               placeHolder="Select City"
               value={formik.values.city}
               onChange={(val) => {
@@ -380,6 +392,7 @@ const CompleteProfileForm = () => {
               text="Save"
               loader="Saving..."
               disabled={isLoading}
+              isLoading={isLoading}
             />
           </div>
         </div>

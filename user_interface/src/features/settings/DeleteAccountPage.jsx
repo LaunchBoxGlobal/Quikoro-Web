@@ -1,20 +1,20 @@
-import { ImageIcon } from "lucide-react";
-import Button from "../../components/ui/Button";
 import { useEffect, useState } from "react";
-import Modal from "../../components/ui/Modal";
-import { CheckIcon, CloseButtonIcon } from "../../assets/export";
-import OTPModal from "./OTPModal";
 import { useSelector } from "react-redux";
-import { useRequestOtpMutation } from "../../services/settingsApi/settingsApi";
 import { enqueueSnackbar } from "notistack";
+
+import Button from "../../components/ui/Button";
+import Modal from "../../components/ui/Modal";
+import OTPModal from "./OTPModal";
+import { CheckIcon } from "../../assets/export";
+import { useRequestOtpMutation } from "../../services/settingsApi/settingsApi";
 
 export default function DeleteAccountPage() {
   const [openOtpModal, setOtpModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const user = useSelector((state) => state.user.user);
-  const [requestOtp, { isLoading, error }] = useRequestOtpMutation();
 
-  const toggleSuccessModal = () => setShowSuccessModal((prev) => !prev);
+  const user = useSelector((state) => state.user.user);
+
+  const [requestOtp, { isLoading }] = useRequestOtpMutation();
 
   const handleToggleOtpModal = async () => {
     try {
@@ -36,10 +36,6 @@ export default function DeleteAccountPage() {
         },
       );
     }
-    // setOtpModal((prev) => !prev);
-    // if (openOtpModal) {
-    //   toggleSuccessModal();
-    // }
   };
 
   useEffect(() => {
@@ -60,45 +56,41 @@ export default function DeleteAccountPage() {
         </h2>
 
         <div className="w-full mt-8 flex items-center justify-between flex-wrap gap-4">
-          <div className="">
-            <p className="font-medium leading-none">
-              We will send 6 digits code to {user?.email && user?.email}
+          <div>
+            <p className="font-semibold leading-none">
+              We will send a 6-digit code to {user?.email}
             </p>
-            <p className="font-medium leading-none text-[#565656] mt-2">
+
+            <p className="font-normal leading-none text-[#565656] mt-2">
               Your data will be removed from our database permanently.
             </p>
           </div>
+
           <div className="w-full max-w-[152px]">
             <Button
               type="button"
-              text={`Send`}
+              text="Send"
               isLoading={isLoading}
               loader="Sending..."
-              onclick={() => handleToggleOtpModal()}
+              onclick={handleToggleOtpModal}
             />
           </div>
         </div>
       </div>
 
-      <Modal
-        isOpen={openOtpModal}
-        onClose={() => {
-          setOtpModal(false);
-        }}
-        children={
-          <OTPModal
-            setShowSuccessModal={setShowSuccessModal}
-            setOtpModal={setOtpModal}
-            user={user}
-          />
-        }
-      />
+      <Modal isOpen={openOtpModal} onClose={() => setOtpModal(false)}>
+        <OTPModal
+          user={user}
+          setOtpModal={setOtpModal}
+          setShowSuccessModal={setShowSuccessModal}
+        />
+      </Modal>
 
       <Modal
         isOpen={showSuccessModal}
-        icon={CheckIcon}
-        title={`Account Deleted`}
-        description={`Your account has been deleted successfully!`}
+        icon={"/check-icon.png"}
+        title="Account Deleted"
+        description="Your account has been deleted successfully!"
       />
     </>
   );

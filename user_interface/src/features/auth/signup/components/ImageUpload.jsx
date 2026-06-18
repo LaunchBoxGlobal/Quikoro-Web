@@ -64,7 +64,7 @@ const ImageUpload = ({
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex items-center gap-3">
-        <div className="w-[84px] h-[84px] bg-white rounded-full border-2 border-dashed border-gray-400 overflow-hidden relative">
+        <div className="w-[84px] h-[84px] bg-[#00354417] rounded-full border-2 border-dashed border-[#0084AA] overflow-hidden relative">
           <label
             htmlFor={name}
             className="flex items-center justify-center w-full h-full cursor-pointer"
@@ -76,7 +76,12 @@ const ImageUpload = ({
                 className="w-full h-full object-cover rounded-full"
               />
             ) : (
-              <BsPlusLg className="text-[var(--secondary)]" size={26} />
+              <img
+                src="/profile-icon.png"
+                width={35}
+                height={35}
+                alt="profile icon"
+              />
             )}
           </label>
 
@@ -93,7 +98,7 @@ const ImageUpload = ({
         {label && (
           <label
             htmlFor={name}
-            className="text-blue-500 font-medium underline cursor-pointer text-sm"
+            className="text-black font-medium underline cursor-pointer text-sm"
           >
             {label}
           </label>

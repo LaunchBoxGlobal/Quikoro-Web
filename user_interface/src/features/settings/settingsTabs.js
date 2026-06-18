@@ -5,13 +5,13 @@ const settingsTabs = [
     label: "Notification",
     value: "notification",
   },
-  // {
-  //   label: "Boosted History",
-  //   value: "boosted-history",
-  // },
   {
     label: "Change Password",
     value: "change-password",
+  },
+  {
+    label: "Delete Account",
+    value: "delete-account",
   },
   {
     label: "Contact Support",
@@ -21,9 +21,10 @@ const settingsTabs = [
     label: "Report A Bug",
     value: "report-a-bug",
   },
+
   {
-    label: "Delete Account",
-    value: "delete-account",
+    label: "Blocked Users",
+    value: "blocked-users",
   },
   {
     label: "Terms & Condition",

@@ -90,7 +90,8 @@ const ProfileHeader = ({ user, id, refetch }) => {
         {user?.role === "PROVIDER" && (
           <>
             {(user?.accountStatus === "PENDING" ||
-              user?.accountStatus === "SUBMITTED") && (
+              user?.accountStatus === "SUBMITTED" ||
+              user?.accountStatus === "REJECTED") && (
               <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
                 <button
                   type="button"
@@ -121,7 +122,7 @@ const ProfileHeader = ({ user, id, refetch }) => {
               onClick={() => handleBanUnbanUser()}
               className="w-full sm:w-auto px-12 py-3.5 bg-[#EE5D5D] hover:bg-[#db5252] transition-colors text-white rounded-[14px] font-medium text-base shadow-sm"
             >
-              {user?.isBlocked ? "Enable" : "Disable"}
+              {user?.isBanned ? "Enable" : "Disable"}
             </button>
           </div>
         )}
