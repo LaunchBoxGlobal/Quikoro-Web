@@ -4,7 +4,7 @@ import { baseQuery } from "../baseQuery";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery,
-  tagTypes: ["User"],
+  tagTypes: ["User", "BlockedUsers"],
 
   endpoints: (builder) => ({
     // Get logged in user
@@ -35,6 +35,15 @@ export const userApi = createApi({
       providesTags: ["User"],
     }),
 
+    // Get blocked users
+    getBlockedUsers: builder.query({
+      query: ({ page }) => ({
+        url: `blocks?page=${page}`,
+        method: "GET",
+      }),
+      providesTags: ["BlockedUsers"],
+    }),
+
     // Block user
     blockUser: builder.mutation({
       query: (userId) => ({
@@ -42,7 +51,7 @@ export const userApi = createApi({
         method: "POST",
         body: userId,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "BlockedUsers"],
     }),
 
     // Unblock user
@@ -52,22 +61,10 @@ export const userApi = createApi({
         method: "PATCH",
         body: userId,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: ["User", "BlockedUsers"],
     }),
 
-    // Report user
-    // reportUser: builder.mutation({
-    //   query: ({ userId, reason }) => ({
-    //     url: `users/report/${userId}`,
-    //     method: "POST",
-    //     body: {
-    //       reason,
-    //     },
-    //   }),
-    //   invalidatesTags: ["User"],
-    // }),
-
-    // change password
+    // Change password
     changePassword: builder.mutation({
       query: (data) => ({
         url: `users/change-password`,
@@ -76,7 +73,7 @@ export const userApi = createApi({
       }),
     }),
 
-    // report user
+    // Report user
     reportUser: builder.mutation({
       query: (data) => ({
         url: "reports",
@@ -103,8 +100,8 @@ export const {
   useGetUserProfileByIdQuery,
   useBlockUserMutation,
   useUnblockUserMutation,
-  // useReportUserMutation,
   useChangePasswordMutation,
   useReportUserMutation,
   useUpdateLocationMutation,
+  useGetBlockedUsersQuery,
 } = userApi;

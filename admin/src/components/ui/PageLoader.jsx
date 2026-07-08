@@ -2,7 +2,7 @@ import React from "react";
 
 const PageLoader = () => {
   return (
-    <div className="w-full min-h-[80vh] flex items-center justify-center">
+    <div className="w-full min-h-[80vh] bg-white rounded-[20px] mt-8 flex items-center justify-center">
       <div role="status">
         <svg
           aria-hidden="true"

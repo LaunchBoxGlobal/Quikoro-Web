@@ -21,6 +21,8 @@ import MarkJobCompletedConfirmationModal from "./components/MarkJobCompletedConf
 import ReviewModal from "./components/ReviewModal";
 import Reviews from "./components/Reviews";
 import { BiError } from "react-icons/bi";
+import DeclineConfirmationModal from "./components/DeclineConfirmationModal";
+import DeclineSuccessModal from "./components/DeclineSuccessModal";
 
 const BookingDetailsPage = () => {
   useUpdateTitle("Booking Details");
@@ -40,6 +42,8 @@ const BookingDetailsPage = () => {
     useState(false);
   const [showCompleteJobModal, setShowCompleteJobModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [declineModal, setDeclineModal] = useState(false);
+  const [declineSuccessModal, setDeclineSuccessModal] = useState(false);
 
   const handleToggleMarkCompleteJobModal = () =>
     setShowCompleteJobModal((prev) => !prev);
@@ -101,6 +105,7 @@ const BookingDetailsPage = () => {
         setCancellationModal={setCancellationModal}
         handleToggleMarkCompleteJobModal={handleToggleMarkCompleteJobModal}
         setShowReviewModal={setShowReviewModal}
+        setDeclineModal={setDeclineModal}
       />
 
       {apiError && (
@@ -133,7 +138,7 @@ const BookingDetailsPage = () => {
         <button
           type="button"
           onClick={() => setOpenChat((prev) => !prev)}
-          className="w-[60px] h-[60px] bg-[var(--primary)] flex items-center justify-center rounded-full z-30 fixed right-10 bottom-10"
+          className="w-[60px] h-[60px] gradient-bg flex items-center justify-center rounded-full z-30 fixed right-10 bottom-10"
         >
           <img src={MessageIcon} alt="message icon" width={28} height={26} />
         </button>
@@ -212,6 +217,19 @@ const BookingDetailsPage = () => {
         isOpen={showReviewModal}
         setIsOpen={setShowReviewModal}
         booking={booking}
+      />
+
+      <DeclineConfirmationModal
+        declineModal={declineModal}
+        setDeclineModal={setDeclineModal}
+        setDeclineSuccessModal={setDeclineSuccessModal}
+        setApiError={setApiError}
+        refetch={refetch}
+      />
+
+      <DeclineSuccessModal
+        declineSuccessModal={declineSuccessModal}
+        setDeclineSuccessModal={setDeclineSuccessModal}
       />
     </div>
   );

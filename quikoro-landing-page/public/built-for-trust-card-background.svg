@@ -1,0 +1,26 @@
+<svg width="756" height="247" viewBox="0 0 756 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_2178_2251)">
+<path d="M0 24C0 10.7452 10.7452 0 24 0H731.188C744.442 0 755.188 10.7452 755.188 24V222.5C755.188 235.755 744.442 246.5 731.188 246.5H24C10.7452 246.5 0 235.755 0 222.5V24Z" fill="url(#paint0_linear_2178_2251)"/>
+<mask id="mask0_2178_2251" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="542" y="-1" width="214" height="186">
+<rect x="755.5" y="184.25" width="212.957" height="184.366" transform="rotate(180 755.5 184.25)" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_2178_2251)">
+<g opacity="0.6">
+<rect x="443.539" y="-107.045" width="799.471" height="487.991" transform="rotate(-46.7076 443.539 -107.045)" fill="white" fill-opacity="0.2"/>
+<rect x="656.561" y="-503.271" width="378.892" height="581.725" rx="20" transform="rotate(8.64761 656.561 -503.271)" fill="white" fill-opacity="0.2"/>
+<rect x="680.771" y="85.8672" width="184.172" height="202.271" rx="10" transform="rotate(-86.3694 680.771 85.8672)" fill="white" fill-opacity="0.52"/>
+<rect x="720.78" y="166.406" width="398.907" height="367.664" rx="10" transform="rotate(-104.583 720.78 166.406)" fill="white" fill-opacity="0.2"/>
+<path d="M724.846 -85.0975C722.775 -88.2042 722.606 -92.2064 724.41 -95.476L808.018 -247.035C809.913 -250.471 813.643 -252.481 817.555 -252.174L943.573 -242.303C946.931 -242.04 949.931 -240.104 951.554 -237.153L997.802 -153.061C999.455 -150.057 999.452 -146.415 997.796 -143.412L913.473 9.44286C911.81 12.4576 908.713 14.4048 905.275 14.597L801.13 20.4181C797.594 20.6158 794.217 18.9283 792.252 15.9818L724.846 -85.0975Z" fill="white" fill-opacity="0.5"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2178_2251" x1="-49.653" y1="302.99" x2="834.591" y2="226.559" gradientUnits="userSpaceOnUse">
+<stop stop-color="#003544"/>
+<stop offset="1" stop-color="#0085AA"/>
+</linearGradient>
+<clipPath id="clip0_2178_2251">
+<path d="M0 24C0 10.7452 10.7452 0 24 0H731.188C744.442 0 755.188 10.7452 755.188 24V222.5C755.188 235.755 744.442 246.5 731.188 246.5H24C10.7452 246.5 0 235.755 0 222.5V24Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

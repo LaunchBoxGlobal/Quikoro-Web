@@ -78,7 +78,11 @@ export default function ServiceForm() {
 
         const res = await createService(formData);
 
-        navigate(`/provider/my-services/${res?.data?.data?.id}`);
+        if (res?.data?.data?.id) {
+          navigate(`/provider/my-services/${res?.data?.data?.id}`);
+        } else {
+          navigate("/provider/my-services");
+        }
 
         // API CALL HERE
       } catch (error) {
@@ -139,73 +143,44 @@ export default function ServiceForm() {
             error={formik.touched.name && formik.errors.name}
           />
 
-          <div className="w-full">
-            {/* location */}
-            <Input
-              label="Location"
-              name="location"
-              type="text"
-              inputMode="text"
-              placeholder="Enter your location"
-              value={formik.values.location}
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.location && formik.errors.location}
+          {/* Category */}
+          <div>
+            <CurrencySelect
+              label="Category"
+              options={CATEGORY_OPTIONS}
+              value={formik.values.category}
+              onChange={(val) => {
+                formik.setFieldValue("category", val);
+
+                formik.setFieldTouched("category", true);
+              }}
+              error={formik.touched.category && formik.errors.category}
+              placeholder="Select category"
             />
+
+            {formik.touched.category && formik.errors.category && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.category}
+              </p>
+            )}
           </div>
 
-          <div className="w-full space-y-8">
-            {/* Category */}
-            <div>
-              <CurrencySelect
-                label="Category"
-                options={CATEGORY_OPTIONS}
-                value={formik.values.category}
-                onChange={(val) => {
-                  formik.setFieldValue("category", val);
-
-                  formik.setFieldTouched("category", true);
-                }}
-                error={formik.touched.category && formik.errors.category}
-                placeholder="Select category"
-              />
-
-              {formik.touched.category && formik.errors.category && (
-                <p className="text-red-500 text-xs mt-1">
-                  {formik.errors.category}
-                </p>
-              )}
-            </div>
-
-            {/* Experience */}
-            <Input
-              label="Years Of Experience"
-              name="yearsOfExperience"
-              placeholder="Enter experience"
-              value={formik.values.yearsOfExperience}
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.yearsOfExperience &&
-                formik.errors.yearsOfExperience
-              }
-            />
-          </div>
-
-          <div className="w-full">
-            <div className="w-full bg-[var(--gray-bg)] rounded-[14px] p-4">
-              <img src={Map} alt="map" width={541} height={110} />
-              <div className="flex items-center justify-start gap-2 mt-4">
-                <img src={LocationPinIcon} alt="" />
-                <button type="button" className="text-sm font-medium">
-                  Use my current Location
-                </button>
-              </div>
-            </div>
-          </div>
+          {/* Experience */}
+          <Input
+            label="Years Of Experience"
+            name="yearsOfExperience"
+            placeholder="Enter experience"
+            value={formik.values.yearsOfExperience}
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.yearsOfExperience &&
+              formik.errors.yearsOfExperience
+            }
+          />
 
           {/* Available Days */}
-          <div className="space-y-1 md:col-span-2">
+          <div className="space-y-1 w-full">
             <label className="text-sm font-semibold leading-none">
               Available Days
             </label>

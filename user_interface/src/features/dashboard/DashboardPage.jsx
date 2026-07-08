@@ -33,16 +33,8 @@ const DashboardPage = () => {
   const user = profileData?.data;
   const isCustomer = user?.role === "CUSTOMER";
 
-  // Services are filtered by whatever address the user has saved on their
-  // profile (set via the Navbar location picker) — not by a URL param.
-  // If your backend actually expects lat/lng for proximity search rather
-  // than the formatted address string, swap this for user?.latitude /
-  // user?.longitude and adjust the service queries accordingly.
   const location = user?.location || "";
 
-  // All hooks run unconditionally, every render — `skip` is what gates them,
-  // not an early return. (The previous version called these hooks after an
-  // early return, which breaks the Rules of Hooks.)
   useEffect(() => {
     if (!user) return;
     dispatch(setUser(user));
@@ -83,6 +75,8 @@ const DashboardPage = () => {
     {
       skip: !user || !isCustomer,
       refetchOnFocus: true,
+      refetchOnReconnect: true,
+      refetchOnMountOrArgChange: true,
     },
   );
 

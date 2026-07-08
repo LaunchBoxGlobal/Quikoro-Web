@@ -136,7 +136,7 @@ const BuyerCompleteProfileForm = () => {
           <Input
             label="Full Name"
             name="fullName"
-            disabled={true}
+            disabled={false}
             placeholder="Enter your full name"
             value={formik.values.fullName}
             onChange={handleChange}

@@ -8,8 +8,10 @@ import DashboardPage from "../modules/dashboard/DashboardPage";
 import MainLayout from "../components/layout/MainLayout";
 import UsersPage from "../modules/users/UsersPage";
 import ServiceProvidersPage from "../modules/service-provider/ServiceProvidersPage";
-import UserDetailsPage from "../modules/service-provider/UserDetailsPage";
+import ServiceProviderDetailsPage from "../modules/service-provider/ServiceProviderDetailsPage";
 import CategoriesPage from "../modules/categories/CategoriesPage";
+import ReportsPage from "../modules/reports/ReportsPage";
+import UserDetailsPage from "../modules/users/UserDetailsPage";
 
 const AppRoutes = () => {
   return (
@@ -23,12 +25,17 @@ const AppRoutes = () => {
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/users/details/:id" element={<UserDetailsPage />} />
             <Route
               path="/service-providers"
               element={<ServiceProvidersPage />}
             />
-            <Route path="/users/details/:id" element={<UserDetailsPage />} />
+            <Route
+              path="/service-providers/details/:id"
+              element={<ServiceProviderDetailsPage />}
+            />
             <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/reports" element={<ReportsPage />} />
           </Route>
         </Route>
       </Routes>

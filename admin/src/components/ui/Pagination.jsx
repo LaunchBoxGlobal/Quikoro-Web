@@ -59,7 +59,7 @@ const Pagination = ({ pagination }) => {
         onClick={() => changePage(currentPage - 1)}
         className={`rounded px-2 h-8 flex items-center justify-center text-sm font-medium transition-all duration-200 ${
           hasPrevPage
-            ? "bg-gray-200 hover:text-white hover:bg-gradient-to-r from-[#5E51C9] to-[#408EE8]"
+            ? "bg-gray-200 hover:text-white hover:bg-gradient-to-l from-[#0084AA] to-[#003544]"
             : "bg-gray-100 text-gray-400 cursor-not-allowed"
         }`}
       >
@@ -78,7 +78,7 @@ const Pagination = ({ pagination }) => {
             className={`rounded w-8 h-8 flex items-center justify-center text-sm font-medium transition-all duration-200 ${
               currentPage === p
                 ? "gradient-bg text-white"
-                : "bg-gray-100 hover:text-white hover:bg-gradient-to-r from-[#5E51C9] to-[#408EE8]"
+                : "bg-gray-100 hover:text-white hover:bg-gradient-to-l from-[#0084AA] to-[#003544]"
             }`}
           >
             {p}
@@ -91,7 +91,7 @@ const Pagination = ({ pagination }) => {
         onClick={() => changePage(currentPage + 1)}
         className={`rounded px-2 h-8 flex items-center justify-center text-sm font-medium transition-all duration-200 ${
           hasNextPage
-            ? "bg-gray-200 hover:text-white hover:bg-gradient-to-r from-[#5E51C9] to-[#408EE8]"
+            ? "bg-gray-200 hover:text-white hover:bg-gradient-to-l from-[#0084AA] to-[#003544]"
             : "bg-gray-100 text-gray-400 cursor-not-allowed"
         }`}
       >

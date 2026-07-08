@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -13,6 +13,7 @@ export default function ReportBugPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [submitRequest, { isLoading, error }] = useReportBugMutation();
   const user = useSelector((state) => state.user.user);
+  const fileInputRef = useRef(null);
 
   const handleToggleSuccessModal = () => {
     setShowSuccessModal((prev) => !prev);
@@ -64,6 +65,9 @@ export default function ReportBugPage() {
 
         resetForm();
         setShowSuccessModal(true);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       } catch (error) {
         console.log(error);
       }
@@ -118,6 +122,7 @@ export default function ReportBugPage() {
             <input
               type="file"
               name="image"
+              ref={fileInputRef}
               accept="image/png,image/jpeg,image/jpg,image/webp"
               onChange={handleImageChange}
               className="w-full rounded-[12px] bg-[#f5f5f5] p-4 border border-transparent"

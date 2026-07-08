@@ -14,7 +14,7 @@ const RequestAcceptedSuccessModal = ({ isOpen, setIsOpen, refetch }) => {
         width={106}
         height={106}
         title={`Request Accepted`}
-        description={`Your booking request has been accepted your job has been started.`}
+        description={`Your booking request has been sent. You'll be notified when they respond.`}
       />
     </>
   );

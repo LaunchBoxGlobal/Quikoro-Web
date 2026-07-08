@@ -8,8 +8,12 @@ export const ACCONUT_STATUSES = [
     key: "PENDING",
   },
   {
+    title: "Submitted",
+    key: "SUBMITTED",
+  },
+  {
     title: "Accepted",
-    key: "ACCEPTED",
+    key: "ACTIVE",
   },
   {
     title: "Rejected",

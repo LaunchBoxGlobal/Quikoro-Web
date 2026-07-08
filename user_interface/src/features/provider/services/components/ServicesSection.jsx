@@ -15,7 +15,7 @@ const ServicesSection = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState("ALL");
   const [page, setPage] = useState(1);
   const { data, isLoading, isError, isFetching } = useGetMyServicesQuery(
     {

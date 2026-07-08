@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "../../../../../components/ui/Modal";
 import { useUpdateBookingStatusMutation } from "../../../../../services/bookingApi/bookingApi";
 import { enqueueSnackbar } from "notistack";
+import { useSelector } from "react-redux";
 
 const MarkJobCompletedConfirmationModal = ({
   showCompleteJobModal,
@@ -13,6 +14,9 @@ const MarkJobCompletedConfirmationModal = ({
   const [isCompleted, setIsCompleted] = useState(false);
   const [updateBookingStatus, { isLoading: isUpdatingStatus }] =
     useUpdateBookingStatusMutation();
+
+  const user = useSelector((state) => state.user.user);
+  const userRole = user?.role === "CUSTOMER" ? "provider" : "customer";
 
   const handleUpdateStatus = async () => {
     if (!id) {
@@ -40,11 +44,6 @@ const MarkJobCompletedConfirmationModal = ({
           "Something went wrong. Try again",
         {
           variant: "error",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "center",
-          },
         },
       );
     }
@@ -60,7 +59,7 @@ const MarkJobCompletedConfirmationModal = ({
         title={isCompleted ? "Service Completed" : "Mark As Completed"}
         description={
           isCompleted
-            ? "The job has been marked as completed. Customer will be asked to rate the service."
+            ? `The job has been marked as completed. ${userRole} will be asked to rate the service.`
             : "Are you sure the job is completed? This action cannot be undone."
         }
         footer={

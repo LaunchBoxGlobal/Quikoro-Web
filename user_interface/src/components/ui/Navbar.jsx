@@ -88,7 +88,7 @@ export default function Navbar() {
               !user?.location ? "text-orange-500" : ""
             }`}
           >
-            {selectedAddress || "Add your location"}
+            {`${selectedAddress.slice(1, 30)}...` || "Add your location"}
           </span>
         </button>
 

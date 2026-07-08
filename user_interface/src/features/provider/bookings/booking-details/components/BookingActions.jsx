@@ -10,6 +10,7 @@ export default function BookingActions({
   setCancellationModal,
   handleToggleMarkCompleteJobModal,
   setShowReviewModal,
+  setDeclineModal,
 }) {
   const user = useSelector((state) => state.user.user);
 
@@ -30,7 +31,7 @@ export default function BookingActions({
         <div className="w-full md:w-auto grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => setCancellationModal(true)}
+            onClick={() => setDeclineModal(true)}
             className="w-full sm:w-auto rounded-xl bg-[#EA5757] border-none px-8 py-3 font-medium text-white"
           >
             Decline

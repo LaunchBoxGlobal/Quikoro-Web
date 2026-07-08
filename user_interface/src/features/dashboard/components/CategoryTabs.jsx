@@ -21,7 +21,7 @@ const CategoryTabs = ({ activeTab, setActiveTab }) => {
         onClick={() => setActiveTab("ALL")}
         className={`flex items-center gap-2 px-6 py-3.5 rounded-xl whitespace-nowrap text-[15px] font-medium transition-colors border  ${
           activeTab === "ALL"
-            ? "bg-[#18181b] text-white border-[#18181b]"
+            ? "gradient-bg text-white"
             : "bg-[var(--gray-bg)] text-gray-700 border-white hover:bg-gray-50 hover:border-gray-100"
         }`}
       >
@@ -37,7 +37,7 @@ const CategoryTabs = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(tab?.name)}
             className={`flex items-center gap-2 px-6 py-3.5 rounded-xl whitespace-nowrap text-[15px] font-medium transition-colors border  ${
               isActive
-                ? "bg-[#18181b] text-white border-[#18181b]"
+                ? "gradient-bg text-white"
                 : "bg-[var(--gray-bg)] text-gray-700 border-white hover:bg-gray-50 hover:border-gray-100"
             }`}
           >

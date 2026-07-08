@@ -5,25 +5,32 @@ import PageLoader from "../../../components/ui/PageLoader";
 import ErrorPage from "../../../components/ui/PageError";
 import Pagination from "../../../components/ui/Pagination";
 import { getAddress } from "../../../utils/getAddress";
+import EmptyState from "../../../components/ui/EmptyState";
+import { FaUsersSlash } from "react-icons/fa";
 
 const UsersTable = () => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search");
   const page = searchParams.get("page") || 1;
 
-  const { data, isLoading, isError } = useGetUsersQuery({
-    search,
-    page,
-    limit: 10,
-    url: "customers",
-  });
+  const { data, isLoading, isError } = useGetUsersQuery(
+    {
+      search,
+      page,
+      limit: 10,
+      url: "customers",
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
   const users = data?.data?.data;
   const pagination = data?.data?.pagination;
 
   if (isLoading) return <PageLoader />;
   if (isError) return <ErrorPage />;
-  return (
+  return users?.length > 0 ? (
     <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base mt-10 custom-shadow bg-white rounded-[12px] lg:rounded-[24px] p-2 min-h-screen">
       <table className="w-full text-sm text-left rtl:text-right text-body">
         <thead className="text-sm text-body rounded-base bg-[#013B4C]/10 rounded-[12px] lg:rounded-[24px]">
@@ -86,6 +93,12 @@ const UsersTable = () => {
 
       <Pagination pagination={pagination} />
     </div>
+  ) : (
+    <EmptyState
+      icon={FaUsersSlash}
+      title="No Users Found"
+      description="There are currently no users in the system."
+    />
   );
 };
 

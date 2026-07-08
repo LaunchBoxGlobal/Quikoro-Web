@@ -25,9 +25,9 @@ const DeleteCategoryConfirmation = ({
       // Show success state immediately
       setIsDeleted(true);
 
-      enqueueSnackbar("Category deleted successfully", {
-        variant: "success",
-      });
+      // enqueueSnackbar("Category deleted successfully", {
+      //   variant: "success",
+      // });
 
       // Clear selected category
       setCateogry(null);

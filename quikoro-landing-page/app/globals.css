@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-text: "#003544";
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f8fbfc;
+}
+
+/* Reusable gradient text */
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #0084aa 0%,
+    #008db4 7.14%,
+    #0096be 14.29%,
+    #009fc7 21.43%,
+    #00a8d1 28.57%,
+    #00b1dc 35.71%,
+    #00bbe6 42.86%,
+    #00c4f0 50%,
+    #00bbe6 57.14%,
+    #00b1dc 64.29%,
+    #00a8d1 71.43%,
+    #009fc7 78.57%,
+    #0096be 85.71%,
+    #008db4 92.86%,
+    #0084aa 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.white-btn {
+  @apply h-[54px] inline-flex items-center justify-center px-6 bg-white rounded-[16px] text-[var(--primary-text)] text-base font-bold;
+}
+
+.white-outlined-btn {
+  @apply h-[54px] inline-flex items-center justify-center gap-2 px-6 bg-transparent hover:bg-white rounded-[16px] text-white hover:text-[var(--primary-text)] text-base font-bold border border-white transition-all duration-300;
+}
+
+.hero-heading {
+  font-size: clamp(48px, 7vw, 8vw);
+}
+
+.gradient-bg {
+  background: linear-gradient(88.38deg, #003544 -7.02%, #0085aa 107.7%);
+}
+
+.trust-card {
+  background-color: white;
+}
+.trust-card:hover {
+  background: linear-gradient(88.38deg, #003544 -7.02%, #0085aa 107.7%);
+}

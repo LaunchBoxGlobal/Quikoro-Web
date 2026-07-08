@@ -14,7 +14,7 @@ const ErrorPage = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-transparent px-4">
+    <div className="min-h-screen flex items-center justify-center bg-white rounded-[20px] mt-8 px-4">
       <div className="w-full max-w-md bg-transparent text-center">
         <div className="flex justify-center mb-4">
           <div className="gradient-bg rounded-full w-20 h-20 flex items-center justify-center">

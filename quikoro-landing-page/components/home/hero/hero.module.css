@@ -1,0 +1,7 @@
+.centeredImage {
+  width: clamp(300px, 26vw, 50vw);
+}
+
+.rightImage {
+  width: clamp(250px, 24vw, 40vw);
+}

@@ -1,4 +1,4 @@
-import { User } from "lucide-react";
+import { Star, User } from "lucide-react";
 
 export default function ProfileCard({
   profile,
@@ -7,6 +7,7 @@ export default function ProfileCard({
   handleUnblockUser,
   isUnblocking,
 }) {
+  const rating = profile?.ratings?.averageRating || 0;
   return (
     <div className="mb-6 rounded-[1.5rem] foreground p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
       <div className="flex items-center gap-6">
@@ -25,7 +26,7 @@ export default function ProfileCard({
         </div>
 
         <div className="flex flex-col justify-center">
-          <h1 className="text-[28px] font-bold tracking-tight text-gray-900 mb-0.5">
+          <h1 className="text-[28px] font-bold tracking-tight text-gray-900 mb-0.5 leading-none">
             {profile?.fullName}
           </h1>
           {profile?.role === "CUSTOMER" ? (
@@ -35,6 +36,25 @@ export default function ProfileCard({
           ) : (
             <p className="text-[15px] font-medium text-gray-500">PROVIDER</p>
           )}
+          <div className="flex items-center gap-1">
+            <div className="flex items-center">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={15}
+                  className={
+                    star <= Math.round(rating)
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "fill-gray-200 text-gray-200"
+                  }
+                />
+              ))}
+            </div>
+
+            <span className="text-sm font-medium ml-1">
+              {rating.toFixed(1)}
+            </span>
+          </div>
         </div>
       </div>
 

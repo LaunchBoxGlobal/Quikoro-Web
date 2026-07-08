@@ -35,7 +35,7 @@ export default function BookingFilters({
             onClick={() => setActiveFilter(filter.query)}
             className={`rounded-xl px-6 py-2.5 font-medium transition-colors text-[15px] ${
               isActive
-                ? "bg-[#18181b] text-white"
+                ? "gradient-bg text-white"
                 : "bg-[var(--gray-bg)] text-gray-600 hover:bg-gray-50"
             }`}
           >

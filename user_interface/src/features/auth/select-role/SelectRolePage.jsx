@@ -80,7 +80,7 @@ export default function SelectRolePage() {
                   : "bg-white border-2 border-transparent shadow-sm shadow-gray-200/50 hover:border-gray-200"
               }`}
           >
-            <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[14px] bg-[#18181b] mr-5">
+            <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[14px] gradient-bg mr-5">
               <div className="text-white">
                 <WorkerIcon />
               </div>
@@ -94,7 +94,7 @@ export default function SelectRolePage() {
               </span>
             </div>
             {selectedRole === "customer" && (
-              <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-[#18181b]">
+              <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full gradient-bg">
                 <Check className="text-white" size={14} strokeWidth={3} />
               </div>
             )}
@@ -109,7 +109,7 @@ export default function SelectRolePage() {
                   : "bg-white border-2 border-transparent shadow-sm shadow-gray-200/50 hover:border-gray-200"
               }`}
           >
-            <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[14px] bg-[#18181b] mr-5">
+            <div className="flex h-[60px] w-[60px] shrink-0 items-center justify-center rounded-[14px] gradient-bg mr-5">
               <div className="text-white">
                 <BriefcaseIcon />
               </div>
@@ -123,7 +123,7 @@ export default function SelectRolePage() {
               </span>
             </div>
             {selectedRole === "provider" && (
-              <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full bg-[#18181b]">
+              <div className="absolute right-4 top-4 flex h-6 w-6 items-center justify-center rounded-full gradient-bg">
                 <Check className="text-white" size={14} strokeWidth={3} />
               </div>
             )}
@@ -151,7 +151,7 @@ export default function SelectRolePage() {
           </span>
           <Link
             to={`/login`}
-            className="text-[15px] font-bold text-black hover:underline"
+            className="text-[15px] font-bold gradient-text hover:underline"
           >
             Log in
           </Link>

@@ -17,7 +17,7 @@ const Sidebar = () => {
     navigate("/login");
   };
   return (
-    <div className="w-full h-full rounded-[10px] py-6 px-2 lg:px-5 flex flex-col items-start gap-y-6 bg-transparent custom-shadow">
+    <div className="w-full h-full rounded-[10px] py-6 px-5 flex flex-col items-start gap-y-6 bg-white custom-shadow">
       <div className="w-full">
         <img
           src="/quikoro-logo.png"

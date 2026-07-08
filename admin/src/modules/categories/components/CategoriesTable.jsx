@@ -17,6 +17,7 @@ import AddCategory from "./AddCategory";
 import { enqueueSnackbar } from "notistack";
 import DeleteCategoryConfirmation from "./DeleteCategoryConfirmation";
 import EditCategory from "./EditCategory";
+import EmptyState from "../../../components/ui/EmptyState";
 
 const CategoriesTable = () => {
   const [searchParams] = useSearchParams();
@@ -67,83 +68,92 @@ const CategoriesTable = () => {
           Add Category
         </button>
       </div>
-      <div className="relative overflow-x-auto mt-5 bg-neutral-primary-soft shadow-xs rounded-base custom-shadow bg-white rounded-[12px] lg:rounded-[24px] p-2 min-h-screen">
-        <table className="w-full text-sm text-left rtl:text-right text-body">
-          <thead className="text-sm text-body rounded-base bg-[#013B4C]/10 rounded-[12px] lg:rounded-[24px]">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-4 font-medium rounded-l-[16px]"
-              >
-                Category Name
-              </th>
-              <th scope="col" className="px-6 py-4 font-medium">
-                Date
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-4 font-medium rounded-r-[16px] text-end"
-              >
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {users &&
-              users?.map((user, i) => {
-                return (
-                  <tr
-                    key={i}
-                    className="bg-neutral-primary border-b border-default"
-                  >
-                    <th className="px-6 py-4 font-normal whitespace-nowrap flex items-center gap-2">
-                      <span>{user?.name}</span>
-                    </th>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {formatDateToMonthYear(user?.createdAt)}
-                    </td>
-                    <td className="px-6 py-4 flex justify-end gap-2">
-                      <button
-                        type="button"
-                        disabled={isDeleting}
-                        onClick={() => {
-                          handleToggleEditCategoryModal();
-                          setCateogry(user);
-                        }}
-                        className="disabled:opacity-70 disabled:cursor-not-allowed"
-                      >
-                        <img
-                          src="/edit-icon.png"
-                          alt="edit-icon"
-                          width={31}
-                          height={31}
-                        />
-                      </button>
-                      <button
-                        type="button"
-                        disabled={isDeleting}
-                        onClick={() => {
-                          handleToggleDeleteCategoryModal();
-                          setCateogry(user);
-                        }}
-                        className="disabled:opacity-70 disabled:cursor-not-allowed"
-                      >
-                        <img
-                          src="/delete-icon.png"
-                          alt="delete-icon"
-                          width={31}
-                          height={31}
-                        />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
 
-        <Pagination pagination={pagination} />
-      </div>
+      {users && users?.length > 0 ? (
+        <div className="relative overflow-x-auto mt-5 bg-neutral-primary-soft shadow-xs rounded-base custom-shadow bg-white rounded-[12px] lg:rounded-[24px] p-2 min-h-screen">
+          <table className="w-full text-sm text-left rtl:text-right text-body">
+            <thead className="text-sm text-body rounded-base bg-[#013B4C]/10 rounded-[12px] lg:rounded-[24px]">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-4 font-medium rounded-l-[16px]"
+                >
+                  Category Name
+                </th>
+                <th scope="col" className="px-6 py-4 font-medium">
+                  Date
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-4 font-medium rounded-r-[16px] text-end"
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {users &&
+                users?.map((user, i) => {
+                  return (
+                    <tr
+                      key={i}
+                      className="bg-neutral-primary border-b border-default"
+                    >
+                      <th className="px-6 py-4 font-normal whitespace-nowrap flex items-center gap-2">
+                        <span>{user?.name}</span>
+                      </th>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {formatDateToMonthYear(user?.createdAt)}
+                      </td>
+                      <td className="px-6 py-4 flex justify-end gap-2">
+                        <button
+                          type="button"
+                          disabled={isDeleting}
+                          onClick={() => {
+                            handleToggleEditCategoryModal();
+                            setCateogry(user);
+                          }}
+                          className="disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                          <img
+                            src="/edit-icon.png"
+                            alt="edit-icon"
+                            width={31}
+                            height={31}
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          disabled={isDeleting}
+                          onClick={() => {
+                            handleToggleDeleteCategoryModal();
+                            setCateogry(user);
+                          }}
+                          className="disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                          <img
+                            src="/delete-icon.png"
+                            alt="delete-icon"
+                            width={31}
+                            height={31}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+
+          <Pagination pagination={pagination} />
+        </div>
+      ) : (
+        <EmptyState
+          title="No Categories Found"
+          description="There are currently no categories in the system."
+        />
+      )}
+
       {showAddCategoryModal && (
         <AddCategory
           handleToggleAddCategoryModal={handleToggleAddCategoryModal}

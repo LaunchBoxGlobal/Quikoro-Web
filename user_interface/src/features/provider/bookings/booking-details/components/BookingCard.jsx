@@ -97,8 +97,7 @@ export default function BookingCard({ booking }) {
                 <div className="w-full flex items-start justify-between gap-4 flex-wrap">
                   <NotesSection booking={booking} />
                   {user?.role === "CUSTOMER" &&
-                    (booking?.status === "PENDING" ||
-                      booking?.status == "INTERESTED") && (
+                    booking?.status === "PENDING" && (
                       <div className="">
                         <button
                           type="button"

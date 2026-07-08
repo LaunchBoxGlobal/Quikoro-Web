@@ -6,6 +6,8 @@ import userReducer from "../services/authApi/userSlice";
 import { authApi } from "../services/authApi/authApi";
 import { userApi } from "../services/userApi/userApi";
 import { categoryApi } from "../services/categoryApi/categoryApi";
+import { reportApi } from "../services/reportApi/reportApi";
+import { dashboardApi } from "../services/dashboardApi/dashboardApi";
 
 const storage = createWebStorage("local");
 
@@ -19,8 +21,10 @@ const rootReducer = combineReducers({
   user: userReducer,
 
   [authApi.reducerPath]: authApi.reducer,
+  [dashboardApi.reducerPath]: dashboardApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
+  [reportApi.reducerPath]: reportApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -33,7 +37,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
       },
-    }).concat(authApi.middleware, userApi.middleware, categoryApi.middleware),
+    }).concat(
+      authApi.middleware,
+      dashboardApi.middleware,
+      userApi.middleware,
+      categoryApi.middleware,
+      reportApi.middleware,
+    ),
 });
 
 export const persistor = persistStore(store);

@@ -13,7 +13,6 @@ export default function UserDetails({ details, profile }) {
     .filter(Boolean)
     .join(", ");
 
-  console.log(profile);
   return (
     <div className="mb-16 rounded-[1.5rem] foreground p-8 lg:p-10">
       <h2 className="mb-6 text-[22px] font-bold tracking-tight text-gray-900">
@@ -66,6 +65,19 @@ export default function UserDetails({ details, profile }) {
               <div className="mb-1.5 text-[13px] text-gray-500">Age</div>
               <div className="text-[15px] font-medium text-gray-900">
                 {calculateAge(profile?.dateOfBirth) || "N/A"}
+              </div>
+            </div>
+            <div className="border border-gray-200 w-full" />
+          </>
+        )}
+
+        {/* Gender */}
+        {user?.role === "CUSTOMER" && profile?.gender && (
+          <>
+            <div className="py-5">
+              <div className="mb-1.5 text-[13px] text-gray-500">Gender</div>
+              <div className="text-[15px] font-medium text-gray-900">
+                {profile?.gender}
               </div>
             </div>
             <div className="border border-gray-200 w-full" />

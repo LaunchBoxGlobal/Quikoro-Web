@@ -52,13 +52,6 @@ export const settingsApi = createApi({
         body: data,
       }),
     }),
-
-    getBlockedUsers: builder.query({
-      query: () => ({
-        url: "blocks",
-        method: "GET",
-      }),
-    }),
   }),
 });
 
@@ -68,5 +61,4 @@ export const {
   useRequestOtpMutation,
   useVerifyDeleteAccountOtpMutation,
   useReportBugMutation,
-  useGetBlockedUsersQuery,
 } = settingsApi;
