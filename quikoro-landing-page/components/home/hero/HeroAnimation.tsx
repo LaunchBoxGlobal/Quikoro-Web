@@ -1,44 +1,11 @@
 "use client";
 
-import { motion } from "motion/react";
-import styles from "./hero.module.css";
+import { motion, easeOut, easeInOut } from "motion/react";
 import Image from "next/image";
+import styles from "./hero.module.css";
 
 const HeroAnimation = () => {
-  const phoneVariants = {
-    hidden: {
-      opacity: 0,
-      y: 60,
-      scale: 0.95,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const secondPhoneVariants = {
-    hidden: {
-      opacity: 0,
-      x: -80,
-    },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        delay: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
-
-  const floatingAnimation = (delay: number, duration: number = 3.5) => ({
+  const floatingAnimation = (delay: number, duration = 3.5) => ({
     initial: {
       opacity: 0,
       y: 15,
@@ -51,37 +18,48 @@ const HeroAnimation = () => {
       opacity: {
         delay,
         duration: 0.5,
-        ease: "easeOut",
+        ease: easeOut,
       },
       y: {
         delay,
         duration,
         repeat: Infinity,
         repeatType: "mirror" as const,
-        ease: "easeInOut",
+        ease: easeInOut,
       },
     },
   });
 
   return (
-    <div className="relative mx-auto h-[540px] w-full max-w-[560px] sm:h-[600px] flex items-center justify-center lg:mt-10 lg:right-5">
+    <div className="relative mx-auto flex h-[540px] w-full max-w-[560px] items-center justify-center sm:h-[600px] lg:right-5 lg:mt-10">
       {/* Main Phone */}
-      <motion.div variants={phoneVariants} initial="hidden" animate="visible">
+      <motion.div
+        initial={{ opacity: 0, y: 60, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: 0.8,
+          ease: easeOut,
+        }}
+      >
         <Image
           src="/quikoro-home-screen.svg"
           alt="quikoro home screen mockup"
           width={402}
           height={698}
-          className={`object-contain relative z-10 w-[30vw] ${styles.centeredImage}`}
+          className={`relative z-10 w-[30vw] object-contain ${styles.centeredImage}`}
         />
       </motion.div>
 
       {/* Second Phone */}
       <motion.div
-        variants={secondPhoneVariants}
-        initial="hidden"
-        animate="visible"
-        className="absolute right-[-5%] md:right-[0%] lg:right-[-10%] xl:right-[-20%] top-[14%] lg:top-[18%] xl:top-[1%]"
+        initial={{ opacity: 0, x: -80 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{
+          duration: 0.8,
+          delay: 0.8,
+          ease: easeOut,
+        }}
+        className="absolute right-[-5%] top-[14%] md:right-[0%] lg:right-[-10%] lg:top-[18%] xl:right-[-20%] xl:top-[1%]"
       >
         <Image
           src="/quikoro-service-details-screen.svg"
@@ -126,7 +104,7 @@ const HeroAnimation = () => {
       <motion.div
         {...floatingAnimation(2.0, 3.4)}
         whileHover={{ scale: 1.05 }}
-        className="absolute left-[-23%] bottom-[30%] z-10 hidden lg:block"
+        className="absolute bottom-[30%] left-[-23%] z-10 hidden lg:block"
       >
         <Image
           src="/rating-card.svg"
