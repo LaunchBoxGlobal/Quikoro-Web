@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { FAQS } from "@/constants/faqs";
 
 export default function FAQSComponent() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAFCFD]">
+    <section className="section-padding w-full relative">
       <div className="max-w-[1000px] mx-auto">
-        <div className="text-center mb-12 md:mb-16">
+        <div id="FAQ" className="text-center mb-12 md:mb-16">
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}

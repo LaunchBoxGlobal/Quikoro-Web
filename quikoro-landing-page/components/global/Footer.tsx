@@ -10,7 +10,7 @@ const links = {
 
 export function Footer() {
   return (
-    <footer className="px-4 sm:px-6 lg:px-8 pb-12 overflow-hidden">
+    <footer className="p-4 lg:p-10 xl:px-20 overflow-hidden">
       <div className="w-full mx-auto gradient-bg rounded-[2.5rem] p-10 md:p-14 lg:p-16 text-white relative shadow-2xl flex flex-col">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 relative z-10 w-full mb-16">
           {/* Logo & Description */}

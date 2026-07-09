@@ -13,10 +13,10 @@ export default function HowItWorks() {
   const steps = activeTab === "customers" ? customerSteps : providerSteps;
 
   return (
-    <main className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center pb-10 pt-20 lg:py-20 lg:pt-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header Section */}
-        <div className="text-center mb-10 md:mb-14">
+        <div className="text-center mb-10 md:mb-14" id="How It Works">
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}

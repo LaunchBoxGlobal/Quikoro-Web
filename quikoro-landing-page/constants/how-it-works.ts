@@ -2,7 +2,6 @@ import {
   Search,
   Calendar,
   CheckCircle2,
-  ArrowRight,
   UserPlus,
   Inbox,
   DollarSign,
@@ -35,23 +34,22 @@ export const customerSteps = [
 export const providerSteps = [
   {
     id: "profile",
-    title: "Create Profile",
+    title: "Get Approved",
     description:
-      "Sign up and list your services, availability, and pricing in minutes.",
+      "Submit your profile. Our admin team reviews and approves before you go live.",
     icon: UserPlus,
   },
   {
     id: "requests",
-    title: "Receive Requests",
-    description:
-      "Get notified when customers in your area request your specific services.",
+    title: "Get Booked",
+    description: "Customers in your area send you requests directly.",
     icon: Inbox,
   },
   {
     id: "earn",
-    title: "Earn Money",
+    title: "Get Paid",
     description:
-      "Complete jobs successfully, build your reputation, and get paid.",
+      "Accept the job, chat with the customer, complete the service, collect payment in cash.",
     icon: DollarSign,
   },
 ];

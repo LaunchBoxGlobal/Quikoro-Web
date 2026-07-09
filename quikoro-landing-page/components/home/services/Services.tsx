@@ -6,8 +6,8 @@ import Image from "next/image";
 
 export default function Services() {
   return (
-    <main className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-      <div className="max-w-7xl mx-auto w-full">
+    <main className="min-h-screen section-padding flex items-center justify-center">
+      <div id="Our Services" className="max-w-7xl mx-auto w-full">
         {/* Header Section */}
         <div className="text-center mb-10 md:mb-16">
           <motion.h3
@@ -39,7 +39,7 @@ export default function Services() {
         </div>
 
         {/* Grid Section */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10">
           {SERVICES?.map((service, index) => (
             <motion.div
               key={service.title}

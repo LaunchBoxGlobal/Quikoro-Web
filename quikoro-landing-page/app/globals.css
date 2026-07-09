@@ -66,3 +66,7 @@ body {
 .trust-card:hover {
   background: linear-gradient(88.38deg, #003544 -7.02%, #0085aa 107.7%);
 }
+
+.section-padding {
+  @apply py-14 lg:py-20 px-4 sm:px-6 lg:px-8;
+}

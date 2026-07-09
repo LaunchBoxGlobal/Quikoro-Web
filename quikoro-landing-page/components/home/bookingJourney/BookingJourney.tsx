@@ -29,8 +29,9 @@ export default function BookingJourney() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F9FBFC] py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+    <main className="min-h-screen section-padding flex items-center justify-center">
       <div
+        id="Booking Journey"
         className="max-w-7xl w-full rounded-[2.5rem] p-8 md:p-14 lg:p-20 relative overflow-hidden shadow-[0_20px_60px_rgb(4,47,55,0.2)]"
         style={{
           backgroundImage: "url('/booking-journey-background-image.svg')",

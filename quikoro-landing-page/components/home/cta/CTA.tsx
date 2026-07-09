@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function CTA() {
   return (
-    <main className="min-h-screen pb-12 pt-20 px-4 lg:px-8 flex items-center justify-center overflow-hidden">
+    <main className="min-h-screen section-padding flex items-center justify-center overflow-hidden">
       <div
         className="w-full max-w-7xl mx-auto rounded-[2.5rem] px-6 py-8 md:p-12 lg:p-16 relative overflow-hidden flex flex-col lg:flex-row items-center gap-12 lg:gap-8"
         style={{
@@ -15,7 +15,7 @@ export default function CTA() {
         }}
       >
         {/* Left Content */}
-        <div className="relative z-30 w-full lg:w-[45%] flex flex-col items-start xl:pl-4">
+        <div className="relative z-20 w-full lg:w-[45%] flex flex-col items-start xl:pl-4">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
