@@ -9,7 +9,7 @@ export default function BuiltForTrust() {
     <main className="min-h-screen section-padding flex items-center justify-center">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header Section */}
-        <div className="text-center mb-16 md:mb-20">
+        <div className="text-center mb-10 md:mb-14">
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}

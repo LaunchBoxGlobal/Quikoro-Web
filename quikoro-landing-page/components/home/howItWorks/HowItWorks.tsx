@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { customerSteps, providerSteps } from "@/constants/how-it-works";
+import Image from "next/image";
 
 export default function HowItWorks() {
   const [activeTab, setActiveTab] = useState<"customers" | "providers">(
@@ -50,7 +51,7 @@ export default function HowItWorks() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-          className="flex justify-center mb-10 md:mb-16"
+          className="flex justify-center mb-10 md:mb-14"
         >
           <div className="bg-[#E4EEF2] p-[6px] rounded-[16px] flex items-center">
             {(["customers", "providers"] as const).map((tab) => (
@@ -96,8 +97,14 @@ export default function HowItWorks() {
                   whileHover={{ y: -8, transition: { duration: 0.2 } }}
                   className="bg-white rounded-[2rem] p-8 md:p-10 shadow-[0_4px_24px_rgb(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] border border-[#00354414] transition-shadow duration-300 relative group flex flex-col items-start"
                 >
-                  <div className="w-[56px] h-[56px] bg-[#E6F3F5] rounded-2xl flex items-center justify-center mb-8 text-[#0D7B8A] group-hover:scale-110 group-hover:bg-[#0D7B8A] group-hover:text-white transition-all duration-300 ease-out">
-                    <step.icon strokeWidth={2} className="w-7 h-7" />
+                  <div className="w-[56px] h-[56px] bg-[#E6F3F5] rounded-2xl flex items-center justify-center mb-8 text-[#0D7B8A] group-hover:scale-110 group-hover:bg-gradient-to-r from-[#003544] to-[#0085aa] group-hover:text-white transition-all duration-300 ease-out">
+                    <Image
+                      src={step?.icon}
+                      width={24}
+                      height={14}
+                      alt={step.title}
+                      className="object-contain group-hover:brightness-0 group-hover:invert transition-all duration-300"
+                    />
                   </div>
                   <h4 className="text-[20px] font-extrabold text-[#0D2636] mb-3">
                     {step.title}
@@ -108,7 +115,7 @@ export default function HowItWorks() {
 
                   {/* Desktop Arrow Connector */}
                   {index < steps.length - 1 && (
-                    <div className="hidden md:flex absolute top-1/2 right-0.5 -translate-y-1/2 w-6 h-6 lg:w-8 lg:h-8 bg-[#0D7B8A] rounded-full items-center justify-center shadow-md z-20 translate-x-1/2">
+                    <div className="hidden md:flex absolute top-1/2 right-0.5 -translate-y-1/2 w-6 h-6 lg:w-8 lg:h-8 gradient-bg border-[3px] border-white rounded-full items-center justify-center shadow-md z-20 translate-x-1/2">
                       <ArrowRight className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
                     </div>
                   )}

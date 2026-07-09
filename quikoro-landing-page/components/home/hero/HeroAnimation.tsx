@@ -31,7 +31,7 @@ const HeroAnimation = () => {
   });
 
   return (
-    <div className="relative mx-auto flex h-[540px] w-full max-w-[560px] items-center justify-center sm:h-[600px] lg:right-5 lg:mt-10">
+    <div className="relative mx-auto flex h-[540px] w-full max-w-[560px] items-center justify-center sm:h-[600px] right-10 lg:right-5 lg:mt-10">
       {/* Main Phone */}
       <motion.div
         initial={{ opacity: 0, y: 60, scale: 0.95 }}
@@ -59,7 +59,7 @@ const HeroAnimation = () => {
           delay: 0.8,
           ease: easeOut,
         }}
-        className="absolute right-[-5%] top-[14%] md:right-[0%] lg:right-[-10%] lg:top-[18%] xl:right-[-20%] xl:top-[1%]"
+        className="absolute right-[-10%] top-[14%] md:right-[0%] lg:right-[-10%] lg:top-[18%] xl:right-[-20%] xl:top-[1%]"
       >
         <Image
           src="/quikoro-service-details-screen.svg"
