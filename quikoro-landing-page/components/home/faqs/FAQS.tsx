@@ -48,10 +48,10 @@ export default function FAQSComponent() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`bg-[#FAFCFD] border rounded-2xl overflow-hidden transition-all duration-300 ${
+              className={`bg-transparent border rounded-2xl overflow-hidden transition-all duration-300 ${
                 openIndex === index
-                  ? "border-[#0D7B8A]/20 shadow-[0_8px_30px_rgb(13,123,138,0.06)]"
-                  : "border-[#0035441A] hover:border-gray-200 hover:shadow-sm"
+                  ? "border-[#0035441A]"
+                  : "border-[#0035441A]"
               }`}
             >
               <button
