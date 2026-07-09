@@ -45,11 +45,11 @@ body {
 }
 
 .white-btn {
-  @apply h-[54px] inline-flex items-center justify-center px-6 bg-white rounded-[16px] text-[var(--primary-text)] text-base font-bold;
+  @apply h-[54px] inline-flex items-center justify-center px-6 bg-white rounded-[16px] text-[#003544] text-base font-bold;
 }
 
 .white-outlined-btn {
-  @apply h-[54px] inline-flex items-center justify-center gap-2 px-6 bg-transparent hover:bg-white rounded-[16px] text-white hover:text-[var(--primary-text)] text-base font-bold border border-white transition-all duration-300;
+  @apply h-[54px] inline-flex items-center justify-center gap-2 px-6 bg-transparent hover:bg-white rounded-[16px] text-white hover:text-[#003544] text-base font-bold border border-white transition-all duration-300;
 }
 
 .hero-heading {

@@ -51,7 +51,7 @@ export default function Services() {
                 ease: [0.21, 0.47, 0.32, 0.98],
               }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_2px_12px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] border border-gray-100 transition-all duration-300 ease-out flex flex-col items-start cursor-pointer group h-full"
+              className="bg-transparent hover:bg-white rounded-[1.5rem] p-8 md:p-10 shadow-[0_2px_12px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.06)] border border-[#00354417] transition-all duration-300 ease-out flex flex-col items-start cursor-pointer group h-full"
             >
               {/* Icon */}
               <Image

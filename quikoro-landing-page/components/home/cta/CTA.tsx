@@ -82,7 +82,7 @@ export default function CTA() {
         </div>
 
         {/* Right Visuals — one fluid "stage", everything inside scales together */}
-        <div className="relative z-10 w-full lg:w-[55%] flex justify-center items-center mt-8 lg:mt-0">
+        <div className="relative z-10 w-full lg:w-[55%] md:-right-16 xl:-right-28 flex justify-center items-center mt-8 lg:mt-0">
           <div
             className="relative w-full max-w-[280px] sm:max-w-[360px] md:max-w-[460px] lg:max-w-[460px] xl:max-w-[500px]"
             style={{ aspectRatio: "9 / 10" }}
@@ -129,7 +129,7 @@ export default function CTA() {
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="absolute bottom-[-15%] md:-bottom-[12%] -left-10 md:-left-[30%] lg:left-[-30%] w-[60%] md:w-[58%] z-30"
+              className="absolute bottom-[-15%] md:-bottom-[12%] -left-10 md:-left-[30%] lg:left-[-45%] w-[60%] md:w-[58%] lg:w-[78%] z-30"
             >
               <Image
                 src="/user-with-items.svg"
