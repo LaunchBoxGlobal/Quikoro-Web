@@ -55,7 +55,10 @@ export default function Header() {
           className={`mx-auto flex w-full items-center justify-between px-5 py-7 lg:px-7 rounded-[32px] ${scrolled && "gradient-bg"}`}
         >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
+          <div
+            onClick={() => scrollToSection("Home")}
+            className="flex items-center gap-2.5 cursor-pointer"
+          >
             <Image
               src="/quikoro-logo.png"
               alt="quikoro-logo"
@@ -63,7 +66,7 @@ export default function Header() {
               height={70}
               priority
             />
-          </Link>
+          </div>
 
           {/* Desktop Nav */}
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 lg:flex">

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 const links = {
   company: ["About Us", "Careers", "Press", "Blog"],
@@ -9,13 +10,36 @@ const links = {
 };
 
 export function Footer() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const scrollToSection = (id: string) => {
+    const NAVBAR_HEIGHT = 150;
+
+    if (pathname === "/") {
+      const element = document.getElementById(id);
+      if (element) {
+        const top =
+          element.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    } else {
+      sessionStorage.setItem("scrollTarget", id);
+      router.push("/");
+    }
+  };
+
   return (
     <footer className="p-4 lg:p-10 xl:px-20 overflow-hidden">
       <div className="w-full mx-auto gradient-bg rounded-[2.5rem] p-10 md:p-14 lg:p-16 text-white relative shadow-2xl flex flex-col">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 relative z-10 w-full mb-16">
           {/* Logo & Description */}
           <div className="lg:col-span-4 xl:col-span-5 flex flex-col items-start pr-4">
-            <div className="flex items-center gap-2.5 mb-6">
+            <button
+              type="button"
+              onClick={() => scrollToSection("Home")}
+              className="flex items-center gap-2.5 mb-6"
+            >
               <Image
                 src={"/quikoro-logo.png"}
                 alt="quikoro logo"
@@ -23,7 +47,7 @@ export function Footer() {
                 height={70}
                 className="object-contain"
               />
-            </div>
+            </button>
 
             <p className="text-white/90 text-sm leading-relaxed max-w-[250px] font-medium">
               Connect with trusted, verified professionals for all your home

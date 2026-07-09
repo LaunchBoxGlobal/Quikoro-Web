@@ -11,7 +11,7 @@ export default function FAQSComponent() {
   return (
     <section className="section-padding w-full relative">
       <div className="max-w-[1000px] mx-auto">
-        <div id="FAQ" className="text-center mb-12 md:mb-16">
+        <div id="FAQs" className="text-center mb-12 md:mb-16">
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
