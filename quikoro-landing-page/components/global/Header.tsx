@@ -47,7 +47,7 @@ export default function Header() {
       <header
         className={`fixed inset-x-0 top-0 z-30 w-full px-4 pt-4 lg:pt-10 lg:px-10 xl:px-20 transition-all duration-500 ${
           scrolled
-            ? "before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-b before:from-white before:via-white/90 before:to-transparent"
+            ? "before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-b before:from-white before:via-white before:to-transparent"
             : ""
         }`}
       >
