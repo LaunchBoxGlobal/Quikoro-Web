@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Manrope } from "next/font/google";
+import { Footer } from "@/components/global/Footer";
 
 export const metadata: Metadata = {
   title: "quikoro",
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`w-full ${manrope.className}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

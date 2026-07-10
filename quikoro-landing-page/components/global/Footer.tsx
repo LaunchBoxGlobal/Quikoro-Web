@@ -1,12 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const links = {
-  company: ["About Us", "Careers", "Press", "Blog"],
-  support: ["Help Center", "Contact Us", "Safety", "Community"],
-  legal: ["Privacy Policy", "Terms of Service", "Cookie Policy", "Compliance"],
+  company: [
+    { title: "About Us", link: "/" },
+    { title: "Careers", link: "/" },
+    { title: "Press", link: "/" },
+    { title: "Blog", link: "/" },
+  ],
+  support: [
+    { title: "Help Center", link: "/" },
+    { title: "Contact Us", link: "/contact-us" },
+    { title: "Safety", link: "" },
+    { title: "Community", link: "" },
+  ],
+  legal: [
+    { title: "Privacy Policy", link: "/privacy-policy" },
+    { title: "Terms of Service", link: "/terms-and-conditions" },
+    { title: "Child Safety", link: "/child-safety-standards" },
+    { title: "User License Agreement", link: "/end-user-license-agreement" },
+  ],
 };
 
 export function Footer() {
@@ -62,13 +78,13 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               {links.company.map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
+                <li key={link.title}>
+                  <Link
+                    href={link.link}
                     className="text-white/90 text-sm font-medium hover:text-white transition-colors duration-300 block"
                   >
-                    {link}
-                  </a>
+                    {link.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -80,13 +96,13 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               {links.support.map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
+                <li key={link.title}>
+                  <Link
+                    href={link.link}
                     className="text-white/90 text-sm font-medium hover:text-white transition-colors duration-300 block"
                   >
-                    {link}
-                  </a>
+                    {link.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -97,14 +113,14 @@ export function Footer() {
               Legal
             </h4>
             <ul className="space-y-4">
-              {links.legal.map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
+              {links.legal.map((l) => (
+                <li key={l.title}>
+                  <Link
+                    href={l.link}
                     className="text-white/90 text-sm font-medium hover:text-white transition-colors duration-300 block"
                   >
-                    {link}
-                  </a>
+                    {l.title}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -114,7 +130,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10 w-full mt-auto">
           <p className="text-white/90 text-xs font-medium tracking-wide">
-            © 2026 Quikoro. All rights reserved.
+            © 2026 quikoro. All rights reserved.
           </p>
           <p className="text-white/90 text-xs font-medium tracking-wide">
             Powered by LaunchBox Global

@@ -45,7 +45,7 @@ export default function CTA() {
             transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             className="text-white/90 text-base md:text-lg leading-relaxed mb-10 max-w-lg font-normal"
           >
-            Download Quikoro, find a verified provider near you, and book in
+            Download quikoro, find a verified provider near you, and book in
             minutes. Chat opens once your booking is confirmed, and you pay in
             cash only after the job&apos;s done.
           </motion.p>

@@ -9,7 +9,7 @@ import Sidebar from "./Sidebar";
 
 const NAV_LINKS = ["How It Works", "Booking Journey", "Our Services", "FAQs"];
 
-export default function Header() {
+export default function SecondaryNavbar() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -53,7 +53,7 @@ export default function Header() {
         }`}
       >
         <div
-          className={`mx-auto flex w-full items-center justify-between px-5 py-5 lg:py-7 lg:px-7 rounded-[32px] ${scrolled && "gradient-bg"}`}
+          className={`mx-auto flex w-full items-center justify-between px-5 py-5 lg:py-7 lg:px-7 rounded-[32px] gradient-bg`}
         >
           {/* Logo */}
           <div
@@ -76,7 +76,7 @@ export default function Header() {
                 type="button"
                 key={item}
                 onClick={() => scrollToSection(item)}
-                className="text-[16px] font-medium text-white transition hover:text-gray-200"
+                className="text-[16px] font-medium text-white transition"
               >
                 {item}
               </button>
@@ -85,10 +85,7 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden items-center gap-6 lg:flex">
-            <Link
-              href="/"
-              className="text-[16px] font-medium text-white transition hover:text-gray-200"
-            >
+            <Link href="/" className="text-[16px] font-medium text-white">
               Login
             </Link>
 

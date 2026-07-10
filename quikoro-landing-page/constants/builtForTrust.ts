@@ -13,7 +13,7 @@ export const features = [
     badge: "100% BACKGROUND CHECKED",
     title: "Verified Providers",
     description:
-      "Every professional on Quikoro passes identity verification, license checks, and background screening before their first job.",
+      "Every professional on quikoro passes identity verification, license checks, and background screening before their first job.",
     icon: "/verified-providers.svg",
     span: "lg",
   },

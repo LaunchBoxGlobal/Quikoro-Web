@@ -58,7 +58,12 @@ body {
 
 .gradient-bg {
   background: linear-gradient(88.38deg, #003544 -7.02%, #0085aa 107.7%);
-  /* @apply bg-linear-[88.38deg] from-[#003544] to-[#0085aa]; */
+}
+
+.gradient-border {
+  padding: 2px; /* Border thickness */
+  border-radius: 16px;
+  background: linear-gradient(88.38deg, #003544 -7.02%, #0085aa 107.7%);
 }
 
 .trust-card {

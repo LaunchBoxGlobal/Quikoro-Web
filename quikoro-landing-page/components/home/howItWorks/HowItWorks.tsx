@@ -17,7 +17,7 @@ export default function HowItWorks() {
     <main className="min-h-screen flex items-center justify-center pb-10 pt-20 lg:py-20 lg:pt-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header Section */}
-        <div className="text-center mb-10 md:mb-14" id="How It Works">
+        <div className="text-center mb-10 md:mb-10" id="How It Works">
           <motion.h3
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export default function HowItWorks() {
           >
             Whether you need help at home or want to grow a service business{" "}
             <br className="hidden lg:block" />
-            Quikoro makes it effortless.
+            quikoro makes it effortless.
           </motion.p>
         </div>
 

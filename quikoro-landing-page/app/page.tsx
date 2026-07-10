@@ -1,5 +1,4 @@
 "use client";
-import { Footer } from "@/components/global/Footer";
 import BookingJourney from "@/components/home/bookingJourney/BookingJourney";
 import BuiltForTrust from "@/components/home/builtForTrust/BuiltForTrust";
 import CTA from "@/components/home/cta/CTA";
@@ -35,7 +34,7 @@ export default function Home() {
     }
   }, [pathname]);
   return (
-    <main className="relative ">
+    <main className="relative w-full">
       <Hero />
       <HowItWorks />
       <BuiltForTrust />
@@ -43,7 +42,6 @@ export default function Home() {
       <Services />
       <CTA />
       <FAQSComponent />
-      <Footer />
     </main>
   );
 }

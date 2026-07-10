@@ -4,9 +4,8 @@ import HeroAnimation from "./HeroAnimation";
 
 export default function Hero() {
   return (
-    <section className="w-full p-4 lg:p-10 xl:px-20 relative">
+    <section id="Home" className="w-full p-4 lg:p-10 xl:px-20 relative">
       <section
-        id="Home"
         className={`relative w-full overflow-hidden pb-0 lg:pb-24 rounded-[32px]`}
         style={{
           background: "url('/hero-background-image.png')",
