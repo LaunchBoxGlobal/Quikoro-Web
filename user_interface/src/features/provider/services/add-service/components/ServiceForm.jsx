@@ -20,12 +20,21 @@ import { CATEGORY_OPTIONS } from "../../../../../utils/categories";
 import { DAYS } from "../../../../../utils/days";
 import { CircleX } from "lucide-react";
 import { LocationPinIcon, Map } from "../../../../../assets/export";
+import { useGetCategoriesQuery } from "../../../../../services/categoryApi/categoryApi";
 
 export default function ServiceForm() {
   const [createService, { isLoading }] = useCreateServiceMutation();
   const [apiError, setApiError] = useState("");
   const navigate = useNavigate();
   const [imagesError, setImagesError] = useState("");
+  const { data: categoriesData } = useGetCategoriesQuery();
+  const categories = categoriesData?.data;
+  const categoryOptions =
+    categories?.map((category) => ({
+      label: category.name,
+      value: category.name,
+      id: category.id,
+    })) || [];
 
   const formik = useFormik({
     initialValues,
@@ -147,7 +156,7 @@ export default function ServiceForm() {
           <div>
             <CurrencySelect
               label="Category"
-              options={CATEGORY_OPTIONS}
+              options={categoryOptions}
               value={formik.values.category}
               onChange={(val) => {
                 formik.setFieldValue("category", val);

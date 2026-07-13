@@ -27,8 +27,6 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   const chatUser =
     user?.role === "CUSTOMER" ? booking?.provider : booking?.customer;
 
-  console.log(messages);
-
   // OLD MESSAGES
   useEffect(() => {
     const fetchMessages = async () => {

@@ -112,21 +112,6 @@ button {
   );
 }
 
-/* .glass-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(75, 103, 181, 0.8),
-    transparent,
-    rgba(38, 50, 180, 0.3)
-  );
-} */
-
 .glass {
   background: #ffffff26; /* rgba(255, 255, 255, 0.15) */
   backdrop-filter: blur(100px);
@@ -144,7 +129,7 @@ button {
 .stdropdown-container {
   border: none !important;
   border-radius: 12px !important;
-  @apply bg-white;
+  @apply bg-[#F5F5F5] px-2;
 }
 
 .stsearch-box > input {

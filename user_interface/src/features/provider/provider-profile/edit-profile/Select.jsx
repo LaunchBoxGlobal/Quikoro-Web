@@ -15,10 +15,10 @@ export default function Select({ label, options = [], error, ...props }) {
             appearance-none
             rounded-[14px]
             px-5
-            py-4
+            py-3
             text-[16px]
             outline-none
-            bg-[#f8f8f8]
+            bg-[#f5f5f5]
             ${error ? "border border-red-500" : "border border-transparent"}
           `}
         >

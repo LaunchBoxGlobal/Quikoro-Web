@@ -138,7 +138,7 @@ const BookingDetailsPage = () => {
         <button
           type="button"
           onClick={() => setOpenChat((prev) => !prev)}
-          className="w-[60px] h-[60px] gradient-bg flex items-center justify-center rounded-full z-30 fixed right-10 bottom-10"
+          className="w-[60px] h-[60px] gradient-bg flex items-center justify-center rounded-full z-30 fixed right-5 bottom-5"
         >
           <img src={MessageIcon} alt="message icon" width={28} height={26} />
         </button>
@@ -152,7 +152,7 @@ const BookingDetailsPage = () => {
         height={106}
         width={106}
         title={`Mark Interested`}
-        description={`Are you sure you want to accept this booking? The customer will be notified and the job will be added to your schedule.`}
+        description={`Are you sure you want to show interest for this booking? The customer will be notified and the job will be added to your schedule.`}
         children={
           <ModalActions
             setIsJobPending={setIsJobPending}
@@ -188,11 +188,15 @@ const BookingDetailsPage = () => {
         acceptBooking={acceptBooking}
         setAcceptBooking={setAcceptBooking}
         setRequestAcceptedSuccessModal={setRequestAcceptedSuccessModal}
+        booking={booking}
       />
+
       <RequestAcceptedSuccessModal
         isOpen={requestAcceptedSuccessModal}
         setIsOpen={setRequestAcceptedSuccessModal}
         refetch={refetch}
+        title={"Marked As Interested"}
+        description={`Interest shown successfully. Waiting for user confirmation.`}
       />
 
       <CancellationModal

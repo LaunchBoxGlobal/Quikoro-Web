@@ -22,6 +22,7 @@ import { selectClassName } from "../../../../utils/selectClassName";
 import LiveProfileCapture from "./LiveProfileCapture";
 import { buyerValidationSchema, initialValues } from "../buyerValidation";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
+import "./styles.css";
 
 const GENDERS = [
   {
@@ -198,7 +199,7 @@ const BuyerCompleteProfileForm = () => {
               //   formik.touched.country && formik.errors.country,
               // )}
               containerClassName="w-full"
-              inputClassName={`w-full border h-[39px] px-[15px] rounded-[8px] outline-none disabled:cursor-not-allowed 
+              inputClassName={`w-full bg-white border h-[39px] px-[15px] rounded-[8px] outline-none disabled:cursor-not-allowed 
         ${
           formik.touched.country && formik.errors.country
             ? "border-red-500"

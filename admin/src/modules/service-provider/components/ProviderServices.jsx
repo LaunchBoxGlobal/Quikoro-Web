@@ -3,6 +3,7 @@ import { useGetProviderServicesAndBookingsQuery } from "../../../services/userAp
 import PageLoader from "../../../components/ui/PageLoader";
 import ErrorPage from "../../../components/ui/PageError";
 import Loader from "../../../components/ui/Loader";
+import AverageRating from "./Rating";
 
 const ProviderServices = ({ user }) => {
   const { data, isLoading, isError, refetch } =
@@ -12,6 +13,7 @@ const ProviderServices = ({ user }) => {
 
   const services = data?.data?.data;
   const pagination = data?.data?.pagination;
+  console.log(services);
 
   if (isError) return <ErrorPage onRetry={refetch} />;
   return (
@@ -30,6 +32,7 @@ const ProviderServices = ({ user }) => {
         <div className="w-full min-h-[50vh]">
           <div className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services?.map((service) => {
+              const reviews = service?.ratings;
               return (
                 <div className="w-full bg-[#F4F4F4] rounded-[16px] p-3 flex items-center gap-3">
                   <div>
@@ -51,7 +54,9 @@ const ProviderServices = ({ user }) => {
                         {service?.category}
                       </p>
                     </div>
-                    <div className="">rating</div>
+                    <div className="">
+                      <AverageRating reviews={reviews} />
+                    </div>
                   </div>
                 </div>
               );

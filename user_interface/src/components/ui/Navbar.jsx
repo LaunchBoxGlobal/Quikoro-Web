@@ -24,30 +24,21 @@ export default function Navbar() {
   const handleToggleDropdown = () => setOpenLocationDropdown((prev) => !prev);
 
   const handleLocationConfirm = async (payload) => {
-    // payload = { latitude, longitude, location }
     try {
       await updateLocation(payload).unwrap();
       setSelectedAddress(payload.location);
       setOpenLocationDropdown(false);
     } catch (err) {
       console.error("Failed to update location:", err);
-      // surface this to the user however you handle errors elsewhere, e.g. a toast
     }
   };
 
-  // Keep the displayed address in sync with whatever's actually saved on the
-  // profile (covers returning users who already set a location previously).
   useEffect(() => {
     if (user?.location) {
       setSelectedAddress(user.location);
     }
   }, [user?.location]);
 
-  // First time we see a loaded profile with no saved location, open the
-  // picker automatically — this is what catches a just-signed-up user.
-  // The `hasAutoPromptedLocation` flag means we only ever force this open
-  // once per session; if they close it without picking one, we don't keep
-  // yanking it back open on every re-render.
   useEffect(() => {
     if (!user || hasAutoPromptedLocation) return;
 
@@ -57,7 +48,6 @@ export default function Navbar() {
     setHasAutoPromptedLocation(true);
   }, [user, hasAutoPromptedLocation]);
 
-  // Close the dropdown when clicking anywhere outside of it
   useEffect(() => {
     if (!openLocationDropdown) return;
 
@@ -88,7 +78,7 @@ export default function Navbar() {
               !user?.location ? "text-orange-500" : ""
             }`}
           >
-            {`${selectedAddress.slice(1, 30)}...` || "Add your location"}
+            {`${selectedAddress.slice(0, 30)}...` || "Add your location"}
           </span>
         </button>
 

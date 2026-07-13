@@ -43,20 +43,20 @@ const ProfileDropdown = () => {
       dispatch(clearUser());
       navigate("/login");
     } catch (error) {
-      // enqueueSnackbar(
-      //   error?.data?.error ||
-      //     error?.data?.message ||
-      //     error?.message ||
-      //     "Something went wrong.",
-      //   {
-      //     variant: "error",
-      //     autoHideDuration: 3000,
-      //     anchorOrigin: {
-      //       vertical: "top",
-      //       horizontal: "center",
-      //     },
-      //   },
-      // );
+      enqueueSnackbar(
+        error?.data?.error ||
+          error?.data?.message ||
+          error?.message ||
+          "Something went wrong.",
+        {
+          variant: "error",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        },
+      );
       console.log("LOGOUT ERROR >>> ", error);
     } finally {
       removeToken();
@@ -91,7 +91,7 @@ const ProfileDropdown = () => {
       <button
         type="button"
         onClick={() => setOpenDropdown((prev) => !prev)}
-        className="h-[37px] w-[37px] lg:h-[57px] lg:w-[57px] overflow-hidden rounded-full bg-orange-200 ring-2 ring-white cursor-pointer"
+        className="h-[37px] w-[37px] lg:h-[57px] lg:w-[57px] overflow-hidden rounded-full bg-gray-900 ring-2 ring-white cursor-pointer"
       >
         <img
           src={

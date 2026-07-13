@@ -27,15 +27,25 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CATEGORY_OPTIONS } from "../../../../../utils/categories";
 import { DAYS } from "../../../../../utils/days";
 import { CircleX } from "lucide-react";
+import { useGetCategoriesQuery } from "../../../../../services/categoryApi/categoryApi";
 
 export default function EditServiceForm({ service }) {
-  const [updateService, { isLoading }] = useUpdateServiceMutation();
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [apiError, setApiError] = useState("");
   const [existingImages, setExistingImages] = useState(service?.images || []);
   const [imagesError, setImagesError] = useState("");
 
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const [updateService, { isLoading }] = useUpdateServiceMutation();
+
+  const { data: categoriesData } = useGetCategoriesQuery();
+  const categories = categoriesData?.data;
+  const categoryOptions =
+    categories?.map((category) => ({
+      label: category.name,
+      value: category.name,
+      id: category.id,
+    })) || [];
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -45,9 +55,7 @@ export default function EditServiceForm({ service }) {
 
       category: service?.category
         ? {
-            label:
-              CATEGORY_OPTIONS.find((item) => item.value === service.category)
-                ?.label || service.category,
+            label: service.category,
             value: service.category,
           }
         : null,
@@ -56,7 +64,7 @@ export default function EditServiceForm({ service }) {
 
       yearsOfExperience: service?.yearsOfExperience || "",
 
-      location: service?.location || "",
+      // location: service?.location || "",
 
       availableDays: service?.availableDays || [],
 
@@ -68,6 +76,7 @@ export default function EditServiceForm({ service }) {
     validateOnChange: false,
 
     onSubmit: async (values) => {
+      console.log(values);
       try {
         const totalImages = existingImages.length + values.images.length;
 
@@ -86,38 +95,6 @@ export default function EditServiceForm({ service }) {
         setApiError("");
 
         const formData = new FormData();
-
-        // Object.keys(values).forEach((key) => {
-        //   if (values[key] !== null && values[key] !== undefined) {
-        //     // availableDays
-        //     if (key === "availableDays") {
-        //       formData.append(key, JSON.stringify(values[key]));
-        //     }
-
-        //     // category object
-        //     else if (key === "category") {
-        //       formData.append(key, values[key]?.value);
-        //     }
-
-        //     // images
-        //     else if (key === "images") {
-        //       // remaining existing cloudinary urls
-        //       existingImages.forEach((image) => {
-        //         formData.append("images", image);
-        //       });
-
-        //       // newly uploaded files
-        //       values.images.forEach((file) => {
-        //         formData.append("images", file);
-        //       });
-        //     }
-
-        //     // normal fields
-        //     else {
-        //       formData.append(key, values[key]);
-        //     }
-        //   }
-        // });
 
         Object.keys(values).forEach((key) => {
           if (values[key] !== null && values[key] !== undefined) {
@@ -213,7 +190,7 @@ export default function EditServiceForm({ service }) {
 
       <form onSubmit={formik.handleSubmit} className="w-full">
         {/* Top Grid */}
-        <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
           {/* Service Name */}
           <Input
             label="Service Name"
@@ -223,83 +200,48 @@ export default function EditServiceForm({ service }) {
             onChange={handleChange}
             onBlur={formik.handleBlur}
             error={formik.touched.name && formik.errors.name}
+            bgColor="#f5f5f5"
           />
 
-          {/* Location */}
-          <div className="w-full">
-            <Input
-              label="Location"
-              name="location"
-              type="text"
-              inputMode="text"
-              placeholder="Enter your location"
-              value={formik.values.location}
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.location && formik.errors.location}
-            />
-          </div>
+          {/* experience */}
+          <Input
+            label="Years Of Experience"
+            name="yearsOfExperience"
+            placeholder="Enter experience"
+            value={formik.values.yearsOfExperience}
+            onChange={handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              formik.touched.yearsOfExperience &&
+              formik.errors.yearsOfExperience
+            }
+            bgColor="#f5f5f5"
+          />
 
           {/* Category + Experience */}
-          <div className="w-full space-y-8">
-            <div>
-              <CurrencySelect
-                label="Category"
-                options={CATEGORY_OPTIONS}
-                value={formik.values.category}
-                onChange={(val) => {
-                  formik.setFieldValue("category", val);
+          <div>
+            <CurrencySelect
+              label="Category"
+              options={categoryOptions}
+              value={formik.values.category}
+              onChange={(val) => {
+                formik.setFieldValue("category", val);
 
-                  formik.setFieldTouched("category", true);
-                }}
-                error={formik.touched.category && formik.errors.category}
-                placeholder="Select category"
-              />
-
-              {formik.touched.category && formik.errors.category && (
-                <p className="text-red-500 text-xs mt-1">
-                  {formik.errors.category}
-                </p>
-              )}
-            </div>
-
-            <Input
-              label="Years Of Experience"
-              name="yearsOfExperience"
-              placeholder="Enter experience"
-              value={formik.values.yearsOfExperience}
-              onChange={handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.yearsOfExperience &&
-                formik.errors.yearsOfExperience
-              }
+                formik.setFieldTouched("category", true);
+              }}
+              error={formik.touched.category && formik.errors.category}
+              placeholder="Select category"
             />
-          </div>
 
-          {/* Map Card */}
-          <div className="w-full">
-            <div className="w-full bg-[var(--gray-bg)] rounded-[14px] p-4">
-              <img
-                src={Map}
-                alt="map"
-                width={541}
-                height={110}
-                className="w-full"
-              />
-
-              <div className="flex items-center gap-2 mt-4">
-                <img src={LocationPinIcon} alt="" />
-
-                <button type="button" className="text-sm font-medium">
-                  Use my current location
-                </button>
-              </div>
-            </div>
+            {formik.touched.category && formik.errors.category && (
+              <p className="text-red-500 text-xs mt-1">
+                {formik.errors.category}
+              </p>
+            )}
           </div>
 
           {/* Available Days */}
-          <div className="space-y-1 md:col-span-2">
+          <div className="space-y-1 md:col-span-1">
             <label className="text-sm font-semibold leading-none">
               Available Days
             </label>
@@ -334,7 +276,7 @@ export default function EditServiceForm({ service }) {
         </div>
 
         {/* Bottom Grid */}
-        <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
           {/* Description */}
           <div>
             <DescriptionField
@@ -345,6 +287,7 @@ export default function EditServiceForm({ service }) {
               onChange={handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.description && formik.errors.description}
+              bgColor="#f5f5f5"
             />
           </div>
 

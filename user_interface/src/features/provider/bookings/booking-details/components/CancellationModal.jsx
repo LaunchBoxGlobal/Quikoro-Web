@@ -103,7 +103,7 @@ export const AdditionNotesForm = ({
           value={formik.values.cancellationReason}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          className="w-full rounded-lg border border-gray-300 p-3 resize-none focus:outline-none"
+          className="w-full rounded-lg border border-gray-100 p-3 text-sm resize-none focus:outline-none"
         />
 
         <div className="flex justify-between mt-1">

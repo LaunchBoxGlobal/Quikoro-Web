@@ -6,6 +6,7 @@ import {
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
+import { useSelector } from "react-redux";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -14,10 +15,6 @@ const DEFAULT_CENTER = { lat: 24.8607, lng: 67.0011 };
 const DEFAULT_ZOOM = 12;
 const SELECTED_ZOOM = 15;
 
-/**
- * Pans/zooms the map whenever the selected position changes.
- * Needs to live *inside* <Map> so it can use the useMap() hook.
- */
 const MapCamera = ({ position }) => {
   const map = useMap();
 
@@ -30,13 +27,10 @@ const MapCamera = ({ position }) => {
   return null;
 };
 
-/**
- * The actual picker UI. Lives inside APIProvider so the maps hooks
- * (useMapsLibrary, useMap) have access to the loaded Google Maps script.
- */
 const LocationPickerInner = ({ onConfirm, onClose, submitting }) => {
   const placesLib = useMapsLibrary("places");
   const geocodingLib = useMapsLibrary("geocoding");
+  const user = useSelector((state) => state.user.user);
 
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -247,7 +241,9 @@ const LocationPickerInner = ({ onConfirm, onClose, submitting }) => {
       </button>
 
       <p className="my-2 text-sm text-gray-500">
-        {address || "Search above, click the map, or use your current location"}
+        {(user && user?.location) ||
+          address ||
+          "Search above, click the map, or use your current location"}
       </p>
 
       <button

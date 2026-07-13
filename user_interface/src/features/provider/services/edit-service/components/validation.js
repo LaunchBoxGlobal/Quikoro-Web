@@ -38,8 +38,8 @@ export const validationSchema = Yup.object({
     .required("Description is required"),
 
   images: Yup.mixed().required("Service image is required"),
-  location: Yup.string()
-    .required("Street address required")
-    .min(3, "Address cannot be less than 3 characters")
-    .max(30, "Address cannot be more than 30 characters"),
+  // location: Yup.string()
+  //   .required("Street address required")
+  //   .min(3, "Address cannot be less than 3 characters")
+  //   .max(30, "Address cannot be more than 30 characters"),
 });

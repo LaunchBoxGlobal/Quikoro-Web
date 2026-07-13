@@ -95,11 +95,15 @@ const BlockedUsersPage = () => {
               }`}
             >
               <div className="flex items-center gap-2">
-                <img
-                  src={user?.profilePicture || "/user-profile-placeholder.png"}
-                  alt={`${user?.fullName} profile`}
-                  className="w-[46px] h-[46px] rounded-full object-cover"
-                />
+                <div className="w-[46px] h-[46px] rounded-full bg-black">
+                  <img
+                    src={
+                      user?.profilePicture || "/user-profile-placeholder.png"
+                    }
+                    alt={`${user?.fullName} profile`}
+                    className="w-[46px] h-[46px] rounded-full object-cover"
+                  />
+                </div>
 
                 <span className="font-medium text-base">{user?.fullName}</span>
               </div>

@@ -31,7 +31,7 @@ const Reviews = ({ booking }) => {
                       color={index < rev.rating ? "#FFCC00" : "#E5E7EB"}
                     />
                   ))}
-                  <span className="font-bold relative top-0.5">
+                  <span className="font-bold relative top-0.5 left-2">
                     {rev?.rating}
                   </span>
                 </div>

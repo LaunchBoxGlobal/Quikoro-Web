@@ -44,9 +44,9 @@ export default function CustomerEditProfileModal({
 
       email: profile?.email || "",
 
-      dateOfBirth: profile?.dateOfBirth
-        ? profile.dateOfBirth.split("T")[0]
-        : "",
+      // dateOfBirth: profile?.dateOfBirth
+      //   ? profile.dateOfBirth.split("T")[0]
+      //   : "",
 
       gender: profile?.gender || "",
 
@@ -73,7 +73,7 @@ export default function CustomerEditProfileModal({
 
       email: Yup.string().email("Invalid email").required("Email is required"),
 
-      dateOfBirth: Yup.string().required("Date of birth required"),
+      // dateOfBirth: Yup.string().required("Date of birth required"),
 
       country: Yup.string().required("Country required"),
 
@@ -274,6 +274,7 @@ export default function CustomerEditProfileModal({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.fullName && formik.errors.fullName}
+                  bgColor="#F5F5F5"
                 />
 
                 <Input
@@ -284,9 +285,10 @@ export default function CustomerEditProfileModal({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.email && formik.errors.email}
+                  bgColor="#F5F5F5"
                 />
 
-                <Input
+                {/* <Input
                   type="date"
                   label="Date Of Birth"
                   name="dateOfBirth"
@@ -296,7 +298,7 @@ export default function CustomerEditProfileModal({
                   error={
                     formik.touched.dateOfBirth && formik.errors.dateOfBirth
                   }
-                />
+                /> */}
 
                 <Select
                   label="Gender"
@@ -404,6 +406,7 @@ export default function CustomerEditProfileModal({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 error={formik.touched.zipCode && formik.errors.zipCode}
+                bgColor="#F5F5F5"
               />
 
               <Input
@@ -415,6 +418,7 @@ export default function CustomerEditProfileModal({
                 error={
                   formik.touched.streetAddress && formik.errors.streetAddress
                 }
+                bgColor="#F5F5F5"
               />
 
               <div className="w-full">
@@ -426,7 +430,7 @@ export default function CustomerEditProfileModal({
                   value={formik.values.description}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full min-h-[150px] rounded-xl p-4 bg-gray-100 resize-none"
+                  className="w-full min-h-[150px] rounded-xl p-4 bg-[#f5f5f5] resize-none"
                 />
 
                 {formik.touched.description && formik.errors.description && (

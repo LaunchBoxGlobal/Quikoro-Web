@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <div>
+    <Link to={"/"}>
       <img
         src="/logo.png"
         alt="quikoro logo"
@@ -10,7 +11,7 @@ const Logo = () => {
         height={57}
         className="w-[140px] lg:w-[180px]"
       />
-    </div>
+    </Link>
   );
 };
 

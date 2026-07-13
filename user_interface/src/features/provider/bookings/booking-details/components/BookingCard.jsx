@@ -66,7 +66,15 @@ export default function BookingCard({ booking }) {
                 </div>
               </div>
 
-              <hr className="mb-6 border-gray-100" />
+              {/* cancellation reason */}
+              {booking?.status === "CANCELLED" && booking?.additionalNotes && (
+                <div className="text-sm flex gap-1">
+                  <span className="text-red-500">Cancellation Reason:</span>{" "}
+                  <p className="">{booking?.additionalNotes}</p>
+                </div>
+              )}
+
+              <hr className="my-6 border-gray-100" />
 
               {/* Info */}
               <div className="mb-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -111,6 +119,8 @@ export default function BookingCard({ booking }) {
                     )}
                 </div>
               )}
+
+              {/* <hr className="my-6 border-gray-100" /> */}
             </div>
           </div>
 

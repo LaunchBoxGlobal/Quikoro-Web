@@ -24,6 +24,8 @@ import PhoneNumberInput from "../../../../components/ui/PhoneNumberInput";
 import LiveProfileCapture from "./LiveProfileCapture";
 import { CATEGORY_OPTIONS } from "../../../../utils/categories";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
+import { useGetCategoriesQuery } from "../../../../services/categoryApi/categoryApi";
+import "./styles.css";
 
 const GENDERS = [
   {
@@ -48,8 +50,18 @@ const CompleteProfileForm = () => {
   const dispatch = useDispatch();
   const signupData = useSelector((state) => state.signup);
   const [preview, setPreview] = useState(null);
+  const user = useSelector((state) => state);
+  // console.log("USER >>> ", user.user.user);
 
   const { data, refetch } = useGetUserProfileQuery();
+  const { data: categoriesData } = useGetCategoriesQuery();
+  const categories = categoriesData?.data;
+  const categoryOptions =
+    categories?.map((category) => ({
+      label: category.name,
+      value: category.name,
+      id: category.id,
+    })) || [];
 
   const formik = useFormik({
     initialValues: {
@@ -166,7 +178,8 @@ const CompleteProfileForm = () => {
             label="Email Address"
             name="email"
             type="email"
-            disabled={true}
+            // disabled={true}
+            disabled={user && user?.isProfileCompleted}
             placeholder="Enter your email"
             value={formik.values.email}
             onChange={handleChange}
@@ -179,8 +192,8 @@ const CompleteProfileForm = () => {
           <div className="w-full">
             <CurrencySelect
               label="Speciality"
-              options={CATEGORY_OPTIONS}
-              value={CATEGORY_OPTIONS.find(
+              options={categoryOptions}
+              value={categoryOptions.find(
                 (item) => item.label.toUpperCase() === formik.values.speciality,
               )}
               onChange={(val) => {

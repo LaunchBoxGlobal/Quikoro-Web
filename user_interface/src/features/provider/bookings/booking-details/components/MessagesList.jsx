@@ -106,7 +106,7 @@ const MessagesList = ({ messages, user }) => {
                   } mb-2`}
                 >
                   <div
-                    className={`px-4 py-3 max-w-[75%] space-y-2 ${
+                    className={`px-4 py-3 max-w-[75%] space-y-1 ${
                       isMe
                         ? "gradient-bg text-white rounded-l-2xl rounded-tr-2xl"
                         : "bg-gray-100 rounded-r-2xl rounded-tl-2xl"

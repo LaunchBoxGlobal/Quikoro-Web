@@ -11,12 +11,15 @@ import Modal from "../../../../components/ui/Modal";
 
 export default function ServiceDetails() {
   const { id } = useParams();
-  useUpdateTitle("Service Details");
-  const { data, error, isLoading } = useGetServiceQuery(id);
-  const service = data?.data;
+
   const [openBookingModal, setOpenBookingModal] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
+
+  useUpdateTitle("Service Details");
+
+  const { data, error, isLoading } = useGetServiceQuery(id);
+  const service = data?.data;
 
   const user = useSelector((state) => state.user);
 

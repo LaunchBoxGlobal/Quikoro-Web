@@ -1,6 +1,6 @@
 import React from "react";
 import { Send } from "../../../../../assets/export";
-import { Image } from "lucide-react";
+import { Image, Mic } from "lucide-react";
 
 const SendMsgInput = ({
   message,
@@ -12,7 +12,7 @@ const SendMsgInput = ({
 }) => {
   return (
     <div className="p-4">
-      <div className="bg-[var(--gray-bg)] rounded-full px-5 py-2 flex items-center gap-2">
+      <div className="bg-[var(--gray-bg)] rounded-full pl-5 pr-2 py-2 flex items-center gap-2">
         <input
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -29,7 +29,11 @@ const SendMsgInput = ({
         />
 
         <button type="button" onClick={() => fileRef.current?.click()}>
-          <Image size={22} />
+          <Image size={21} className="text-gray-600" />
+        </button>
+
+        <button type="button" onClick={() => fileRef.current?.click()}>
+          <Mic size={23} className="text-gray-600" />
         </button>
 
         <button

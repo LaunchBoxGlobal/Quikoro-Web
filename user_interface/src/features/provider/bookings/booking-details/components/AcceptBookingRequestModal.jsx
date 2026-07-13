@@ -12,6 +12,7 @@ const AcceptBookingRequestModal = ({
   acceptBooking,
   setAcceptBooking,
   setRequestAcceptedSuccessModal,
+  booking,
 }) => {
   return (
     <>
@@ -25,6 +26,7 @@ const AcceptBookingRequestModal = ({
         description={`Before confirming this booking, share any important notes or final instructions related to the service request.`}
         children={
           <AdditionNotesForm
+            booking={booking}
             refetch={refetch}
             acceptBooking={acceptBooking}
             setAcceptBooking={setAcceptBooking}
@@ -42,7 +44,9 @@ export const AdditionNotesForm = ({
   refetch,
   setAcceptBooking,
   setRequestAcceptedSuccessModal,
+  booking,
 }) => {
+  console.log(booking);
   const [notes, setNotes] = useState("");
   const { id } = useParams();
 
@@ -53,7 +57,7 @@ export const AdditionNotesForm = ({
     e.preventDefault();
     const payload = {
       status: "IN_PROGRESS",
-      additionalNotes: notes,
+      additionalNotes: notes || booking?.additionalNotes,
     };
     await updateBookingStatus({
       id,

@@ -1,0 +1,5 @@
+.stdropdown-container {
+  border: none !important;
+  border-radius: 12px !important;
+  @apply bg-[#F5F5F5] px-2;
+}

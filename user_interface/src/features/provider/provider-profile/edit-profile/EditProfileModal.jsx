@@ -19,6 +19,7 @@ import { enqueueSnackbar } from "notistack";
 import { specialityOptions } from "../../../../utils/specialities";
 import { editProfileSchema } from "./validation";
 import { CATEGORY_OPTIONS } from "../../../../utils/categories";
+import "./styles.css";
 
 export default function EditProfileModal({
   isOpen,
@@ -26,7 +27,6 @@ export default function EditProfileModal({
   profile,
   refetch,
 }) {
-  console.log(profile);
   useEffect(() => {
     if (!isOpen) return;
     const originalOverflow = document.body.style.overflow;
@@ -257,6 +257,7 @@ export default function EditProfileModal({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.fullName && formik.errors.fullName}
+                  bgColor="#f5f5f5"
                 />
 
                 <Input
@@ -266,6 +267,7 @@ export default function EditProfileModal({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.email && formik.errors.email}
+                  bgColor="#f5f5f5"
                 />
 
                 <Select
@@ -274,15 +276,19 @@ export default function EditProfileModal({
                   value={formik.values.speciality}
                   onChange={formik.handleChange}
                   options={CATEGORY_OPTIONS}
+                  bgColor="#f5f5f5"
                 />
 
-                <Input
-                  type="date"
-                  label="Date Of Birth"
-                  name="dateOfBirth"
-                  value={formik.values.dateOfBirth}
-                  onChange={formik.handleChange}
-                />
+                {profile && profile?.role === "PROVIDER" && (
+                  <Input
+                    type="date"
+                    label="Date Of Birth"
+                    name="dateOfBirth"
+                    value={formik.values.dateOfBirth}
+                    onChange={formik.handleChange}
+                    bgColor="#f5f5f5"
+                  />
+                )}
               </div>
             </div>
 
@@ -318,7 +324,6 @@ export default function EditProfileModal({
               </div>
 
               {/* STATE + CITY */}
-
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label>State</label>
@@ -371,6 +376,7 @@ export default function EditProfileModal({
                 name="zipCode"
                 value={formik.values.zipCode}
                 onChange={formik.handleChange}
+                bgColor="#f5f5f5"
               />
 
               <Input
@@ -378,6 +384,7 @@ export default function EditProfileModal({
                 name="streetAddress"
                 value={formik.values.streetAddress}
                 onChange={formik.handleChange}
+                bgColor="#f5f5f5"
               />
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -404,6 +411,7 @@ export default function EditProfileModal({
                   name="yearsOfExperience"
                   value={formik.values.yearsOfExperience}
                   onChange={formik.handleChange}
+                  bgColor="#f5f5f5"
                 />
               </div>
 
@@ -412,7 +420,7 @@ export default function EditProfileModal({
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 placeholder="Description"
-                className="w-full min-h-[150px] rounded-xl p-4 bg-gray-100"
+                className="w-full min-h-[150px] rounded-xl p-4 bg-[#f5f5f5]"
               />
 
               <div className="flex justify-end gap-4">

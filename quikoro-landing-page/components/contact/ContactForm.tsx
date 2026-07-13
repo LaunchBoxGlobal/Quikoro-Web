@@ -31,11 +31,7 @@ export default function ContactForm() {
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
         setSubmitError("");
-        // Mock API call using JSONPlaceholder
-        await axios.post(
-          `https://backend.quikoro.com/api/customer-support`,
-          values,
-        );
+        await axios.post(`/api/contact`, values);
         setIsSubmitted(true);
         resetForm();
         setTimeout(() => setIsSubmitted(false), 10000);

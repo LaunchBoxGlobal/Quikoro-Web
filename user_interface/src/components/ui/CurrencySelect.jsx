@@ -29,7 +29,7 @@ const CurrencySelect = ({
   }, []);
 
   const filtered = options?.filter((opt) =>
-    opt.label.toLowerCase().includes(search.toLowerCase()),
+    opt.label?.toLowerCase().includes(search.toLowerCase()),
   );
 
   const handleSelect = (option) => {
