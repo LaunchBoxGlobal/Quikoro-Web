@@ -46,7 +46,6 @@ export const AdditionNotesForm = ({
   setRequestAcceptedSuccessModal,
   booking,
 }) => {
-  console.log(booking);
   const [notes, setNotes] = useState("");
   const { id } = useParams();
 

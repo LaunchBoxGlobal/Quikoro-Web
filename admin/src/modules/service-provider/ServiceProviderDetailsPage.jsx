@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   useAcceptRejectAccountMutation,
   useGetUserQuery,
@@ -16,8 +16,11 @@ import ProviderServices from "./components/ProviderServices";
 import ProviderBookings from "./components/ProviderBookings";
 
 const UserDetailsPage = () => {
-  const [activeTab, setActiveTab] = useState("basic");
+  // const [activeTab, setActiveTab] = useState("basic");
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+
+  const activeTab = searchParams.get("tab") || "basic";
 
   const { data, isLoading, isFetching, isError, refetch } = useGetUserQuery(
     id,
@@ -43,7 +46,7 @@ const UserDetailsPage = () => {
       <ProfileHeader user={user} id={id} refetch={refetch} />
 
       {/* Tabs */}
-      <UserTabs setActiveTab={setActiveTab} user={user} activeTab={activeTab} />
+      <UserTabs user={user} />
 
       {/* Details Box */}
       {activeTab === "basic" && <UserDetails user={user} />}

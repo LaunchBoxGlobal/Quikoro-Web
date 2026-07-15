@@ -7,11 +7,14 @@ import PageLoader from "../../../components/ui/PageLoader";
 import ErrorPage from "../../../components/ui/PageError";
 import Loader from "../../../components/ui/Loader";
 import ProviderBookingsTable from "./ProviderBookingsTable";
+import { useSearchParams } from "react-router-dom";
 
 const ProviderBookings = ({ user }) => {
-  const [status, setStatus] = useState("ALL");
+  const [searchParams] = useSearchParams();
+  const status = searchParams.get("bookingStatus") || "ALL";
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+
   const { data, isLoading, isError, refetch, isFetching } =
     useGetProviderBookingsQuery({
       providerId: user?.id,
@@ -41,7 +44,6 @@ const ProviderBookings = ({ user }) => {
           bookings={bookings}
           pagination={pagination}
           status={status}
-          setStatus={setStatus}
           page={page}
           setPage={setPage}
         />

@@ -26,20 +26,20 @@ const MainLayout = ({ pages }) => {
         onClick={toggleModal}
         className={`w-screen h-screen fixed top-0 left-0 transition-all duration-500  ${
           isOpen ? " lg:translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } lg:static  z-[2000] lg:z-auto lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 lg:h-full `}
+        } lg:static  z-40 lg:z-auto lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start py-0 lg:h-full `}
       >
         <div
           ref={sidebarRef}
           className={`fixed top-0 left-0 transition-all duration-200  ${
             isOpen ? " lg:translate-x-0" : "-translate-x-full lg:translate-x-0"
-          } lg:static w-[60%] z-[1000] lg:z-auto py-5 pl-5 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start h-full`}
+          } lg:static w-[60%] z-40 lg:z-auto py-5 pl-5 lg:w-60 xl:w-72 flex flex-col gap-3 items-center justify-start h-full`}
         >
           <Sidebar />
         </div>
       </div>
 
       <div className="w-full relative z-10 lg:w-[calc(100%-15rem)] xl:w-[calc(100%-18rem)] h-full overflow-y-auto overflow-x-hidden p-5">
-        <div className="sticky top-0 left-0 w-full h-[94px] bg-white custom-shadow flex items-center justify-between lg:justify-end px-4 z-40 rounded-[16px] lg:rounded-[24px]">
+        <div className="sticky top-0 left-0 w-full h-[94px] bg-white custom-shadow flex items-center justify-between lg:justify-end px-4 z-30 rounded-[16px] lg:rounded-[24px]">
           <button
             onClick={() => setisOpen((prev) => !prev)}
             className="lg:hidden block"

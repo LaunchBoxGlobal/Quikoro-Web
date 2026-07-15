@@ -27,6 +27,13 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   const chatUser =
     user?.role === "CUSTOMER" ? booking?.provider : booking?.customer;
 
+  // ===== VOICE RECORDING STATE (NEW) =====
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const recordingIntervalRef = useRef(null);
+
   // OLD MESSAGES
   useEffect(() => {
     const fetchMessages = async () => {
@@ -44,8 +51,6 @@ const ChatWindow = ({ setOpenChat, booking }) => {
 
         const data = await res.json();
         setMessages(data?.data || {});
-
-        // setMessages(Array.isArray(data?.data) ? data.data : []);
       } catch (err) {
         console.log(err);
       } finally {
@@ -68,7 +73,6 @@ const ChatWindow = ({ setOpenChat, booking }) => {
     });
 
     socket.on("new-message", (msg) => {
-      // console.log("RECEIVED NEW MESSAGES >>> ", msg);
       const normalized = {
         id: msg.message?.id,
         message: msg.message?.message,
@@ -103,7 +107,6 @@ const ChatWindow = ({ setOpenChat, booking }) => {
 
     const mapped = allowed.map((file) => ({
       file,
-
       preview: file.type.startsWith("image/")
         ? URL.createObjectURL(file)
         : null,
@@ -112,20 +115,108 @@ const ChatWindow = ({ setOpenChat, booking }) => {
     setSelectedFiles((prev) => [...prev, ...mapped]);
   };
 
-  // const removeFile = (index) => {
-  //   setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
-  // };
   const removeFile = (index) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
 
-    // Reset file input so same file can be selected again
     if (fileRef.current) {
       fileRef.current.value = "";
     }
   };
 
-  const handleSend = async () => {
-    if (!message.trim() && !selectedFiles.length) {
+  // ===== VOICE RECORDING HANDLERS (NEW) =====
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+      setRecordingTime(0);
+
+      recordingIntervalRef.current = setInterval(() => {
+        setRecordingTime((prev) => prev + 1);
+      }, 1000);
+    } catch (err) {
+      console.error("MIC ACCESS ERROR", err);
+    }
+  };
+
+  // Stops the recorder and resolves with the recorded audio File
+  const stopRecordingAndGetFile = () => {
+    return new Promise((resolve) => {
+      const mediaRecorder = mediaRecorderRef.current;
+
+      if (!mediaRecorder || mediaRecorder.state === "inactive") {
+        resolve(null);
+        return;
+      }
+
+      mediaRecorder.onstop = () => {
+        mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
+        const audioFile = new File([audioBlob], `voice-${Date.now()}.mp3`, {
+          type: "audio/webm",
+        });
+
+        audioChunksRef.current = [];
+        resolve(audioFile);
+      };
+
+      mediaRecorder.stop();
+      clearInterval(recordingIntervalRef.current);
+      setIsRecording(false);
+    });
+  };
+
+  const cancelRecording = () => {
+    const mediaRecorder = mediaRecorderRef.current;
+
+    if (mediaRecorder && mediaRecorder.state !== "inactive") {
+      mediaRecorder.onstop = () => {
+        mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+      };
+      mediaRecorder.stop();
+    }
+
+    clearInterval(recordingIntervalRef.current);
+    audioChunksRef.current = [];
+    setIsRecording(false);
+    setRecordingTime(0);
+  };
+
+  const handleSendVoiceMessage = async () => {
+    const audioFile = await stopRecordingAndGetFile();
+    setRecordingTime(0);
+
+    if (!audioFile) return;
+
+    // create a local object URL so the optimistic message can render/play immediately
+    const audioPreviewUrl = URL.createObjectURL(audioFile);
+
+    await handleSend({
+      file: audioFile,
+      preview: audioPreviewUrl,
+      isVoice: true,
+    });
+  };
+
+  // MODIFIED: now accepts an optional voiceItem ({ file, preview, isVoice })
+  const handleSend = async (voiceItem = null) => {
+    const filesToSend = voiceItem ? [voiceItem] : selectedFiles;
+    const isVoiceMessage = !!voiceItem;
+
+    if (!message.trim() && !filesToSend.length) {
       return;
     }
 
@@ -134,27 +225,31 @@ const ChatWindow = ({ setOpenChat, booking }) => {
 
       let media = [];
 
-      let type = "TEXT";
+      // type: AUDIO for voice notes, MEDIA for image/audio attachments, TEXT otherwise
+      let type = isVoiceMessage
+        ? "AUDIO"
+        : filesToSend.length
+          ? "IMAGE"
+          : "TEXT";
 
-      // MEDIA FLOW
-      if (selectedFiles.length) {
+      // MEDIA FLOW (same pipeline for images, attached audio files, and voice notes)
+      if (filesToSend.length) {
+        console.log("filesToSend >> ", filesToSend);
         // STEP 1: REQUEST PRESIGNED URLS
         const body = {
-          files: selectedFiles.map((item) => ({
+          files: filesToSend.map((item) => ({
             fileName: item.file.name,
+            mimeType: item.file.type, // "audio/webm" — send this explicitly
             bookingId: id,
           })),
         };
 
         const res = await fetch(`${BASE_URL}media/presigned`, {
           method: "POST",
-
           headers: {
             Authorization: `Bearer ${getToken()}`,
-
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify(body),
         });
 
@@ -165,17 +260,15 @@ const ChatWindow = ({ setOpenChat, booking }) => {
         await Promise.all(
           uploadedFiles.map(async (item, index) => {
             try {
-              const currentFile = selectedFiles[index].file;
+              const currentFile = filesToSend[index].file;
 
-              const uploadRes = await fetch(item.uploadUrl, {
+              await fetch(item.uploadUrl, {
                 method: "PUT",
                 headers: {
                   "Content-Type": currentFile.type,
                 },
                 body: currentFile,
               });
-
-              console.log("ITEM >>> ", item);
 
               media.push({
                 key: item.mediaKey,
@@ -187,6 +280,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
           }),
         );
       }
+
       // STEP 3: SOCKET PAYLOAD
       const payload = {
         bookingId: id,
@@ -194,27 +288,33 @@ const ChatWindow = ({ setOpenChat, booking }) => {
         receiverId,
         message: message.trim(),
         media,
+        type,
       };
 
       socket.emit("send-message", payload);
+
       const optimisticMessage = {
         id: Date.now(),
         senderId: user.id,
         receiverId,
         message: message.trim(),
-        media: selectedFiles.filter((f) => f.preview).map((f) => f.preview),
+        media: filesToSend.filter((f) => f.preview).map((f) => f.preview),
+        type,
         createdAt: new Date().toISOString(),
       };
+
       setMessages((prev) => ({
         ...prev,
-        // today: [...(prev.today || []), payload],
         today: [...(prev.today || []), optimisticMessage],
       }));
-      setMessage("");
-      setSelectedFiles([]);
 
-      if (fileRef.current) {
-        fileRef.current.value = "";
+      setMessage("");
+
+      if (!isVoiceMessage) {
+        setSelectedFiles([]);
+        if (fileRef.current) {
+          fileRef.current.value = "";
+        }
       }
     } catch (err) {
       console.log("SEND ERROR", err);
@@ -247,7 +347,12 @@ const ChatWindow = ({ setOpenChat, booking }) => {
         fileRef={fileRef}
         handleFiles={handleFiles}
         uploading={uploading}
-        handleSend={handleSend}
+        handleSend={() => handleSend()}
+        isRecording={isRecording}
+        recordingTime={recordingTime}
+        startRecording={startRecording}
+        cancelRecording={cancelRecording}
+        handleSendVoiceMessage={handleSendVoiceMessage}
       />
     </div>
   );

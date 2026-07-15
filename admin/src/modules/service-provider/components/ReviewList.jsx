@@ -3,7 +3,7 @@ import ReviewCard from "./ReviewCard";
 
 export default function ReviewList({ reviews }) {
   return (
-    <div className="mt-10">
+    <div className="mt-12 lg:mt-16">
       <div className="mb-6 flex items-center justify-between">
         <h3 className="text-[17px] font-semibold text-gray-900">
           Rating & Reviews

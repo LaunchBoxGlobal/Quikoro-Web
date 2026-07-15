@@ -14,6 +14,7 @@ import { bookingApi } from "../services/bookingApi/bookingApi";
 import { categoryApi } from "../services/categoryApi/categoryApi";
 import { userApi } from "../services/userService/userApi";
 import { settingsApi } from "../services/settingsApi/settingsApi";
+import { notificationApi } from "../services/notificationApi/notificationApi";
 
 // Safe storage for Vite/SSR
 const storage = createWebStorage("local");
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   [categoryApi.reducerPath]: categoryApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [settingsApi.reducerPath]: settingsApi.reducer,
+  [notificationApi.reducerPath]: notificationApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -53,6 +55,7 @@ export const store = configureStore({
       categoryApi.middleware,
       userApi.middleware,
       settingsApi.middleware,
+      notificationApi.middleware,
     ),
 });
 

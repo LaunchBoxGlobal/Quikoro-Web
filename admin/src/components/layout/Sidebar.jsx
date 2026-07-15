@@ -70,7 +70,7 @@ const Sidebar = () => {
                 }`}
         >
           <div className="min-w-6">
-            <FiLogOut className="text-lg transition-all duration-300 group-hover:text-white" />
+            <FiLogOut className="text-lg transition-all duration-300 text-[#015870] group-hover:text-white" />
           </div>
           Logout
         </button>

@@ -10,7 +10,7 @@ export const userApi = createApi({
     // Get logged in user
     getUserProfile: builder.query({
       query: () => ({
-        url: "/users/me/details",
+        url: "users/me/details",
         method: "GET",
       }),
       providesTags: ["User"],
@@ -29,7 +29,7 @@ export const userApi = createApi({
     // Get user by id
     getUserProfileById: builder.query({
       query: (id) => ({
-        url: `/users/details/${id}`,
+        url: `users/details/${id}`,
         method: "GET",
       }),
       providesTags: ["User"],

@@ -1,6 +1,6 @@
 import React from "react";
 import Pagination from "../../../components/ui/Pagination";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { FaCircleUser } from "react-icons/fa6";
 import { formatDate } from "../../../utils/formatDate";
 import { formatBookingStatus } from "../../../utils/formatBookingStatus";
@@ -26,6 +26,18 @@ const BOOKING_STATUS = [
 ];
 
 const ProviderBookingsTable = ({ bookings, pagination, setStatus, status }) => {
+  const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("bookingStatus") || "ALL";
+
+  const handleTabChange = (status) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("bookingStatus", status);
+
+    setSearchParams(params);
+  };
+
   return (
     <>
       {/* STATUS */}
@@ -35,8 +47,8 @@ const ProviderBookingsTable = ({ bookings, pagination, setStatus, status }) => {
             <button
               type="button"
               key={s.key}
-              onClick={() => setStatus(s?.key)}
-              className={`font-medium ${status === s.key ? "gradient-text underline" : ""}`}
+              onClick={() => handleTabChange(s?.key)}
+              className={`font-medium ${activeTab === s.key ? "gradient-text underline" : ""}`}
             >
               {s?.title}
             </button>
@@ -108,7 +120,7 @@ const ProviderBookingsTable = ({ bookings, pagination, setStatus, status }) => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Link
-                          to={`/`}
+                          to={`/service-providers/${id}/bookings/${booking?.id}`}
                           className="gradient-text font-medium underline decoration-[#0084AA]"
                         >
                           View Details

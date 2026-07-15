@@ -1,6 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
-import NotificationCount from "./NotificationCount";
 import Logo from "./Logo";
 import { buyerNavLinks, navLinks } from "../../utils/navLinks";
 import { MapPin, Menu } from "lucide-react";
@@ -8,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import LocationPicker from "./LocationPicker";
 import { useUpdateLocationMutation } from "../../services/userService/userApi";
+import NotificationsDropdown from "./NotificationsDropdown";
 
 export default function Navbar() {
   const user = useSelector((state) => state.user.user);
@@ -117,7 +117,7 @@ export default function Navbar() {
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-4 lg:gap-6 md:border-l border-gray-200 pl-6">
           {/* NOTIFICATION */}
-          <NotificationCount />
+          <NotificationsDropdown />
 
           {/* PROFILE DROPDOWN */}
           <ProfileDropdown />

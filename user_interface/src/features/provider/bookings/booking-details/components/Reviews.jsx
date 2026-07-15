@@ -5,9 +5,9 @@ import { FaStar } from "react-icons/fa";
 const Reviews = ({ booking }) => {
   const user = useSelector((state) => state.user.user);
 
-  const userReviews =
-    booking?.ratings?.length > 0 &&
-    booking?.ratings.filter((rating) => rating?.user?.id !== user?.id);
+  const userReviews = booking?.ratings?.length > 0 ? booking?.ratings : [];
+  // &&
+  // booking?.ratings.filter((rating) => rating?.user?.id !== user?.id);
 
   return (
     userReviews?.length > 0 && (

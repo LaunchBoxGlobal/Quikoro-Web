@@ -4,8 +4,11 @@ import PageLoader from "../../../components/ui/PageLoader";
 import ErrorPage from "../../../components/ui/PageError";
 import Loader from "../../../components/ui/Loader";
 import AverageRating from "./Rating";
+import Pagination from "../../../components/ui/Pagination";
+import { Link, useParams } from "react-router-dom";
 
 const ProviderServices = ({ user }) => {
+  const { id } = useParams();
   const { data, isLoading, isError, refetch } =
     useGetProviderServicesAndBookingsQuery({
       endpoint: `/admin/providers/${user?.id}/services?page=1`,
@@ -13,9 +16,9 @@ const ProviderServices = ({ user }) => {
 
   const services = data?.data?.data;
   const pagination = data?.data?.pagination;
-  console.log(services);
 
   if (isError) return <ErrorPage onRetry={refetch} />;
+
   return (
     <div className="bg-white rounded-[24px] p-6 lg:p-8 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-gray-50">
       <h3 className="text-[22px] font-bold text-gray-900 mb-6">
@@ -34,36 +37,40 @@ const ProviderServices = ({ user }) => {
             {services?.map((service) => {
               const reviews = service?.ratings;
               return (
-                <div className="w-full bg-[#F4F4F4] rounded-[16px] p-3 flex items-center gap-3">
-                  <div>
-                    <img
-                      src={service.images[0]}
-                      alt={`${service?.name} image`}
-                      wdith={66}
-                      height={66}
-                      className="w-[66px] h-[66px] max-w-[66px] max-h-[66px] object-cover rounded-[10px]"
-                    />
-                  </div>
+                <Link to={`/service-providers/${id}/services/${service?.id}`}>
+                  <div className="w-full bg-[#F4F4F4] rounded-[16px] p-3 flex items-center gap-3">
+                    <div>
+                      <img
+                        src={service.images[0]}
+                        alt={`${service?.name} image`}
+                        wdith={66}
+                        height={66}
+                        className="w-[66px] h-[66px] max-w-[66px] max-h-[66px] object-cover rounded-[10px]"
+                      />
+                    </div>
 
-                  <div className="w-full flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-semibold leading-none text-[15px]">
-                        {service?.name}
-                      </h4>
-                      <p className="text-sm text-[#18181899]">
-                        {service?.category}
-                      </p>
-                    </div>
-                    <div className="">
-                      <AverageRating reviews={reviews} />
+                    <div className="w-full flex items-start justify-between gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-semibold leading-none text-[15px]">
+                          {service?.name}
+                        </h4>
+                        <p className="text-sm text-[#18181899]">
+                          {service?.category}
+                        </p>
+                      </div>
+                      <div className="">
+                        <AverageRating reviews={reviews} />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
         </div>
       )}
+
+      <Pagination pagination={pagination} />
     </div>
   );
 };

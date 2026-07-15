@@ -8,6 +8,8 @@ import { userApi } from "../services/userApi/userApi";
 import { categoryApi } from "../services/categoryApi/categoryApi";
 import { reportApi } from "../services/reportApi/reportApi";
 import { dashboardApi } from "../services/dashboardApi/dashboardApi";
+import { serviceApi } from "../services/serviceApi/serviceApi";
+import { bookingApi } from "../services/bookingApi/bookingApi";
 
 const storage = createWebStorage("local");
 
@@ -25,6 +27,8 @@ const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [categoryApi.reducerPath]: categoryApi.reducer,
   [reportApi.reducerPath]: reportApi.reducer,
+  [serviceApi.reducerPath]: serviceApi.reducer,
+  [bookingApi.reducerPath]: bookingApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -43,6 +47,8 @@ export const store = configureStore({
       userApi.middleware,
       categoryApi.middleware,
       reportApi.middleware,
+      serviceApi.middleware,
+      bookingApi.middleware,
     ),
 });
 

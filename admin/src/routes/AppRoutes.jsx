@@ -12,6 +12,8 @@ import ServiceProviderDetailsPage from "../modules/service-provider/ServiceProvi
 import CategoriesPage from "../modules/categories/CategoriesPage";
 import ReportsPage from "../modules/reports/ReportsPage";
 import UserDetailsPage from "../modules/users/UserDetailsPage";
+import ServiceDetailsPage from "../modules/service-provider/components/ServiceDetails";
+import BookingDetailsPage from "../modules/service-provider/BookingDetailsPage";
 
 const AppRoutes = () => {
   return (
@@ -31,8 +33,16 @@ const AppRoutes = () => {
               element={<ServiceProvidersPage />}
             />
             <Route
-              path="/service-providers/details/:id"
+              path="/service-providers/:id"
               element={<ServiceProviderDetailsPage />}
+            />
+            <Route
+              path="/service-providers/:id/services/:serviceId"
+              element={<ServiceDetailsPage />}
+            />
+            <Route
+              path="/service-providers/:id/bookings/:bookingId"
+              element={<BookingDetailsPage />}
             />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/reports" element={<ReportsPage />} />

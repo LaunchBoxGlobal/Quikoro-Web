@@ -4,9 +4,10 @@ import { baseQuery } from "../baseQuery";
 export const reportApi = createApi({
   reducerPath: "reportApi",
   baseQuery,
+  tagTypes: ["Reports"],
 
   endpoints: (builder) => ({
-    // Get users
+    // Get reports
     getReports: builder.query({
       query: ({ search = "", page = 1, status }) => {
         const params = new URLSearchParams();
@@ -20,8 +21,24 @@ export const reportApi = createApi({
           method: "GET",
         };
       },
+
+      providesTags: ["Reports"],
+    }),
+
+    // Ban / Unban user
+    banUnbanReportedUser: builder.mutation({
+      query: ({ userId, isBanned }) => ({
+        url: `/admin/users/${userId}/ban`,
+        method: "PATCH", // Change if your API uses PUT/POST
+        body: {
+          isBanned,
+        },
+      }),
+
+      invalidatesTags: ["Reports"],
     }),
   }),
 });
 
-export const { useGetReportsQuery } = reportApi;
+export const { useGetReportsQuery, useBanUnbanReportedUserMutation } =
+  reportApi;

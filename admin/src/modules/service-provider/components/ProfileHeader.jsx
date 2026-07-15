@@ -5,10 +5,14 @@ import {
 } from "../../../services/userApi/userApi";
 import { enqueueSnackbar } from "notistack";
 import RejectAccountModal from "./RejectAccountModal";
+import DisableConfirmation from "./DisableConfirmation";
 
 const ProfileHeader = ({ user, id, refetch }) => {
   const [status, setStatus] = useState("");
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showDisableConfirmationModal, setShowDisableConfirmationModal] =
+    useState(false);
+  const [isSuccessful, setIsSuccessful] = useState(false);
 
   const [acceptRejectAccount, { isLoading: isApprovingAccount }] =
     useAcceptRejectAccountMutation();
@@ -40,21 +44,27 @@ const ProfileHeader = ({ user, id, refetch }) => {
 
   const handleBanUnbanUser = async () => {
     try {
-      await banUnbanUser({ id, data: { isBanned: !user?.isBlocked } }).unwrap();
+      await banUnbanUser({
+        id,
+        data: { isBanned: !user?.isBanned },
+      }).unwrap();
+
       refetch();
-      enqueueSnackbar("Account status has been updated", {
-        variant: "success",
-      });
+
+      return true;
     } catch (error) {
       enqueueSnackbar(
         error?.data?.error ||
           error?.data?.message ||
           "Something went wrong. Try again.",
-        { variant: "error" },
+        {
+          variant: "error",
+        },
       );
+
+      return false;
     }
   };
-
   return (
     <>
       <div className="bg-white rounded-[24px] p-6 lg:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between shadow-[0_2px_15px_-3px_rgba(0,0,0,0.05)] border border-gray-50 mb-6">
@@ -119,7 +129,9 @@ const ProfileHeader = ({ user, id, refetch }) => {
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
             <button
               type="button"
-              onClick={() => handleBanUnbanUser()}
+              onClick={() => {
+                setShowDisableConfirmationModal(true);
+              }}
               className="w-full sm:w-auto px-12 py-3.5 bg-[#EE5D5D] hover:bg-[#db5252] transition-colors text-white rounded-[14px] font-medium text-base shadow-sm"
             >
               {user?.isBanned ? "Enable" : "Disable"}
@@ -134,6 +146,14 @@ const ProfileHeader = ({ user, id, refetch }) => {
         id={id}
         refetch={refetch}
       />
+
+      {showDisableConfirmationModal && (
+        <DisableConfirmation
+          isBanned={user?.isBanned}
+          handleBanUnbanUser={handleBanUnbanUser}
+          onclose={() => setShowDisableConfirmationModal(false)}
+        />
+      )}
     </>
   );
 };

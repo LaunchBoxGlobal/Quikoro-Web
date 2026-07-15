@@ -12,10 +12,17 @@ import EmptyState from "../../../components/ui/EmptyState";
 import { FaUsersSlash } from "react-icons/fa";
 
 const ProvidersTable = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search");
   const page = searchParams.get("page") || 1;
-  const [status, setStatus] = useState("ALL");
+  const status = searchParams.get("status") || "ALL";
+
+  const handleTabChange = (tab) => {
+    const params = new URLSearchParams(searchParams);
+
+    params.set("status", tab);
+    setSearchParams(params);
+  };
 
   const { data, isLoading, isError, isFetching } = useGetUsersQuery(
     {
@@ -32,7 +39,6 @@ const ProvidersTable = () => {
   const users = data?.data?.data;
   const pagination = data?.data?.pagination;
 
-  // if (isLoading || isFetching) return <PageLoader />;
   if (isError) return <ErrorPage />;
 
   return (
@@ -44,14 +50,14 @@ const ProvidersTable = () => {
       ) : (
         <>
           {/* STATUS */}
-          <div className="w-full my-7 flex items-center gap-3">
+          <div className="w-full my-7 flex items-center gap-3 lg:gap-6">
             {ACCONUT_STATUSES.map((s) => {
               return (
                 <button
                   type="button"
                   key={s.key}
-                  onClick={() => setStatus(s?.key)}
-                  className={`font-medium ${status === s.key ? "gradient-text underline" : ""}`}
+                  onClick={() => handleTabChange(s?.key)}
+                  className={`font-medium text-sm lg:text-base ${status === s.key ? "gradient-text underline" : ""}`}
                 >
                   {s?.title}
                 </button>
@@ -123,7 +129,7 @@ const ProvidersTable = () => {
                           <td className="px-6 py-4">{user?.accountStatus}</td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <Link
-                              to={`/service-providers/details/${user?.id}`}
+                              to={`/service-providers/${user?.id}`}
                               className="gradient-text font-medium underline decoration-[#0084AA]"
                             >
                               View Details
