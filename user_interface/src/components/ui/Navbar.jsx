@@ -131,7 +131,7 @@ export default function Navbar() {
           {/* MOBILE MENU */}
           <button
             type="button"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setIsSidebarOpen(true)}
           >
             <Menu />

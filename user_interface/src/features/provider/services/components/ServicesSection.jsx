@@ -37,9 +37,9 @@ const ServicesSection = () => {
         <div className="mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <SectionTitle>My Services</SectionTitle>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap gap-y-6">
             <Search isLoading={isLoading} />
-            <div className="min-w-[175px]">
+            <div className="lg:min-w-[175px]">
               <Button
                 type="button"
                 text={`Add New Service`}

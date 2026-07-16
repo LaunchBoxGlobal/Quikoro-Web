@@ -116,7 +116,9 @@ export default function ChangePasswordPage() {
   return (
     <>
       <div className="w-full">
-        <h2 className="text-[32px] font-bold mb-5">Change Password</h2>
+        <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold mb-5">
+          Change Password
+        </h2>
 
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

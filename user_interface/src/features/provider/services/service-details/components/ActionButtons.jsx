@@ -53,14 +53,14 @@ export default function ActionButtons({ service }) {
         type="button"
         disabled={isLoading}
         onClick={() => handleDeleteService()}
-        className="flex-1 sm:flex-none rounded-xl bg-[#f05252] px-8 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-red-600"
+        className="flex-1 sm:flex-none rounded-xl bg-[#f05252] px-8 py-3.5 text-[15px] font-semibold text-center text-white transition-colors hover:bg-red-600"
       >
         {isLoading ? "Deleting..." : "Delete"}
       </button>
 
       <Link
         to={`/provider/my-services/edit-service/${service?.id}`}
-        className="flex-1 sm:flex-none rounded-xl gradient-bg px-8 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-black/90"
+        className="flex-1 sm:flex-none rounded-xl gradient-bg px-8 py-3.5 text-[15px] font-semibold text-center text-white transition-colors hover:bg-black/90"
       >
         Edit
       </Link>

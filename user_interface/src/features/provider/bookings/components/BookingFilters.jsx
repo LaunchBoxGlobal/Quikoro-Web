@@ -7,24 +7,8 @@ export default function BookingFilters({
   activeFilter,
   setActiveFilter,
 }) {
-  // ← no useSearchParams here anymore
-
-  // const activeFilter = searchParams.get("booking-status") || "all";
-
-  // const [activeFilter, setActiveFilter] = useState("");
-
-  const handleFilterChange = (query) => {
-    // const params = new URLSearchParams(searchParams);
-    // if (query === "all") {
-    //   params.delete("booking-status");
-    // } else {
-    //   params.set("booking-status", query);
-    // }
-    // setSearchParams(params);
-  };
-
   return (
-    <div className="mb-8 flex flex-wrap gap-3">
+    <div className="mb-8 flex gap-3 overflow-x-auto whitespace-nowrap lg:flex-wrap lg:overflow-visible hidden-scrollbar">
       {filters.map((filter) => {
         const isActive = activeFilter === filter.query;
 
@@ -33,7 +17,7 @@ export default function BookingFilters({
             key={filter.query}
             type="button"
             onClick={() => setActiveFilter(filter.query)}
-            className={`rounded-xl px-6 py-2.5 font-medium transition-colors text-[15px] ${
+            className={`shrink-0 rounded-xl px-6 py-2.5 font-medium transition-colors text-[15px] ${
               isActive
                 ? "gradient-bg text-white"
                 : "bg-[var(--gray-bg)] text-gray-600 hover:bg-gray-50"

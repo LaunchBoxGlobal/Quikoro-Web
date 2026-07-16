@@ -12,7 +12,7 @@ export default function ProfileCard({
     <div className="mb-6 rounded-[1.5rem] foreground p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
       <div className="flex items-center gap-6">
         <div className="rounded-full border-[1.5px] border-gray-900 p-1.5 shrink-0">
-          <div className="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-[#18181b]">
+          <div className="flex h-[64px] w-[64px] lg:h-[84px] lg:w-[84px] items-center justify-center rounded-full bg-[#18181b]">
             {profile?.profilePicture ? (
               <img
                 src={profile?.profilePicture}
@@ -26,7 +26,7 @@ export default function ProfileCard({
         </div>
 
         <div className="flex flex-col justify-center">
-          <h1 className="text-[28px] font-bold tracking-tight text-gray-900 mb-0.5 leading-none">
+          <h1 className="text-[24px] lg:text-[28px] font-bold tracking-tight text-gray-900 mb-0.5 leading-none">
             {profile?.fullName}
           </h1>
           {profile?.role === "CUSTOMER" ? (

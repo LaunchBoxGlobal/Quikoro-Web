@@ -37,7 +37,7 @@ export default function ServiceTopSection({ service }) {
         {/* Top */}
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
           <div>
-            <h2 className="mb-2 text-[28px] lg:text-[32px] font-bold tracking-tight text-gray-900">
+            <h2 className="mb-2 text-[24px] md:text-[28px] lg:text-[32px] font-bold tracking-tight text-gray-900">
               {service?.name}
             </h2>
 

@@ -83,7 +83,7 @@ export default function ReportBugPage() {
   return (
     <>
       <div>
-        <h2 className="text-[22px] md:text-[28px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-5 leading-none">
+        <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-5 leading-none">
           Report A Bug
         </h2>
 

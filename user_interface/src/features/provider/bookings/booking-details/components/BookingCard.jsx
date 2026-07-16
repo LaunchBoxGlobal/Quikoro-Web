@@ -51,7 +51,7 @@ export default function BookingCard({ booking }) {
               {/* Right Content */}
               <div className="flex flex-1 flex-col justify-center">
                 {/* Top */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                <div className="flex items-center justify-between flex-wrap gap-4">
                   <div>
                     <Link to={`/user/profile/${userId}`}>
                       <h2 className="mb-1 text-[28px] font-bold tracking-tight text-gray-900">
@@ -64,7 +64,7 @@ export default function BookingCard({ booking }) {
 
                   <div className="flex flex-row-reverse sm:flex-row items-center sm:items-start justify-end gap-6 sm:gap-8">
                     <div
-                      className={`rounded-xl px-6 py-2.5 text-sm font-semibold ${currentStatus.bg} ${currentStatus.text}`}
+                      className={`rounded-xl px-3 md:px-6 py-2.5 text-xs md:text-sm font-semibold ${currentStatus.bg} ${currentStatus.text}`}
                     >
                       {booking?.status?.replaceAll("_", " ")}
                     </div>

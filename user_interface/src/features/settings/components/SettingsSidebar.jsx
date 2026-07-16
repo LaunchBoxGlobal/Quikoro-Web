@@ -11,7 +11,7 @@ export default function SettingsSidebar({ activeTab, setActiveTab }) {
             onClick={() => setActiveTab(item.value)}
             className={`whitespace-nowrap rounded-xl px-5 py-3 text-[15px] font-medium transition-colors ${
               activeTab === item.value
-                ? "bg-black text-white"
+                ? "gradient-bg text-white"
                 : "bg-white text-gray-500"
             }`}
           >

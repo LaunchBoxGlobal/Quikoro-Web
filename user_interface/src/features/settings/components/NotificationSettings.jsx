@@ -51,7 +51,7 @@ export default function NotificationSettings() {
 
   return (
     <div>
-      <h2 className="text-[28px] md:text-[30px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-5">
+      <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold text-gray-900 tracking-tight mb-5">
         Notification
       </h2>
 
@@ -72,7 +72,7 @@ export default function NotificationSettings() {
             disabled={isLoading}
             onClick={toggleNotification}
             className={`relative w-[52px] h-[28px] rounded-full transition-colors flex items-center shrink-0 ${
-              notificationEnabled ? "bg-black" : "bg-gray-300"
+              notificationEnabled ? "gradient-bg" : "bg-gray-300"
             } ${isLoading ? "opacity-60 cursor-not-allowed" : ""}`}
           >
             <div

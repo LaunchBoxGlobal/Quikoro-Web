@@ -16,7 +16,7 @@ export default function Sidebar({ isOpen, onClose, navLinks }) {
 
       {/* SIDEBAR */}
       <aside
-        className={`fixed top-0 right-0 h-full w-[70%] bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-[70%] md:w-[40%] bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

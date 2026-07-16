@@ -7,12 +7,6 @@ const CategoryTabs = ({ activeTab, setActiveTab }) => {
   const { data, isLoading, isError } = useGetCategoriesQuery();
   const categories = data?.data;
 
-  // useEffect(() => {
-  //   if (categories && categories?.length > 0) {
-  //     setActiveTab(categories[0].name);
-  //   }
-  // }, [data]);
-
   if (!categories || categories?.length === 0) return;
 
   return (

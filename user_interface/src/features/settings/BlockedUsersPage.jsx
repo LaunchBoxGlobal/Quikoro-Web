@@ -79,7 +79,9 @@ const BlockedUsersPage = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-[32px] font-bold mb-5">Blocked Users</h2>
+      <h2 className="text-[24px] md:text-[28px] lg:text-[32px] font-bold mb-5">
+        Blocked Users
+      </h2>
 
       {users.length === 0 ? (
         <div className="text-center py-10 text-gray-500">
