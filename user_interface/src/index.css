@@ -50,6 +50,10 @@
   @apply bg-gradient-to-tr to-[#2C5E55] from-[#102423];
 }
 
+.gradient-text {
+  @apply bg-gradient-to-tr from-[#102423] to-[#2C5E55] bg-clip-text text-transparent;
+}
+
 .page-title {
   @apply text-[42px] font-bold leading-none;
 }

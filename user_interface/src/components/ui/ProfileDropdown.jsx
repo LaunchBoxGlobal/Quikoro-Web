@@ -106,7 +106,7 @@ const ProfileDropdown = () => {
 
       {/* DROPDOWN */}
       {openDropdown && (
-        <div className="absolute right-0 top-[72px] w-[240px] rounded-[20px] bg-[#fff] custom-shadow overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-0 top-[40px] lg:top-[72px] w-[240px] rounded-[20px] bg-[#fff] custom-shadow overflow-hidden z-50 animate-in fade-in zoom-in-95 duration-200">
           {/* LINKS */}
           {profileLinks.map((item, index) => (
             <button

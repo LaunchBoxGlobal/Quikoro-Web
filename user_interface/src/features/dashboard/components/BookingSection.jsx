@@ -8,6 +8,7 @@ import BookingFilters from "../../provider/bookings/components/BookingFilters";
 import { useState } from "react";
 import { BiError } from "react-icons/bi";
 import Error from "../../../components/ui/Error";
+import { useSelector } from "react-redux";
 
 export default function BookingSection() {
   const navigate = useNavigate();

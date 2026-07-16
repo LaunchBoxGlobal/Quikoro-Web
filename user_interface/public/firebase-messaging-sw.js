@@ -23,7 +23,7 @@ const messaging = firebase.messaging();
 
 // This handles background messages
 messaging.onBackgroundMessage(async (payload) => {
-  console.log("Background payload", payload);
+  // console.log("Background payload", payload);
 
   try {
     await self.registration.showNotification(
@@ -33,8 +33,6 @@ messaging.onBackgroundMessage(async (payload) => {
         // icon: "/notification-icon.png",
       },
     );
-
-    console.log("Notification shown successfully");
   } catch (err) {
     console.error("showNotification failed", err);
   }

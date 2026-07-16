@@ -173,14 +173,14 @@ const LocationPickerInner = ({ onConfirm, onClose, submitting }) => {
   };
 
   return (
-    <div className="w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-0 mt-2 min-h-[300px]">
+    <div className="w-full md:w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-1/2 -translate-x-1/2 mt-2 min-h-[300px]">
       <div className="flex items-center justify-between mb-3">
         <p className="font-semibold">Set Your Location</p>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="text-gray-400 hover:text-gray-600 text-sm"
+          className="text-gray-700 text-sm"
         >
           ✕
         </button>
@@ -258,25 +258,12 @@ const LocationPickerInner = ({ onConfirm, onClose, submitting }) => {
   );
 };
 
-/**
- * Public component. Wraps everything in APIProvider so this file is
- * fully self-contained and drop-in compatible with how you're using it now.
- *
- * Usage:
- *   <LocationPicker
- *     onConfirm={(payload) => {
- *       // payload = { latitude, longitude, location }
- *       // call your update-profile API here
- *     }}
- *   />
- */
 const LocationPicker = ({ onConfirm, onClose, submitting }) => {
   if (!GOOGLE_MAPS_API_KEY) {
     return (
-      <div className="w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-0 mt-2 min-h-[300px]">
+      <div className="w-full md:w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-4 md:left-0 mt-2 min-h-[300px]">
         <p className="text-sm text-red-500">
-          Missing VITE_GOOGLE_MAPS_API_KEY — add it to your .env file and
-          restart the dev server.
+          Something wnet wrong. Please try again after reloading the page.
         </p>
       </div>
     );

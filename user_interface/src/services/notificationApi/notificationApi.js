@@ -9,13 +9,20 @@ export const notificationApi = createApi({
   endpoints: (builder) => ({
     // Get notifications
     getNotifications: builder.query({
-      query: () => ({
-        url: "notifications",
-        method: "GET",
-      }),
+      query: ({ page = 1 }) => {
+        const params = new URLSearchParams();
+
+        params.append("page", page);
+
+        return {
+          url: `notifications?${params.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["Notifications"],
     }),
   }),
 });
 
-export const { useGetNotificationsQuery } = notificationApi;
+export const { useGetNotificationsQuery, useLazyGetNotificationsQuery } =
+  notificationApi;

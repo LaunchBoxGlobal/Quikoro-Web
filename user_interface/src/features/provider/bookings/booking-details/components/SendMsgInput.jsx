@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Send } from "../../../../../assets/export";
 import { Image, Mic, Trash2, Check } from "lucide-react";
 
@@ -23,6 +23,18 @@ const SendMsgInput = ({
   cancelRecording,
   handleSendVoiceMessage,
 }) => {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
   return (
     <div className="p-4">
       <div className="bg-[var(--gray-bg)] rounded-full pl-5 pr-2 py-2 flex items-center gap-2">
@@ -54,7 +66,9 @@ const SendMsgInput = ({
           <>
             <input
               value={message}
+              ref={inputRef}
               onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
               placeholder="Message..."
               className="flex-1 bg-transparent outline-none"
             />

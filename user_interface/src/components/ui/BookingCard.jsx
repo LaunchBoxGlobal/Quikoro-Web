@@ -1,14 +1,24 @@
 import { User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { formatDate } from "../../utils/formatDate";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatBookingStatus } from "../../utils/formatBookingStatus";
+import { clearBookingNotifications } from "../../slices/notificationSlice";
 
 export default function BookingCard({ booking }) {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+  const notificationCount = useSelector(
+    (state) => state.chatNotifications.bookings[booking?.id]?.length || 0,
+  );
 
   return (
-    <Link to={`/booking-history/${booking?.id}`}>
+    <Link
+      to={`/booking-history/${booking?.id}`}
+      onClick={() => {
+        dispatch(clearBookingNotifications(booking.id));
+      }}
+    >
       <div className="rounded-2xl bg-[var(--gray-bg)] p-6 shadow-sm">
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
@@ -54,12 +64,15 @@ export default function BookingCard({ booking }) {
 
         <p className="text-gray-500 text-[15px]">{booking?.service?.name}</p>
 
-        <div className="mt-2 flex items-center gap-2 text-[15px] text-gray-500">
+        <div className="mt-2 flex items-center justify-between gap-2 text-[15px] text-gray-500">
           <span>{formatDate(booking?.scheduledAt)}</span>
 
-          {/* <span className="text-gray-400">•</span>
-
-          <span>{booking.time}</span> */}
+          {notificationCount > 0 && (
+            <span className="flex min-w-[20px] px-1.5 md:px-3 py-1 md:py-1.5 items-center justify-center rounded-md bg-red-500 text-xs font-semibold text-white animate-pulse">
+              New {notificationCount > 1 ? "Messages" : "Message"}{" "}
+              {notificationCount}
+            </span>
+          )}
         </div>
       </div>
     </Link>

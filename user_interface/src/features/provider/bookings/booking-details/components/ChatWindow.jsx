@@ -63,16 +63,14 @@ const ChatWindow = ({ setOpenChat, booking }) => {
 
   // SOCKET
   useEffect(() => {
-    socket.connect();
-    socket.on("connect", () => {
-      console.log("CONNECTED", socket.id);
-    });
+    if (!socket.connected) return;
 
     socket.emit("join-conversation", {
       bookingId: id,
     });
 
-    socket.on("new-message", (msg) => {
+    const handleNewMessage = (msg) => {
+      // console.log("NEW MESSAGE >>> ", msg);
       const normalized = {
         id: msg.message?.id,
         message: msg.message?.message,
@@ -87,11 +85,16 @@ const ChatWindow = ({ setOpenChat, booking }) => {
         ...prev,
         today: [...(prev.today || []), normalized],
       }));
-    });
+    };
+
+    socket.on("new-message", handleNewMessage);
 
     return () => {
-      socket.off("new-message");
-      socket.disconnect();
+      socket.off("new-message", handleNewMessage);
+
+      socket.emit("leave-conversation", {
+        bookingId: id,
+      });
     };
   }, [id]);
 

@@ -15,6 +15,7 @@ import Cookies from "js-cookie";
 import { setToken } from "../../../../hooks/useSetToken";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../services/userService/userSlice";
+import { socket } from "../../../../socket";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -33,6 +34,10 @@ const LoginForm = () => {
         Cookies.set("accessToken", result?.data?.accessToken);
         const user = result?.data?.user;
         dispatch(setUser(user));
+        // socket.connect();
+        // socket.on("connect", () => {
+        //   console.log("CONNECTED", socket.id);
+        // });
 
         if (!user?.isProfileCompleted) {
           navigate("/complete-profile");
@@ -46,7 +51,6 @@ const LoginForm = () => {
           ["PENDING", "SUBMITTED", "REJECTED"].includes(user.accountStatus)
         ) {
           navigate("/account");
-
           return;
         }
 
