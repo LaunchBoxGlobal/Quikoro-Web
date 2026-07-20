@@ -8,6 +8,7 @@ import ErrorPage from "../../../components/ui/PageError";
 import Loader from "../../../components/ui/Loader";
 import ProviderBookingsTable from "./ProviderBookingsTable";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "../../../components/ui/Pagination";
 
 const ProviderBookings = ({ user }) => {
   const [searchParams] = useSearchParams();
@@ -16,12 +17,17 @@ const ProviderBookings = ({ user }) => {
   const [search, setSearch] = useState("");
 
   const { data, isLoading, isError, refetch, isFetching } =
-    useGetProviderBookingsQuery({
-      providerId: user?.id,
-      page,
-      status,
-      search,
-    });
+    useGetProviderBookingsQuery(
+      {
+        providerId: user?.id,
+        page,
+        status,
+        search,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
   const bookings = data?.data?.data;
   const pagination = data?.data?.pagination;
 
@@ -48,6 +54,8 @@ const ProviderBookings = ({ user }) => {
           setPage={setPage}
         />
       )}
+
+      <Pagination pagination={pagination} />
     </div>
   );
 };
