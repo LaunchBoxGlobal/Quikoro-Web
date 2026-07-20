@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../../../components/ui/Input";
 import Button from "../../../../components/ui/Button";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ import {
   CountrySelect,
   StateSelect,
   CitySelect,
+  GetCountries,
+  GetState,
 } from "react-country-state-city";
 import "react-country-state-city/dist/react-country-state-city.css";
 import { selectClassName } from "../../../../utils/selectClassName";
@@ -48,10 +50,10 @@ const CompleteProfileForm = () => {
   const [previewImages, setPreviewImages] = useState([]);
   const [completeProfile, { isLoading }] = useCompleteProfileMutation();
   const dispatch = useDispatch();
-  const signupData = useSelector((state) => state.signup);
-  const [preview, setPreview] = useState(null);
-  const user = useSelector((state) => state);
-  // console.log("USER >>> ", user.user.user);
+  const user = useSelector((state) => state?.user?.user);
+  const signupData = user;
+  const [preview, setPreview] = useState(signupData?.profilePicture || null);
+  console.log(signupData);
 
   const { data, refetch } = useGetUserProfileQuery();
   const { data: categoriesData } = useGetCategoriesQuery();
@@ -63,20 +65,50 @@ const CompleteProfileForm = () => {
       id: category.id,
     })) || [];
 
+  useEffect(() => {
+    async function loadLocationIds() {
+      const countries = await GetCountries();
+
+      const country = countries.find((c) => c.name === signupData.country);
+
+      if (!country) return;
+
+      formik.setFieldValue("countryId", country.id);
+
+      const states = await GetState(country.id);
+
+      const state = states.find((s) => s.name === signupData.state);
+
+      if (!state) return;
+
+      formik.setFieldValue("stateId", state.id);
+
+      formik.setFieldValue("country", signupData.country);
+      formik.setFieldValue("state", signupData.state);
+      formik.setFieldValue("city", signupData.city);
+    }
+
+    if (signupData) {
+      loadLocationIds();
+    }
+  }, [signupData]);
+
   const formik = useFormik({
     initialValues: {
       ...initialValues,
-
+      profilePicture: signupData?.profilePicture || null,
       fullName: signupData?.fullName || "",
       email: signupData?.email || "",
-
-      // phoneNumber: signupData?.phoneNumber || "",
-      streetAddress: signupData?.address || "",
+      streetAddress: signupData?.streetAddress || "",
       description: signupData?.description || "",
+      zipCode: signupData?.zipCode || "",
+      dateOfBirth: signupData?.dateOfBirth || "",
+      yearsOfExperience: signupData?.yearsOfExperience || "",
+      speciality: signupData?.speciality || null,
+      gender: signupData?.gender || "",
+      country: signupData?.country || "",
     },
-
     enableReinitialize: true,
-
     validateOnBlur: true,
     validateOnChange: false,
     validationSchema,
@@ -86,10 +118,12 @@ const CompleteProfileForm = () => {
         Object.keys(values).forEach((key) => {
           const value = values[key];
 
-          if (
-            key === "profilePicture" &&
-            (!value || !(value instanceof File))
-          ) {
+          if (key === "profilePicture") {
+            if (value instanceof File) {
+              formData.append("profilePicture", value);
+            } else if (typeof value === "string") {
+              formData.append("profilePicture", value);
+            }
             return;
           }
 
@@ -105,6 +139,12 @@ const CompleteProfileForm = () => {
           dispatch(clearSignupData());
           refetch();
         } else {
+          if (signupData?.accountStatus === "REJECTED") {
+            navigate("/account");
+            dispatch(clearSignupData());
+            refetch();
+            return;
+          }
           navigate("/provider/identity-verification");
           dispatch(clearSignupData());
           refetch();
@@ -178,8 +218,8 @@ const CompleteProfileForm = () => {
             label="Email Address"
             name="email"
             type="email"
-            // disabled={true}
-            disabled={user && user?.isProfileCompleted}
+            disabled={true}
+            // disabled={user && user?.isProfileCompleted}
             placeholder="Enter your email"
             value={formik.values.email}
             onChange={handleChange}

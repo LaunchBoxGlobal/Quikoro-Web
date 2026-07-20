@@ -12,7 +12,7 @@ const ImageModal = ({
       onClick={closePreview}
     >
       <div
-        className="relative max-w-[90vw] max-h-[90vh]"
+        className="relative w-full max-w-[90vw] max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -25,7 +25,7 @@ const ImageModal = ({
         <img
           src={previewImages[activeIndex]}
           alt=""
-          className="max-h-[85vh] max-w-[90vw] rounded-lg"
+          className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain mx-auto"
         />
 
         {previewImages?.length > 1 && (

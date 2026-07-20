@@ -23,6 +23,34 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
+  // Shared by both email/password login and Google login — same post-auth routing rules either way
+  const handleAuthSuccess = (user, accessToken) => {
+    Cookies.set("accessToken", accessToken);
+    dispatch(setUser(user));
+
+    if (!user?.isProfileCompleted) {
+      navigate("/complete-profile");
+      return;
+    }
+
+    // blocked provider states
+    if (
+      user?.role === "PROVIDER" &&
+      ["PENDING", "SUBMITTED", "REJECTED"].includes(user.accountStatus)
+    ) {
+      navigate("/account");
+      return;
+    }
+
+    // approved provider
+    if (user?.role === "PROVIDER" && user?.accountStatus === "ACTIVE") {
+      navigate("/");
+      return;
+    }
+
+    navigate("/");
+  };
+
   const formik = useFormik({
     initialValues,
     validateOnBlur: true,
@@ -31,38 +59,7 @@ const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         const result = await login(values).unwrap();
-        Cookies.set("accessToken", result?.data?.accessToken);
-        const user = result?.data?.user;
-        dispatch(setUser(user));
-        // socket.connect();
-        // socket.on("connect", () => {
-        //   console.log("CONNECTED", socket.id);
-        // });
-
-        if (!user?.isProfileCompleted) {
-          navigate("/complete-profile");
-
-          return;
-        }
-
-        // blocked provider states
-        if (
-          user?.role === "PROVIDER" &&
-          ["PENDING", "SUBMITTED", "REJECTED"].includes(user.accountStatus)
-        ) {
-          navigate("/account");
-          return;
-        }
-
-        // approved provider
-        if (user?.role === "PROVIDER" && user?.accountStatus === "ACTIVE") {
-          navigate("/");
-
-          return;
-        }
-
-        // buyers
-        navigate("/");
+        handleAuthSuccess(result?.data?.user, result?.data?.accessToken);
       } catch (error) {
         setApiError(
           error.data?.error ||
@@ -159,10 +156,10 @@ const LoginForm = () => {
 
       <div className="w-full space-y-3">
         {/* <AppleButton /> */}
-        <GoogleButton />
+        <GoogleButton onSuccess={handleAuthSuccess} onError={setApiError} />
       </div>
 
-      <div className="w-full flex items-center justify-center gap-1 text-xs font-medium">
+      <div className="w-full flex items-center justify-center gap-1 text-sm font-medium pt-4">
         <p className="text-[var(--secondary)]">Don’t have an account?</p>
         <Link to={`/choose-role`} className="font-semibold">
           Create Now

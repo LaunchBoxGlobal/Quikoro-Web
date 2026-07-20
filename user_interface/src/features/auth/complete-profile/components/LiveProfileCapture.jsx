@@ -194,8 +194,8 @@ const LiveProfileCapture = ({
 
       {/* Camera Modal */}
       {cameraOpen && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-4 w-full max-w-[70%] flex flex-col items-center justify-center gap-4 min-h-[80vh]">
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
+          <div className="bg-[rgba(0,0,0,0.5)] rounded-2xl p-4 w-full flex flex-col items-center justify-center gap-4 min-h-[100vh]">
             <h2 className="text-lg font-semibold">Take a Selfie</h2>
 
             {/* Live Camera */}

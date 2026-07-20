@@ -1,17 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
-import { formatMessageTime } from "../../../../../utils/formatMessageTime";
 import ImageModal from "./ImageModal";
+import MessageItem from "./MessageItem";
 
-const MessagesList = ({ messages, user }) => {
+const MessagesList = ({ messages, user, chatUser }) => {
   const [previewImages, setPreviewImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const messagesEndRef = useRef(null);
+
+  const messagesContainerRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-    });
+    const scrollToBottom = () => {
+      const container = messagesContainerRef.current;
+
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    };
+
+    // Initial scroll
+    scrollToBottom();
+
+    // Scroll again after images/audio/media have loaded
+    const timer = setTimeout(scrollToBottom, 300);
+
+    return () => clearTimeout(timer);
   }, [messages]);
 
   const openPreview = (images, index) => {
@@ -26,83 +38,36 @@ const MessagesList = ({ messages, user }) => {
 
   return (
     <>
-      <div className="flex-1 overflow-y-auto p-5 space-y-4 notifications-scroll">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-0 space-y-4 notifications-scroll bg-gray-100"
+      >
         {Object.entries(messages).map(([date, dateMessages]) => (
           <div key={date}>
-            <div className="flex justify-center my-4">
-              <span className="bg-gray-200 px-3 py-1 rounded-full text-xs">
+            <div className="flex justify-center my-5">
+              <span className="gradient-bg text-white custom-shadow font-medium px-3 py-1.5 rounded-lg text-xs">
                 {date.slice(0, 1).toUpperCase() + date.slice(1)}
               </span>
             </div>
 
             {dateMessages?.map((item) => {
               const isMe = item.senderId === user?.id;
-              const message = item?.message;
 
               return (
-                <div
+                <MessageItem
                   key={item.id}
-                  className={`flex ${
-                    isMe ? "justify-end" : "justify-start"
-                  } mb-2`}
-                >
-                  <div
-                    className={`px-4 py-3 max-w-[75%] space-y-1 ${
-                      isMe
-                        ? "gradient-bg text-white rounded-l-2xl rounded-tr-2xl"
-                        : "bg-gray-100 rounded-r-2xl rounded-tl-2xl"
-                    }`}
-                  >
-                    {item?.media?.length > 0 &&
-                      item.media.map((mediaUrl, i) => {
-                        return (
-                          <div key={i}>
-                            {item.type === "IMAGE" && (
-                              <img
-                                src={mediaUrl}
-                                alt=""
-                                onClick={() => openPreview(item.media, i)}
-                                className="max-w-[150px] cursor-pointer"
-                              />
-                            )}
-
-                            {item.type === "AUDIO" && (
-                              <audio controls>
-                                <source src={mediaUrl} />
-                              </audio>
-                            )}
-
-                            {item.type === "VIDEO" && (
-                              <video controls width="250">
-                                <source src={mediaUrl} />
-                              </video>
-                            )}
-                          </div>
-                        );
-                      })}
-
-                    {message && <p>{message}</p>}
-
-                    {item?.createdAt && (
-                      <p
-                        className={`text-[10px] ${
-                          isMe ? "text-end" : "text-start"
-                        }`}
-                      >
-                        {formatMessageTime(item.createdAt)}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  item={item}
+                  isMe={isMe}
+                  openPreview={openPreview}
+                  user={user}
+                  chatUser={chatUser}
+                />
               );
             })}
           </div>
         ))}
-
-        <div ref={messagesEndRef} />
       </div>
 
-      {/* Modal */}
       {previewImages.length > 0 && (
         <ImageModal
           closePreview={closePreview}

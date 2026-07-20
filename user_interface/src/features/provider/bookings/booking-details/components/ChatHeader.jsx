@@ -9,7 +9,7 @@ const ChatHeader = ({ setOpenChat, chatUser }) => {
           <img
             src={chatUser?.profilePicture}
             alt={`${chatUser?.fullName} profile picture`}
-            className="w-12 h-12 rounded-full object-cover"
+            className="w-12 h-12 rounded-full object-cover border-2 border-gray-300"
           />
         ) : (
           <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">

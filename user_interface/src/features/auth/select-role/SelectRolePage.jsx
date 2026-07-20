@@ -146,7 +146,7 @@ export default function SelectRolePage() {
         </div>
 
         <div className="text-center">
-          <span className="text-[15px] text-gray-800">
+          <span className="text-sm text-[var(--secondary)]">
             Already have an account?{" "}
           </span>
           <Link

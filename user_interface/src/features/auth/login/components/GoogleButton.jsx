@@ -1,31 +1,47 @@
 import React from "react";
-import { GoogleIcon } from "../../../../assets/export";
-import { useGoogleLoginMutation } from "../../../../services/authApi/authApi";
-import { setToken } from "../../../../hooks/useSetToken";
+import { GoogleLogin } from "@react-oauth/google";
+import { useLoginMutation } from "../../../../services/authApi/authApi";
+import { useSelector } from "react-redux";
 
-const GoogleButton = () => {
-  const [googleLogin] = useGoogleLoginMutation();
+const GoogleButton = ({ onSuccess, onError }) => {
+  const [login] = useLoginMutation();
+  const signupData = useSelector((state) => state.signup);
 
-  const handleGoogleLogin = async () => {
-    // Mock Google ID token - integrate real Google Sign In SDK
-    const mockIdToken = "mock-google-id-token";
+  const handleGoogleSuccess = async (credentialResponse) => {
     try {
-      const result = await googleLogin({ idToken: mockIdToken }).unwrap();
-      setToken(result);
+      // TODO: confirm the token field name against your /auth/login "Google login"
+      // example in Swagger — using idToken as a placeholder for now.
+      const result = await login({
+        authType: "GOOGLE",
+        idToken: credentialResponse.credential,
+        role: signupData ? signupData?.role : "",
+      }).unwrap();
+
+      onSuccess(result?.data?.user, result?.data?.accessToken);
     } catch (error) {
-      console.error("Google login failed:", error);
-      alert("Google login failed");
+      onError(
+        error?.data?.error ||
+          error?.data?.message ||
+          error?.message ||
+          "Google login failed. Please try again.",
+      );
     }
   };
 
   return (
-    <button
-      onClick={handleGoogleLogin}
-      className="w-full h-[48px] bg-[#fff] rounded-[12px] flex items-center justify-center gap-2"
-    >
-      <img src={GoogleIcon} alt="google icon" width={20} height={20} />
-      <span className="text-[13px] font-medium">Continue with Google</span>
-    </button>
+    <div className="w-full flex justify-center">
+      <GoogleLogin
+        onSuccess={handleGoogleSuccess}
+        onError={() => onError("Google login failed. Please try again.")}
+        theme="none"
+        size="large"
+        shape="rectangular"
+        text="continue_with"
+        width="250"
+        logo_alignment="center"
+        border_radius="rounded"
+      />
+    </div>
   );
 };
 

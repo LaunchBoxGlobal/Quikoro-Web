@@ -36,8 +36,8 @@ const SendMsgInput = ({
     }
   };
   return (
-    <div className="p-4">
-      <div className="bg-[var(--gray-bg)] rounded-full pl-5 pr-2 py-2 flex items-center gap-2">
+    <div className="px-4 pb-4 pt-4 bg-gray-100">
+      <div className="bg-white rounded-full pl-5 pr-2 py-2 flex items-center gap-2">
         {isRecording ? (
           // ===== RECORDING UI (WhatsApp style) =====
           <>
@@ -70,7 +70,7 @@ const SendMsgInput = ({
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Message..."
-              className="flex-1 bg-transparent outline-none"
+              className="flex-1 bg-white outline-none"
             />
             <input
               ref={fileRef}

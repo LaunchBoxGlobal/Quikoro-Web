@@ -35,7 +35,6 @@ const VerifyOtp = () => {
   const signupData = useSelector((state) => state.signup);
   const dispatch = useDispatch();
   const [resendError, setResendError] = useState("");
-  console.log("signupData >> ", signupData);
 
   const [resendOtp, { isLoading: isResending }] = useRegisterMutation();
 
@@ -83,8 +82,8 @@ const VerifyOtp = () => {
 
       const res = await verifyOtp(payload).unwrap();
       Cookies.set("accessToken", res?.data?.accessToken);
-      // dispatch(setUser(res?.data?.user));
-      // dispatch(clearSignupData());
+      dispatch(setUser(res?.data?.user));
+      dispatch(clearSignupData());
       setError("");
       setShowModal(true);
     } catch (error) {

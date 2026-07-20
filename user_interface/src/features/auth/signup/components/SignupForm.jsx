@@ -11,7 +11,9 @@ import { useRegisterMutation } from "../../../../services/authApi/authApi";
 import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { setSignupData } from "../../../../services/authApi/authSlice";
+import { setUser } from "../../../../services/userService/userSlice";
 import Cookies from "js-cookie";
+import GoogleButton from "../../login/components/GoogleButton";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -20,6 +22,14 @@ const SignupForm = () => {
 
   const dispatch = useDispatch();
   const signupData = useSelector((state) => state.signup);
+
+  // Google already verified the email, so there's no OTP step here —
+  // the account is created and the session starts immediately.
+  const handleGoogleSuccess = (user, accessToken) => {
+    Cookies.set("accessToken", accessToken);
+    dispatch(setUser(user));
+    navigate("/complete-profile");
+  };
 
   const formik = useFormik({
     initialValues,
@@ -133,7 +143,15 @@ const SignupForm = () => {
         <div className="w-full border border-gray-300" />
       </div>
 
-      <div className="w-full flex items-center justify-center gap-1 text-xs font-medium">
+      <div className="w-full space-y-3">
+        <GoogleButton
+          mode="signup"
+          onSuccess={handleGoogleSuccess}
+          onError={setApiError}
+        />
+      </div>
+
+      <div className="w-full flex items-center justify-center gap-1 text-sm font-medium pt-4">
         <p className="text-[var(--secondary)]">Already have an account?</p>
         <Link to={`/login`} className="font-semibold">
           Login Now
