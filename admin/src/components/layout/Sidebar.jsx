@@ -2,16 +2,26 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { SIDEBAR_LINKS } from "../../constants/sidebar";
 import Cookies from "js-cookie";
+import { useLogoutUserMutation } from "../../services/authApi/authApi";
+import { enqueueSnackbar } from "notistack";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [logoutUser, { isLoading }] = useLogoutUserMutation();
 
   const navigateToLink = (link, name) => {
     navigate(link);
   };
 
   const handleLogout = async () => {
+    try {
+      await logoutUser().unwrap();
+    } catch (error) {
+      enqueueSnackbar("Failed to log out. Try again.", {
+        variant: "error",
+      });
+    }
     Cookies.remove("adminToken");
     Cookies.remove("adminData");
     navigate("/login");

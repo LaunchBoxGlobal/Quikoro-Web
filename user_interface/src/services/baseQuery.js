@@ -41,9 +41,9 @@ export const baseQuery = async (args, api, extraOptions) => {
 
     localStorage.removeItem("persist:user");
 
-    enqueueSnackbar("Session expired. Login again.", {
-      variant: "error",
-    });
+    // enqueueSnackbar("Session expired. Login again.", {
+    //   variant: "error",
+    // });
 
     window.location.replace("/login");
   }

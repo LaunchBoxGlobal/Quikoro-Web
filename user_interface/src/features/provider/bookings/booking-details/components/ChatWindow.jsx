@@ -12,6 +12,90 @@ import SendMsgInput from "./SendMsgInput";
 import ChatHeader from "./ChatHeader";
 import FilePreview from "./FilePreview";
 import MessagesList from "./MessagesList";
+import { enqueueSnackbar } from "notistack";
+
+// ===== VOICE RECORDING HELPERS =====
+// Record in whatever format the browser prefers, then ALWAYS convert to
+// 16kHz mono WAV — the one format iOS, Android, and web all decode reliably.
+// (Chrome's audio/mp4 is fragmented MP4 → silent on Android MediaPlayer;
+//  webm/opus → unplayable on iOS. WAV sidesteps both.)
+
+const VOICE_SAMPLE_RATE = 16000;
+
+const audioBufferToWav = (buffer) => {
+  const numCh = buffer.numberOfChannels;
+  const sampleRate = buffer.sampleRate;
+  const numFrames = buffer.length;
+  const bytesPerSample = 2;
+  const dataSize = numFrames * numCh * bytesPerSample;
+  const arrayBuffer = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(arrayBuffer);
+
+  const writeStr = (offset, str) => {
+    for (let i = 0; i < str.length; i++) {
+      view.setUint8(offset + i, str.charCodeAt(i));
+    }
+  };
+
+  writeStr(0, "RIFF");
+  view.setUint32(4, 36 + dataSize, true);
+  writeStr(8, "WAVE");
+  writeStr(12, "fmt ");
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true); // PCM
+  view.setUint16(22, numCh, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * numCh * bytesPerSample, true);
+  view.setUint16(32, numCh * bytesPerSample, true);
+  view.setUint16(34, 16, true);
+  writeStr(36, "data");
+  view.setUint32(40, dataSize, true);
+
+  let offset = 44;
+  for (let frame = 0; frame < numFrames; frame++) {
+    for (let ch = 0; ch < numCh; ch++) {
+      let sample = buffer.getChannelData(ch)[frame];
+      sample = Math.max(-1, Math.min(1, sample));
+      view.setInt16(
+        offset,
+        sample < 0 ? sample * 0x8000 : sample * 0x7fff,
+        true,
+      );
+      offset += bytesPerSample;
+    }
+  }
+
+  return new Blob([arrayBuffer], { type: "audio/wav" });
+};
+
+const recordingBlobToWavFile = async (blob, baseName) => {
+  const arrayBuffer = await blob.arrayBuffer();
+
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  const decodeCtx = new AudioCtx();
+  let decoded;
+  try {
+    decoded = await decodeCtx.decodeAudioData(arrayBuffer);
+  } finally {
+    decodeCtx.close();
+  }
+
+  // Downsample to 16kHz mono to keep the WAV small (~2MB/min)
+  const offlineCtx = new OfflineAudioContext(
+    1,
+    Math.ceil(decoded.duration * VOICE_SAMPLE_RATE),
+    VOICE_SAMPLE_RATE,
+  );
+  const source = offlineCtx.createBufferSource();
+  source.buffer = decoded;
+  source.connect(offlineCtx.destination);
+  source.start(0);
+
+  const resampled = await offlineCtx.startRendering();
+  const wavBlob = audioBufferToWav(resampled);
+
+  return new File([wavBlob], `${baseName}.wav`, { type: "audio/wav" });
+};
 
 const ChatWindow = ({ setOpenChat, booking }) => {
   const [message, setMessage] = useState("");
@@ -27,7 +111,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   const chatUser =
     user?.role === "CUSTOMER" ? booking?.provider : booking?.customer;
 
-  // ===== VOICE RECORDING STATE (NEW) =====
+  // ===== VOICE RECORDING STATE =====
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const mediaRecorderRef = useRef(null);
@@ -126,7 +210,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
     }
   };
 
-  // ===== VOICE RECORDING HANDLERS (NEW) =====
+  // ===== VOICE RECORDING HANDLERS =====
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -153,6 +237,7 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   };
 
   // Stops the recorder and resolves with the recorded audio File
+  // (always converted to 16kHz mono WAV — plays on iOS, Android, and web)
   const stopRecordingAndGetFile = () => {
     return new Promise((resolve) => {
       const mediaRecorder = mediaRecorderRef.current;
@@ -162,18 +247,25 @@ const ChatWindow = ({ setOpenChat, booking }) => {
         return;
       }
 
-      mediaRecorder.onstop = () => {
+      mediaRecorder.onstop = async () => {
         mediaRecorder.stream.getTracks().forEach((track) => track.stop());
 
+        const actualType = mediaRecorder.mimeType || "audio/webm";
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: "audio/webm",
+          type: actualType,
         });
-        const audioFile = new File([audioBlob], `voice-${Date.now()}.mp3`, {
-          type: "audio/webm",
-        });
-
         audioChunksRef.current = [];
-        resolve(audioFile);
+
+        try {
+          const audioFile = await recordingBlobToWavFile(
+            audioBlob,
+            `voice-${Date.now()}`,
+          );
+          resolve(audioFile);
+        } catch (err) {
+          console.error("VOICE CONVERT ERROR", err);
+          resolve(null);
+        }
       };
 
       mediaRecorder.stop();
@@ -237,12 +329,11 @@ const ChatWindow = ({ setOpenChat, booking }) => {
 
       // MEDIA FLOW (same pipeline for images, attached audio files, and voice notes)
       if (filesToSend.length) {
-        console.log("filesToSend >> ", filesToSend);
         // STEP 1: REQUEST PRESIGNED URLS
         const body = {
           files: filesToSend.map((item) => ({
             fileName: item.file.name,
-            mimeType: item.file.type, // "audio/webm" — send this explicitly
+            mimeType: item.file.type,
             bookingId: id,
           })),
         };
@@ -321,6 +412,9 @@ const ChatWindow = ({ setOpenChat, booking }) => {
       }
     } catch (err) {
       console.log("SEND ERROR", err);
+      enqueueSnackbar("Failed to send message", {
+        variant: "error",
+      });
     } finally {
       setUploading(false);
     }

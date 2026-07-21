@@ -80,7 +80,7 @@ function App() {
   return (
     <>
       <SnackbarProvider
-        autoHideDuration={3000}
+        autoHideDuration={3500}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center",
