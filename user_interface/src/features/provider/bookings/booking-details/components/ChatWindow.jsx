@@ -14,12 +14,6 @@ import FilePreview from "./FilePreview";
 import MessagesList from "./MessagesList";
 import { enqueueSnackbar } from "notistack";
 
-// ===== VOICE RECORDING HELPERS =====
-// Record in whatever format the browser prefers, then ALWAYS convert to
-// 16kHz mono WAV — the one format iOS, Android, and web all decode reliably.
-// (Chrome's audio/mp4 is fragmented MP4 → silent on Android MediaPlayer;
-//  webm/opus → unplayable on iOS. WAV sidesteps both.)
-
 const VOICE_SAMPLE_RATE = 16000;
 
 const audioBufferToWav = (buffer) => {
