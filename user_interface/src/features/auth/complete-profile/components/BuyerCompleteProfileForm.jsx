@@ -47,13 +47,14 @@ const BuyerCompleteProfileForm = () => {
   const signupData = useSelector((state) => state.signup);
   const [preview, setPreview] = useState(null);
   const { data, refetch } = useGetUserProfileQuery();
+  const user = data?.data;
 
   const formik = useFormik({
     initialValues: {
       ...initialValues,
 
-      fullName: signupData?.fullName || "",
-      email: signupData?.email || "",
+      fullName: signupData?.fullName || user?.email || "",
+      email: signupData?.email || user?.email || "",
 
       streetAddress: signupData?.address || "",
       description: signupData?.description || "",
@@ -75,20 +76,20 @@ const BuyerCompleteProfileForm = () => {
         });
 
         await completeProfile(formData).unwrap();
+        const isCustomer = signupData
+          ? signupData?.role
+          : user
+            ? user?.role
+            : null;
 
-        if (signupData?.role === "CUSTOMER") {
+        if (isCustomer && isCustomer === "CUSTOMER") {
           await refetch(); // NEW: wait for cache to update first
           navigate("/");
           dispatch(clearSignupData());
+          return;
         } else {
-          if (signupData?.accountStatus === "REJECTED") {
-            await refetch(); // NEW
-            navigate("/account");
-            dispatch(clearSignupData());
-            return;
-          }
-          await refetch(); // NEW
-          navigate("/provider/identity-verification");
+          await refetch();
+          navigate("/");
           dispatch(clearSignupData());
         }
       } catch (error) {

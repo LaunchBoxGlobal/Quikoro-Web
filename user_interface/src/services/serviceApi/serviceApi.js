@@ -43,7 +43,7 @@ export const serviceApi = createApi({
         }
 
         if (category && category !== "ALL") {
-          params.append("categories", category);
+          params.append("category", category);
         }
 
         return {
@@ -70,7 +70,7 @@ export const serviceApi = createApi({
         }
 
         if (category && category !== "ALL") {
-          params.append("categories", category);
+          params.append("category", category);
         }
         return {
           url: `services?${params.toString()}`,
