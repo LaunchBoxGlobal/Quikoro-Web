@@ -13,6 +13,7 @@ function App() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
+  // Connect socket after login
   useEffect(() => {
     if (!user) return;
 
@@ -24,11 +25,18 @@ function App() {
     };
   }, [user]);
 
+  // Ask notification permission & register/update FCM after login
   useEffect(() => {
-    requestNotificationPermission();
+    if (!user) return;
 
-    listenForMessages((payload) => {
+    requestNotificationPermission();
+  }, [user]);
+
+  // Listen for foreground FCM messages once
+  useEffect(() => {
+    const unsubscribe = listenForMessages((payload) => {
       console.log("PAYLOAD >>> ", payload);
+
       dispatch(
         addChatNotification({
           bookingId: payload.data.bookingId,
@@ -44,8 +52,11 @@ function App() {
         console.error(e);
       }
     });
+
+    return unsubscribe;
   }, [dispatch]);
 
+  // Listen for background messages from service worker
   useEffect(() => {
     if (!("serviceWorker" in navigator)) return;
 
@@ -54,7 +65,7 @@ function App() {
 
       const payload = event.data.payload;
 
-      console.log(payload);
+      console.log("SW PAYLOAD >>>", payload);
 
       dispatch(
         addChatNotification({
