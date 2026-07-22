@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../services/userService/userSlice";
 import { useLogoutUserMutation } from "../../services/authApi/authApi";
 import { enqueueSnackbar } from "notistack";
+import { socket } from "../../socket";
 
 const profileLinks = [
   {
@@ -37,6 +38,9 @@ const ProfileDropdown = () => {
   const handleLogout = async () => {
     const fcmToken = localStorage.getItem("quikoroFcmToken");
     try {
+      if (socket.connected) {
+        socket.disconnect();
+      }
       await logoutUser({
         fcmToken,
       }).unwrap();
@@ -44,6 +48,7 @@ const ProfileDropdown = () => {
       dispatch(clearUser());
       localStorage.clear("quikoroFcmToken");
       localStorage.clear("quikoroBrowserDeviceId");
+
       navigate("/login");
     } catch (error) {
       enqueueSnackbar(

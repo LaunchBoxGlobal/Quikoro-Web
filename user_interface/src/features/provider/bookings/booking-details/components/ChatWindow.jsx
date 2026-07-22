@@ -417,7 +417,11 @@ const ChatWindow = ({ setOpenChat, booking }) => {
   return (
     <div className="fixed bottom-4 z-50 w-[calc(100%-32px)] sm:w-[95%] md:w-[520px] h-[90vh] left-1/2 -translate-x-1/2 md:left-auto md:right-5 md:translate-x-0 bg-white rounded-[32px] overflow-hidden overflow-x-hidden flex flex-col custom-shadow">
       {/* HEADER */}
-      <ChatHeader setOpenChat={setOpenChat} chatUser={chatUser} />
+      <ChatHeader
+        setOpenChat={setOpenChat}
+        chatUser={chatUser}
+        bookingId={id}
+      />
 
       {/* MESSAGES */}
       {loadingMessages ? (

@@ -1,7 +1,15 @@
 import { User, X } from "lucide-react";
 import React from "react";
+import { socket } from "../../../../../socket";
 
-const ChatHeader = ({ setOpenChat, chatUser }) => {
+const ChatHeader = ({ setOpenChat, chatUser, bookingId }) => {
+  const handleCloseChat = () => {
+    socket.emit("leave-conversation", {
+      bookingId,
+    });
+
+    setOpenChat(false);
+  };
   return (
     <div className="gradient-bg min-h-[86px] px-4 flex items-center justify-between">
       <div className="flex gap-2 items-center">
