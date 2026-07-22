@@ -28,8 +28,13 @@ const LoginForm = () => {
     Cookies.set("accessToken", accessToken);
     dispatch(setUser(user));
 
-    if (!user?.isProfileCompleted) {
+    if (user?.role === "PROVIDER" && !user?.isProfileCompleted) {
       navigate("/complete-profile");
+      return;
+    }
+
+    if (user?.role === "CUSTOMER" && !user?.isProfileCompleted) {
+      navigate("/buyer/complete-profile");
       return;
     }
 
