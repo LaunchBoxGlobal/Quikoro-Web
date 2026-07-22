@@ -50,7 +50,6 @@ export default function IdentityVerificationForm() {
     },
 
     validationSchema,
-
     validateOnBlur: true,
     validateOnChange: false,
 
@@ -63,7 +62,7 @@ export default function IdentityVerificationForm() {
 
         // API CALL HERE
         const res = await verifyIdentity(formData).unwrap();
-        console.log("ID uploaded >>> ", res);
+
         resetForm();
 
         navigate("/");
@@ -83,8 +82,8 @@ export default function IdentityVerificationForm() {
 
     if (!file) return;
 
-    formik.setFieldValue(fieldName, file);
-    formik.setFieldTouched(fieldName, true);
+    formik.setFieldValue(fieldName, file, true);
+    formik.setFieldTouched(fieldName, true, false);
 
     const previewUrl = URL.createObjectURL(file);
 

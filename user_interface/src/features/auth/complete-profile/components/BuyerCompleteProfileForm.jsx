@@ -7,7 +7,6 @@ import DescriptionInput from "../../../../components/ui/DescriptionInput";
 import CurrencySelect from "../../../../components/ui/CurrencySelect";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-// import { validationSchema, initialValues } from "../validation";
 import { useCompleteProfileMutation } from "../../../../services/authApi/authApi";
 import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +22,7 @@ import LiveProfileCapture from "./LiveProfileCapture";
 import { buyerValidationSchema, initialValues } from "../buyerValidation";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 import "./styles.css";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const GENDERS = [
   {
@@ -65,8 +65,6 @@ const BuyerCompleteProfileForm = () => {
     validateOnChange: false,
     validationSchema: buyerValidationSchema,
     onSubmit: async (values) => {
-      console.log("SUBMIT FIRED");
-      console.log(values);
       try {
         const formData = new FormData();
 
@@ -78,13 +76,22 @@ const BuyerCompleteProfileForm = () => {
 
         await completeProfile(formData).unwrap();
 
-        dispatch(clearSignupData());
-        refetch();
-
-        navigate("/");
+        if (signupData?.role === "CUSTOMER") {
+          await refetch(); // NEW: wait for cache to update first
+          navigate("/");
+          dispatch(clearSignupData());
+        } else {
+          if (signupData?.accountStatus === "REJECTED") {
+            await refetch(); // NEW
+            navigate("/account");
+            dispatch(clearSignupData());
+            return;
+          }
+          await refetch(); // NEW
+          navigate("/provider/identity-verification");
+          dispatch(clearSignupData());
+        }
       } catch (error) {
-        console.error("Complete profile failed:", error);
-
         setApiError(
           error.data?.error ||
             error.data?.message ||
@@ -165,20 +172,40 @@ const BuyerCompleteProfileForm = () => {
 
         <div className="w-full">
           {/* gender selector */}
-          <div className="w-full">
-            <CurrencySelect
-              label="Gender"
-              options={GENDERS}
-              value={GENDERS.find(
-                (item) => item.value === formik.values.gender,
-              )}
-              onChange={(val) => {
-                formik.setFieldValue("gender", val.value);
-                formik.setFieldTouched("gender", true);
-              }}
-              error={formik.touched.gender && formik.errors.gender}
-              bgColor="#fff"
-            />
+          <div className="w-full flex flex-col gap-1 pt-2">
+            <label className="text-sm font-semibold leading-none">Gender</label>
+
+            <div className="relative w-full">
+              <select
+                name="gender"
+                value={formik.values.gender || ""}
+                onChange={(e) => {
+                  formik.setFieldValue("gender", e.target.value);
+                  formik.setFieldTouched("gender", true, false);
+                }}
+                onBlur={formik.handleBlur}
+                className={`appearance-none w-full h-[49px] rounded-[12px] px-4 pr-12 bg-white outline-none text-sm ${
+                  formik.touched.gender && formik.errors.gender
+                    ? "border-red-500"
+                    : "border-gray-200"
+                }`}
+              >
+                <option value="" disabled>
+                  Select gender
+                </option>
+
+                {GENDERS.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+
+              <IoMdArrowDropdown
+                size={24}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              />
+            </div>
 
             {formik.touched.gender && formik.errors.gender && (
               <p className="text-red-500 text-xs mt-1">
@@ -195,9 +222,6 @@ const BuyerCompleteProfileForm = () => {
               Country
             </label>
             <CountrySelect
-              // inputClassName={selectClassName(
-              //   formik.touched.country && formik.errors.country,
-              // )}
               containerClassName="w-full"
               inputClassName={`w-full bg-white border h-[39px] px-[15px] rounded-[8px] outline-none disabled:cursor-not-allowed 
         ${

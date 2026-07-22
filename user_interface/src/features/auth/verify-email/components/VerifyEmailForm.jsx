@@ -40,7 +40,6 @@ const VerifyEmailForm = () => {
         otp: Number(finalOtp),
         action: "FORGOT-PASSWORD",
       }).unwrap();
-      console.log("verityEmailForm res >>> ", res);
       dispatch(setSignupData({ otp: finalOtp }));
       setShowModal(true);
     } catch (error) {

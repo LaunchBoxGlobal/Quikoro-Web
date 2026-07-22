@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useBanUnbanUserMutation } from "../../../services/userApi/userApi";
 import { enqueueSnackbar } from "notistack";
+import { createPortal } from "react-dom";
 
 const BanUserModal = ({ user, id, refetch, onClose }) => {
   const [banUnbanUser, { isLoading }] = useBanUnbanUserMutation();
@@ -36,7 +37,7 @@ const BanUserModal = ({ user, id, refetch, onClose }) => {
     }
   };
 
-  return (
+  return createPortal(
     <div className="w-full min-h-screen flex items-center justify-center fixed inset-0 z-50 bg-black/50 px-5">
       <div className="w-full max-w-[471px] bg-white p-6 lg:p-10 rounded-[18px] text-center">
         {/* ICON */}
@@ -101,7 +102,8 @@ const BanUserModal = ({ user, id, refetch, onClose }) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

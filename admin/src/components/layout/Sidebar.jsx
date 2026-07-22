@@ -75,13 +75,9 @@ const Sidebar = () => {
         <button
           type="button"
           onClick={() => handleLogout()}
-          className={`text-sm flex items-center gap-x-2.5 font-medium w-full h-[49px] px-4 rounded-[12px] outline-none 
-                    bg-transparent text-black hover:bg-gradient-to-l from-[#0084AA] to-[#003544] hover:text-white transition-all duration-300 group"
-                }`}
+          className={`text-sm flex items-center gap-x-2.5 font-medium w-full h-[49px] px-4 rounded-[12px] outline-none bg-transparent text-black hover:bg-gradient-to-l from-[#0084AA] to-[#003544] hover:text-white transition-all duration-300 group`}
         >
-          <div className="min-w-6">
-            <FiLogOut className="text-lg transition-all duration-300 text-[#015870] group-hover:text-white" />
-          </div>
+          <FiLogOut className="text-lg min-w-6 transition-all duration-300 text-[#015870] group-hover:text-white" />
           Logout
         </button>
       </ul>

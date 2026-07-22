@@ -23,8 +23,6 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const signupData = useSelector((state) => state.signup);
 
-  // Google already verified the email, so there's no OTP step here —
-  // the account is created and the session starts immediately.
   const handleGoogleSuccess = (user, accessToken) => {
     Cookies.set("accessToken", accessToken);
     dispatch(setUser(user));
@@ -80,6 +78,7 @@ const SignupForm = () => {
         <Input
           label="Full Name"
           name="fullName"
+          type="text"
           placeholder="Enter your name"
           value={formik.values.fullName}
           onChange={handleChange}

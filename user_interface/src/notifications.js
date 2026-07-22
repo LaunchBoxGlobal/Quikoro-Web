@@ -73,7 +73,7 @@ export const listenForMessages = (callback) => {
   // console.log("Registering FCM listener...");
 
   return onMessage(messaging, (payload) => {
-    // console.log("Foreground payload:", payload);
+    console.log("Foreground msg payload:", payload);
     callback?.(payload);
   });
 };

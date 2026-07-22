@@ -28,6 +28,7 @@ import { CATEGORY_OPTIONS } from "../../../../utils/categories";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 import { useGetCategoriesQuery } from "../../../../services/categoryApi/categoryApi";
 import "./styles.css";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const GENDERS = [
   {
@@ -52,8 +53,9 @@ const CompleteProfileForm = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user?.user);
   const signupData = user;
-  const [preview, setPreview] = useState(signupData?.profilePicture || null);
-  console.log(signupData);
+  const [preview, setPreview] = useState(
+    signupData?.profilePicture || "/user-profile-placeholder.png",
+  );
 
   const { data, refetch } = useGetUserProfileQuery();
   const { data: categoriesData } = useGetCategoriesQuery();
@@ -104,7 +106,7 @@ const CompleteProfileForm = () => {
       zipCode: signupData?.zipCode || "",
       dateOfBirth: signupData?.dateOfBirth || "",
       yearsOfExperience: signupData?.yearsOfExperience || "",
-      speciality: signupData?.speciality || null,
+      speciality: signupData?.speciality || "",
       gender: signupData?.gender || "",
       country: signupData?.country || "",
     },
@@ -170,6 +172,25 @@ const CompleteProfileForm = () => {
     await formik.validateField(name);
   };
 
+  const handleSelectChange = async (name, value) => {
+    if (apiError) {
+      setApiError("");
+    }
+
+    await formik.setFieldValue(name, value, true);
+    formik.setFieldTouched(name, true, false);
+  };
+
+  const today = new Date();
+
+  const maxDob = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate(),
+  )
+    .toISOString()
+    .split("T")[0];
+
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -228,22 +249,42 @@ const CompleteProfileForm = () => {
             bgColor="#fff"
           />
 
-          {/* Speciality (CurrencySelect) */}
-          <div className="w-full">
-            <CurrencySelect
-              label="Speciality"
-              options={categoryOptions}
-              value={categoryOptions.find(
-                (item) => item.label.toUpperCase() === formik.values.speciality,
-              )}
-              onChange={(val) => {
-                formik.setFieldValue("speciality", val.value.toUpperCase());
+          <div className="w-full flex flex-col space-y-1 pt-2">
+            <label className="text-sm font-semibold leading-none">
+              Speciality
+            </label>
 
-                formik.setFieldTouched("speciality", true);
-              }}
-              error={formik.touched.speciality && formik.errors.speciality}
-              bgColor="#fff"
-            />
+            <div className="relative w-full">
+              <select
+                name="speciality"
+                value={formik.values.speciality || ""}
+                onChange={(e) => {
+                  formik.setFieldValue("speciality", e.target.value);
+                  formik.setFieldTouched("speciality", true, false);
+                }}
+                onBlur={formik.handleBlur}
+                className={`appearance-none w-full h-[49px] rounded-[12px] px-4 pr-12 bg-white outline-none text-sm ${
+                  formik.touched.speciality && formik.errors.speciality
+                    ? "border-red-500"
+                    : "border-gray-200"
+                }`}
+              >
+                <option value="" disabled>
+                  Select speciality
+                </option>
+
+                {categoryOptions.map((item) => (
+                  <option key={item.id} value={item.value.toUpperCase()}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+
+              <IoMdArrowDropdown
+                size={24}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              />
+            </div>
 
             {formik.touched.speciality && formik.errors.speciality && (
               <p className="text-red-500 text-xs mt-1">
@@ -256,6 +297,7 @@ const CompleteProfileForm = () => {
             label="Date of Birth"
             name="dateOfBirth"
             type="date"
+            max={maxDob}
             placeholder=""
             value={formik.values.dateOfBirth}
             onChange={handleChange}
@@ -265,20 +307,41 @@ const CompleteProfileForm = () => {
           />
 
           {/* gender */}
-          <div className="w-full">
-            <CurrencySelect
-              label="Gender"
-              options={GENDERS}
-              value={GENDERS.find(
-                (item) => item.value === formik.values.gender,
-              )}
-              onChange={(val) => {
-                formik.setFieldValue("gender", val.value);
-                formik.setFieldTouched("gender", true);
-              }}
-              error={formik.touched.gender && formik.errors.gender}
-              bgColor="#fff"
-            />
+          <div className="w-full flex flex-col gap-1 pt-2">
+            <label className="text-sm font-semibold leading-none">Gender</label>
+
+            <div className="relative w-full">
+              <select
+                name="gender"
+                value={formik.values.gender || ""}
+                onChange={(e) => {
+                  formik.setFieldValue("gender", e.target.value);
+                  formik.setFieldTouched("gender", true, false);
+                }}
+                onBlur={formik.handleBlur}
+                className={`appearance-none w-full h-[49px] rounded-[12px] px-4 pr-12 bg-white outline-none text-sm ${
+                  formik.touched.gender && formik.errors.gender
+                    ? "border-red-500"
+                    : "border-gray-200"
+                }`}
+              >
+                <option value="" disabled>
+                  Select gender
+                </option>
+
+                {GENDERS.map((item) => (
+                  <option key={item.value} value={item.value}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+
+              {/* Custom arrow */}
+              <IoMdArrowDropdown
+                size={24}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              />
+            </div>
 
             {formik.touched.gender && formik.errors.gender && (
               <p className="text-red-500 text-xs mt-1">

@@ -4,7 +4,11 @@ export default function AccountStatusGate({ children, user }) {
   const location = useLocation();
 
   if (user && user.isProfileCompleted === false) {
-    return <Navigate to="/complete-profile" replace />;
+    if (user.role === "CUSTOMER") {
+      return <Navigate to="/buyer/complete-profile" replace />;
+    } else {
+      return <Navigate to="/complete-profile" replace />;
+    }
   }
 
   const blockedStatuses = ["PENDING", "SUBMITTED", "REJECTED"];

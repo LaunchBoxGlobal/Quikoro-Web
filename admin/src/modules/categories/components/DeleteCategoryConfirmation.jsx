@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import { useDeleteCategoryMutation } from "../../../services/categoryApi/categoryApi";
+import { createPortal } from "react-dom";
 
 const DeleteCategoryConfirmation = ({
   handleToggleDeleteCategoryModal,
@@ -48,7 +49,7 @@ const DeleteCategoryConfirmation = ({
     }
   };
 
-  return (
+  return createPortal(
     <div className="w-full min-h-screen px-5 flex items-center justify-center fixed inset-0 z-[100000] bg-[rgba(0,0,0,0.5)]">
       <div className="w-full max-w-[471px] rounded-[18px] bg-white p-5 lg:p-10 relative flex flex-col items-center justify-center gap-3">
         <img
@@ -90,7 +91,8 @@ const DeleteCategoryConfirmation = ({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

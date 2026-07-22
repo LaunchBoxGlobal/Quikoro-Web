@@ -6,6 +6,7 @@ import { enqueueSnackbar } from "notistack";
 import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import { useEditCategoryMutation } from "../../../services/categoryApi/categoryApi";
+import { createPortal } from "react-dom";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -52,7 +53,7 @@ const EditCategory = ({
     }
   };
 
-  return (
+  return createPortal(
     <div className="w-full min-h-screen px-5 flex items-center justify-center fixed inset-0 z-[100000] bg-[rgba(0,0,0,0.5)]">
       <div className="w-full max-w-[471px] rounded-[18px] bg-white p-5 relative">
         <div className="w-full flex items-center justify-between gap-4">
@@ -95,7 +96,8 @@ const EditCategory = ({
           )}
         </Formik>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

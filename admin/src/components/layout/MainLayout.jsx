@@ -60,7 +60,7 @@ const MainLayout = ({ pages }) => {
             </div>
           </div>
         </div>
-        <div className="w-full bg-glass rounded-[16px] lg:rounded-[32px] p-6 mt-6 text-black custom-shadow z-30 relative">
+        <div className="w-full bg-glass rounded-[16px] lg:rounded-[32px] p-6 mt-6 text-black custom-shadow z-20 relative">
           <Outlet />
         </div>
       </div>

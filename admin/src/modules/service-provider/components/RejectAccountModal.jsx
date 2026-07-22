@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAcceptRejectAccountMutation } from "../../../services/userApi/userApi";
 import { enqueueSnackbar } from "notistack";
+import { createPortal } from "react-dom";
 
 const STEP = {
   CONFIRM: "CONFIRM",
@@ -58,7 +59,7 @@ const RejectAccountModal = ({
 
   if (!showConfirmationModal) return null;
 
-  return (
+  return createPortal(
     <div className="w-full min-h-screen fixed inset-0 z-[30000] flex items-center justify-center px-5 py-10 bg-[rgba(0,0,0,0.5)]">
       {step === STEP.CONFIRM && (
         <div className="w-full max-w-[471px] bg-white rounded-[18px] flex flex-col items-center justify-center p-6 lg:p-10 gap-2">
@@ -142,7 +143,8 @@ const RejectAccountModal = ({
           </p>
         </div>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 };
 

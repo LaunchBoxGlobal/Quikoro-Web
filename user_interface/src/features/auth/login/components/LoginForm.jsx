@@ -106,9 +106,9 @@ const LoginForm = () => {
         {/* Email */}
         <Input
           label="Email Address"
-          placeholder="Enter your email"
-          type="email"
           name="email"
+          type="email"
+          placeholder="Enter your email"
           value={formik.values.email}
           onChange={handleChange}
           onBlur={formik.handleBlur}

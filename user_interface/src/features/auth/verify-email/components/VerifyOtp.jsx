@@ -81,11 +81,20 @@ const VerifyOtp = () => {
       };
 
       const res = await verifyOtp(payload).unwrap();
+      // console.log("verify otp response >>> ", res);
+
       Cookies.set("accessToken", res?.data?.accessToken);
       dispatch(setUser(res?.data?.user));
-      dispatch(clearSignupData());
+
       setError("");
-      setShowModal(true);
+
+      const role = signupData?.role;
+
+      if (role === "CUSTOMER") {
+        navigate("/buyer/complete-profile");
+      } else {
+        navigate("/complete-profile");
+      }
     } catch (error) {
       console.log(error?.data);
       setApiError(
@@ -105,7 +114,10 @@ const VerifyOtp = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    if (signupData?.role === "CUSTOMER") {
+
+    const role = signupData?.role?.toUpperCase();
+
+    if (role === "CUSTOMER") {
       navigate("/buyer/complete-profile");
     } else {
       navigate("/complete-profile");
@@ -117,11 +129,14 @@ const VerifyOtp = () => {
     if (!showModal) return;
 
     const timer = setTimeout(() => {
-      setShowModal(false);
-      if (signupData?.role === "CUSTOMER") {
+      const role = signupData?.role?.toUpperCase();
+
+      if (role === "CUSTOMER") {
         navigate("/buyer/complete-profile");
+        setShowModal(false);
       } else {
         navigate("/complete-profile");
+        setShowModal(false);
       }
     }, 2000);
 
@@ -186,7 +201,7 @@ const VerifyOtp = () => {
 
       <Modal
         isOpen={showModal}
-        onClose={handleCloseModal}
+        onClose={() => console.log("foinewoi")}
         icon={"/check-icon.png"}
         alt={"Success icon"}
         width={107}

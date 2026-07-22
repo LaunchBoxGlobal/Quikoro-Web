@@ -3,6 +3,7 @@ import React from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { enqueueSnackbar } from "notistack";
 import { useBanUnbanReportedUserMutation } from "../../../services/reportApi/reportApi";
+import { createPortal } from "react-dom";
 
 const ReportModal = ({ report, setReport, onclose }) => {
   const [banUnbanUser, { isLoading }] = useBanUnbanReportedUserMutation();
@@ -45,7 +46,7 @@ const ReportModal = ({ report, setReport, onclose }) => {
       );
     }
   };
-  return (
+  return createPortal(
     <div className="w-full min-h-screen px-5 py-10 fixed inset-0 z-[100000] bg-[rgba(0,0,0,0.5)] flex items-center justify-center">
       <div className="w-full max-w-[461px] bg-white rounded-[16px] p-6 relative">
         <div className="w-full flex items-center justify-between gap-4">
@@ -135,7 +136,8 @@ const ReportModal = ({ report, setReport, onclose }) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

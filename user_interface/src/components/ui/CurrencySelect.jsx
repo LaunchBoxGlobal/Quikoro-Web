@@ -4,6 +4,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 const CurrencySelect = ({
   label,
   value,
+  onBlur,
   onChange,
   options = [],
   placeholder = "Select speciality",
@@ -34,6 +35,11 @@ const CurrencySelect = ({
 
   const handleSelect = (option) => {
     onChange(option);
+
+    if (onBlur) {
+      onBlur();
+    }
+
     setOpen(false);
     setSearch("");
   };

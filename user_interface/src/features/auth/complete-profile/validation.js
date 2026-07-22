@@ -46,8 +46,11 @@ export const validationSchema = Yup.object({
     .required("Experience is required"),
 
   dateOfBirth: Yup.date()
-    .max(new Date(), "Future date is not allowed")
-    .required("Date of birth is required"),
+    .required("Date of birth is required")
+    .max(
+      new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+      "You must be at least 18 years old",
+    ),
 
   gender: Yup.string().required("Gender is required"),
 

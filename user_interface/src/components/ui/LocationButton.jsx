@@ -22,9 +22,11 @@ const LocationButton = ({
         <MapPin size={15} />
 
         <span
-          className={`font-medium ${!user?.location ? "text-orange-500" : ""}`}
+          className={`font-medium ${!user?.location ? "text-gray-600" : ""}`}
         >
-          {`${selectedAddress.slice(0, 30)}...` || "Add your location"}
+          {selectedAddress?.length > 0
+            ? `${selectedAddress.slice(0, 30)}...`
+            : "Add your location"}
         </span>
       </button>
 
