@@ -35,12 +35,15 @@ const ProfileDropdown = () => {
   const user = useSelector((state) => state.user.user);
 
   const handleLogout = async () => {
+    const fcmToken = localStorage.getItem("quikoroFcmToken");
     try {
       await logoutUser({
-        fcmToken: "fonewofewfneo nfoe infonefon oe",
+        fcmToken,
       }).unwrap();
       removeToken();
       dispatch(clearUser());
+      localStorage.clear("quikoroFcmToken");
+      localStorage.clear("quikoroBrowserDeviceId");
       navigate("/login");
     } catch (error) {
       enqueueSnackbar(
