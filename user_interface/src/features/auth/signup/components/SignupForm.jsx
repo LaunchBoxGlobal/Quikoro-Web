@@ -32,7 +32,7 @@ const SignupForm = () => {
   const formik = useFormik({
     initialValues,
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
     validationSchema,
     onSubmit: async (values) => {
       try {

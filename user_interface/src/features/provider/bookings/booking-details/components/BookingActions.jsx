@@ -15,7 +15,7 @@ export default function BookingActions({
   const user = useSelector((state) => state.user.user);
 
   return (
-    <div className="flex items-center justify-center lg:justify-end flex-wrap gap-4 w-full sm:w-auto mb-24 lg:mb-0">
+    <div className="flex items-center justify-center lg:justify-end flex-wrap gap-4">
       {user?.role === "CUSTOMER" && booking?.status === "IN_PROGRESS" && (
         <div className="w-full flex justify-end">
           <button
@@ -104,7 +104,7 @@ export default function BookingActions({
                 type="button"
                 // disabled={booking?.status === "INTERESTED"}
                 onClick={() => handleToggleMarkCompleteJobModal()}
-                className="w-full sm:w-auto rounded-xl gradient-bg px-8 py-3 font-medium text-white transition-colors hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto rounded-xl gradient-bg px-8 py-3 font-medium text-white transition-colors hover:bg-black disabled:opacity-70 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 Mark As Completed
               </button>

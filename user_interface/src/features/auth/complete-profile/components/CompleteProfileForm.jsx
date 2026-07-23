@@ -112,7 +112,7 @@ const CompleteProfileForm = () => {
     },
     enableReinitialize: true,
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
     validationSchema,
     onSubmit: async (values) => {
       try {

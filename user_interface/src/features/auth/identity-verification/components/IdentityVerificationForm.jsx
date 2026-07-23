@@ -51,7 +51,7 @@ export default function IdentityVerificationForm() {
 
     validationSchema,
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
 
     onSubmit: async (values, { resetForm }) => {
       try {

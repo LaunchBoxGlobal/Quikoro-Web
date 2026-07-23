@@ -26,7 +26,7 @@ export default function ContactSupportPage() {
     },
 
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
 
     validationSchema: Yup.object({
       subject: Yup.string()

@@ -41,6 +41,7 @@ export default function ServiceDetails() {
           )}
         </div>
       </div>
+
       {openBookingModal && (
         <BookServiceModal
           service={service}

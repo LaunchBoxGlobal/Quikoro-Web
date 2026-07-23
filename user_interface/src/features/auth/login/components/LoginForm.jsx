@@ -16,6 +16,7 @@ import { setToken } from "../../../../hooks/useSetToken";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../services/userService/userSlice";
 import { socket } from "../../../../socket";
+import { requestNotificationPermission } from "../../../../notifications";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -59,12 +60,13 @@ const LoginForm = () => {
   const formik = useFormik({
     initialValues,
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
     validationSchema,
     onSubmit: async (values) => {
       try {
         const result = await login(values).unwrap();
         handleAuthSuccess(result?.data?.user, result?.data?.accessToken);
+        requestNotificationPermission();
       } catch (error) {
         setApiError(
           error.data?.error ||

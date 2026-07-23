@@ -8,10 +8,22 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { socket } from "./socket";
 import { addChatNotification } from "./slices/notificationSlice";
+import { setLastBookingEvent } from "./slices/bookingEventsSlice";
+import {
+  notificationApi,
+  useGetNotificationsQuery,
+} from "./services/notificationApi/notificationApi";
 
 function App() {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+
+  const { data, refetch } = useGetNotificationsQuery(
+    { page: 1 },
+    {
+      skip: !user,
+    },
+  );
 
   // Connect socket after login
   useEffect(() => {
@@ -28,21 +40,34 @@ function App() {
   // Ask notification permission & register/update FCM after login
   useEffect(() => {
     if (!user) return;
-
     requestNotificationPermission();
   }, [user]);
 
   // Listen for foreground FCM messages once
   useEffect(() => {
     const unsubscribe = listenForMessages((payload) => {
-      console.log("PAYLOAD >>> ", payload);
+      console.log("NOTIFICATION PAYLOAD >>> ", payload);
+      dispatch(notificationApi.util.invalidateTags(["Notifications"]));
 
-      dispatch(
-        addChatNotification({
-          bookingId: payload.data.bookingId,
-          notification: payload,
-        }),
-      );
+      const data = payload?.data ?? {};
+
+      if (data.event === "new-message") {
+        // chat message flow
+        dispatch(
+          addChatNotification({
+            bookingId: data.bookingId,
+            notification: payload,
+          }),
+        );
+      } else if (data.bookingId) {
+        // no `event` key at all → treat as a booking status change
+        dispatch(
+          setLastBookingEvent({
+            bookingId: data.bookingId,
+            title: payload?.notification?.title, // fallback signal, see caveat below
+          }),
+        );
+      }
 
       try {
         new Notification(payload.notification.title, {
@@ -61,18 +86,25 @@ function App() {
     if (!("serviceWorker" in navigator)) return;
 
     const handleServiceWorkerMessage = (event) => {
-      if (event.data?.type !== "CHAT_NOTIFICATION") return;
+      if (event.data?.type !== "FCM_BACKGROUND_MESSAGE") return;
+      // refetch();
+      dispatch(notificationApi.util.invalidateTags(["Notifications"]));
 
       const payload = event.data.payload;
+      const data = payload?.data ?? {};
 
       console.log("SW PAYLOAD >>>", payload);
 
-      dispatch(
-        addChatNotification({
-          bookingId: payload.data.bookingId,
-          notification: payload,
-        }),
-      );
+      if (data.event === "new-message") {
+        dispatch(
+          addChatNotification({
+            bookingId: data.bookingId,
+            notification: payload,
+          }),
+        );
+      } else if (data.bookingId) {
+        dispatch(setLastBookingEvent({ bookingId: data.bookingId }));
+      }
     };
 
     navigator.serviceWorker.addEventListener(

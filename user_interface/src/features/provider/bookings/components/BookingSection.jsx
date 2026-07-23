@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { Calendar } from "lucide-react";
 import { useGetBookingsQuery } from "../../../../services/bookingApi/bookingApi";
 import Loader from "../../../../components/ui/loader/Loader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Error from "../../../../components/ui/Error";
 import Pagination from "../../../../components/ui/Pagination";
 
@@ -19,11 +19,11 @@ export default function BookingSection() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
 
-  const { data, isLoading, isFetching, isError } = useGetBookingsQuery(
+  const { data, isLoading, isFetching, isError, refetch } = useGetBookingsQuery(
     {
-      page: 1,
+      page,
       search,
-      status: activeFilter === "all" ? "" : activeFilter.toUpperCase(),
+      status: activeFilter === "ALL" ? "" : activeFilter.toUpperCase(),
     },
     {
       refetchOnMountOrArgChange: true,
@@ -33,6 +33,16 @@ export default function BookingSection() {
 
   const bookings = data?.data?.data;
   const pagination = data?.data?.pagination;
+
+  // Refetch the list whenever a booking status push notification arrives
+  const lastBookingEvent = useSelector(
+    (state) => state.bookingEvents.lastEvent,
+  );
+
+  useEffect(() => {
+    if (!lastBookingEvent) return;
+    refetch();
+  }, [lastBookingEvent, refetch]);
 
   return (
     <section className="mb-16 rounded-[2rem] foreground p-8 lg:p-10">

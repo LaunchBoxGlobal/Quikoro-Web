@@ -30,7 +30,7 @@ export default function ChangePasswordPage() {
       confirmPassword: "",
     },
 
-    validateOnChange: false,
+    validateOnChange: true,
 
     validationSchema: Yup.object({
       currentPassword: Yup.string().required("Current password is required"),

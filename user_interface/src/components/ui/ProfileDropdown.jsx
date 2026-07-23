@@ -46,8 +46,8 @@ const ProfileDropdown = () => {
       }).unwrap();
       removeToken();
       dispatch(clearUser());
-      localStorage.clear("quikoroFcmToken");
-      localStorage.clear("quikoroBrowserDeviceId");
+      localStorage.removeItem("quikoroFcmToken");
+      localStorage.removeItem("quikoroBrowserDeviceId");
 
       navigate("/login");
     } catch (error) {
@@ -66,10 +66,6 @@ const ProfileDropdown = () => {
         },
       );
       console.log("LOGOUT ERROR >>> ", error);
-    } finally {
-      removeToken();
-      dispatch(clearUser());
-      navigate("/login");
     }
   };
 

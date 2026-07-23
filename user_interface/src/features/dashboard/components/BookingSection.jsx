@@ -18,7 +18,7 @@ export default function BookingSection() {
     {
       page: 1,
       limit: 20,
-      status: activeFilter,
+      status: "IN_PROGRESS,PENDING",
     },
     {
       refetchOnMountOrArgChange: true,
@@ -39,12 +39,14 @@ export default function BookingSection() {
         </div>
       </div>
 
-      <BookingFilters
+      <hr />
+
+      {/* <BookingFilters
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
         searchParams={searchParams}
         setSearchParams={setSearchParams}
-      />
+      /> */}
 
       {isLoading || isFetching ? (
         <div className="w-full min-h-[50vh] flex items-center justify-center">
@@ -57,7 +59,7 @@ export default function BookingSection() {
           ) : (
             <>
               {bookings?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="w-full mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {bookings?.map((booking) => (
                     <BookingCard key={booking.id} booking={booking} />
                   ))}

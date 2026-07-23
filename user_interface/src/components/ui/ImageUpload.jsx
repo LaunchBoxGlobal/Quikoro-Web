@@ -81,9 +81,11 @@ const ImageUpload = ({
 
           <p className="text-sm text-gray-700">Upload Images</p>
 
-          <p className="text-xs text-gray-400 mt-1">Min 1 - Max 5 Images</p>
+          {/* <p className="text-xs text-gray-400 mt-1">Min 1 - Max 5 Images</p> */}
 
-          <p className="text-xs text-gray-400">PNG, JPG, JPEG • Max 4MB each</p>
+          <p className="text-xs text-gray-400 mt-1">
+            PNG, JPG, JPEG • Max 4MB each
+          </p>
         </>
       </label>
 

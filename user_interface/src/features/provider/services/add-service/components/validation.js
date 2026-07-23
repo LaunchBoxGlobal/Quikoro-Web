@@ -35,5 +35,7 @@ export const validationSchema = Yup.object({
     .max(500, "Maximum 500 characters allowed")
     .required("Description is required"),
 
-  images: Yup.mixed().required("Service image is required"),
+  images: Yup.array()
+    .min(1, "One image is required.")
+    .max(1, "Only one image is allowed."),
 });

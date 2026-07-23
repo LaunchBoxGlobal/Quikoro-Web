@@ -25,12 +25,12 @@ const BookingHeader = ({
   };
 
   return (
-    <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center relative">
-      <SectionTitle>
-        <span className="whitespace-nowrap">Booking Details</span>
-      </SectionTitle>
+    <>
+      <div className="w-full flex items-center justify-between flex-wrap gap-6 relative mb-8">
+        <SectionTitle>
+          <span className="whitespace-nowrap">Booking Details</span>
+        </SectionTitle>
 
-      <div className="w-full hidden lg:block">
         <BookingActions
           setShowAcceptBookingConfirmation={setShowAcceptBookingConfirmation}
           setOpenChat={setOpenChat}
@@ -44,7 +44,7 @@ const BookingHeader = ({
         />
       </div>
       {openChat && <ChatWindow setOpenChat={setOpenChat} booking={booking} />}
-    </div>
+    </>
   );
 };
 

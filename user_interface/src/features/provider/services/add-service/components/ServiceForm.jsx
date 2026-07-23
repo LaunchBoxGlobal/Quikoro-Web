@@ -40,18 +40,11 @@ export default function ServiceForm() {
     initialValues,
     validationSchema,
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
     onSubmit: async (values) => {
       try {
-        if (values.images.length < 1) {
-          setImagesError("At least 1 image is required.");
-
-          return;
-        }
-
-        if (values.images.length > 5) {
-          setImagesError("Maximum 5 images allowed.");
-
+        if (values.images.length !== 1) {
+          setImagesError("One image is required.");
           return;
         }
 
@@ -249,22 +242,18 @@ export default function ServiceForm() {
               imagesError={imagesError}
               setFieldTouched={formik.setFieldTouched}
               onChange={(files) => {
-                const totalImages = formik.values.images.length + files.length;
-
-                if (totalImages > 5) {
-                  setImagesError("Maximum 5 images allowed.");
-
+                if (formik.values.images.length >= 1) {
+                  setImagesError("Only one image is allowed.");
                   return;
                 }
 
-                setImagesError("");
+                if (files.length > 0) {
+                  setImagesError("");
 
-                formik.setFieldValue("images", [
-                  ...formik.values.images,
-                  ...files,
-                ]);
-
-                formik.setFieldTouched("images", true);
+                  // Keep only the first selected image
+                  formik.setFieldValue("images", [files[0]]);
+                  formik.setFieldTouched("images", true);
+                }
               }}
             />
 

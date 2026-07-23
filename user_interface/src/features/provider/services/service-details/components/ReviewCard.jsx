@@ -1,13 +1,16 @@
+import { useSelector } from "react-redux";
 import StarRating from "./StarRating";
 
 export default function ReviewCard({ review, showBorder }) {
+  const user = useSelector((state) => state.user.user);
+  const isMyReview = user && user?.id === review?.customer?.id;
   return (
     <div>
       {showBorder && <hr className="mb-6 border-gray-200" />}
 
       <div className="space-y-1">
         <h4 className="text-[15px] font-semibold text-gray-900">
-          {review?.customer?.fullName}
+          {review?.customer?.fullName} {isMyReview && `(You)`}
         </h4>
 
         <div className="flex items-center gap-1.5">

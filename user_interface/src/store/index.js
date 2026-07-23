@@ -8,6 +8,7 @@ import createWebStorage from "redux-persist/es/storage/createWebStorage";
 import signupReducer from "../services/authApi/authSlice";
 import userReducer from "../services/userService/userSlice";
 import chatReducer from "../slices/notificationSlice";
+import bookingEventReducer from "../slices/bookingEventsSlice";
 
 import { authApi } from "../services/authApi/authApi";
 import { serviceApi } from "../services/serviceApi/serviceApi";
@@ -23,13 +24,14 @@ const storage = createWebStorage("local");
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["signup", "user", "chatNotifications"],
+  whitelist: ["signup", "user", "chatNotifications", "bookingEvents"],
 };
 
 const rootReducer = combineReducers({
   signup: signupReducer,
   user: userReducer,
   chatNotifications: chatReducer,
+  bookingEvents: bookingEventReducer,
 
   [authApi.reducerPath]: authApi.reducer,
   [serviceApi.reducerPath]: serviceApi.reducer,

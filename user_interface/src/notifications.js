@@ -24,6 +24,8 @@ export const requestNotificationPermission = async () => {
     return;
   }
 
+  console.log("Notification permission granted!");
+
   try {
     const currentToken = await getToken(messaging, {
       vapidKey: VAPID_KEY,
@@ -46,7 +48,7 @@ export const requestNotificationPermission = async () => {
 
       const url = `${BASE_URL}notification-token`;
 
-      await axios.post(
+      const res = await axios.post(
         url,
         {
           fcmToken: currentToken,
@@ -59,6 +61,10 @@ export const requestNotificationPermission = async () => {
           },
         },
       );
+
+      if (res?.data?.success) {
+        console.log("FCM sent to server");
+      }
 
       localStorage.setItem("quikoroFcmToken", currentToken);
     } else {

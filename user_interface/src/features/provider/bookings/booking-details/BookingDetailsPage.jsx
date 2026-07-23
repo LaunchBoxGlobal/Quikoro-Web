@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookingHeader from "./components/BookingHeader";
 import BookingCard from "./components/BookingCard";
 import Modal from "../../../../components/ui/Modal";
@@ -13,7 +13,7 @@ import {
 } from "../../../../services/bookingApi/bookingApi";
 import Loader from "../../../../components/ui/loader/Loader";
 import FormErrorMessage from "../../../../components/ui/FormErrorMessage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AcceptBookingRequestModal from "./components/AcceptBookingRequestModal";
 import CancellationModal from "./components/CancellationModal";
 import RequestAcceptedSuccessModal from "./components/RequestAcceptedSuccessModal";
@@ -23,9 +23,11 @@ import Reviews from "./components/Reviews";
 import { BiError } from "react-icons/bi";
 import DeclineConfirmationModal from "./components/DeclineConfirmationModal";
 import DeclineSuccessModal from "./components/DeclineSuccessModal";
+import { clearBookingNotifications } from "../../../../slices/notificationSlice";
 
 const BookingDetailsPage = () => {
   useUpdateTitle("Booking Details");
+  const dispatch = useDispatch();
   const { id } = useParams();
   const user = useSelector((state) => state.user.user);
   const [showAcceptBookingConfirmation, setShowAcceptBookingConfirmation] =
@@ -54,6 +56,22 @@ const BookingDetailsPage = () => {
     refetchOnMountOrArgChange: true,
   });
   const booking = data?.data;
+
+  // NEW: refetch this booking when a matching push notification arrives
+  const lastBookingEvent = useSelector(
+    (state) => state.bookingEvents.lastEvent,
+  );
+
+  useEffect(() => {
+    if (!lastBookingEvent) return;
+    if (lastBookingEvent.bookingId === id) {
+      refetch();
+    }
+  }, [lastBookingEvent, id, refetch]);
+
+  const notificationCount = useSelector(
+    (state) => state.chatNotifications.bookings[booking?.id]?.length || 0,
+  );
 
   const [updateBookingStatus, { isLoading: isUpdatingStatus }] =
     useUpdateBookingStatusMutation();
@@ -128,7 +146,10 @@ const BookingDetailsPage = () => {
               </p>
             </div>
           ) : (
-            <BookingCard booking={booking} />
+            <BookingCard
+              booking={booking}
+              notificationCount={notificationCount}
+            />
           )}
         </>
       )}
@@ -137,9 +158,17 @@ const BookingDetailsPage = () => {
         booking?.status === "IN_PROGRESS") && (
         <button
           type="button"
-          onClick={() => setOpenChat((prev) => !prev)}
+          onClick={() => {
+            setOpenChat((prev) => !prev);
+            dispatch(clearBookingNotifications(booking?.id));
+          }}
           className="w-[60px] h-[60px] gradient-bg flex items-center justify-center rounded-full z-30 fixed right-5 bottom-5"
         >
+          {notificationCount > 0 && (
+            <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center absolute -top-1 -left-1 text-white text-xs z-10">
+              {notificationCount}
+            </div>
+          )}
           <img src={MessageIcon} alt="message icon" width={28} height={26} />
         </button>
       )}

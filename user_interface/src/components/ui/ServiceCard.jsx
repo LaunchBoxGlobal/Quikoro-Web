@@ -72,14 +72,14 @@ export default function ServiceCard({ service }) {
               </span>
             )}
 
-            {user?.role === "CUSTOMER" && (
+            {/* {user?.role === "CUSTOMER" && (
               <div className="flex items-center justify-end gap-1">
                 <img src={LocationIcon} alt="location icon" width={12} />
                 <span className="text-gray-400 font-normal text-sm">
                   Distance
                 </span>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

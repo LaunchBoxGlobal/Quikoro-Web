@@ -8,6 +8,7 @@ import { clearBookingNotifications } from "../../slices/notificationSlice";
 export default function BookingCard({ booking }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
+
   const notificationCount = useSelector(
     (state) => state.chatNotifications.bookings[booking?.id]?.length || 0,
   );
@@ -67,7 +68,7 @@ export default function BookingCard({ booking }) {
         <div className="mt-2 flex items-center justify-between gap-2 text-[15px] text-gray-500">
           <span>{formatDate(booking?.scheduledAt)}</span>
 
-          {notificationCount > 0 && (
+          {booking?.status !== "CANCELLED" && notificationCount > 0 && (
             <span className="flex min-w-[20px] px-1.5 md:px-3 py-1 md:py-1.5 items-center justify-center rounded-md bg-red-500 text-xs font-semibold text-white animate-pulse">
               New {notificationCount > 1 ? "Messages" : "Message"}{" "}
               {notificationCount}

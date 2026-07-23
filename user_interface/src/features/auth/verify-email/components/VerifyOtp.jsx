@@ -23,6 +23,7 @@ import {
 } from "../../../../services/authApi/authSlice";
 import Cookies from "js-cookie";
 import { setUser } from "../../../../services/userService/userSlice";
+import { requestNotificationPermission } from "../../../../notifications";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
@@ -85,6 +86,7 @@ const VerifyOtp = () => {
 
       Cookies.set("accessToken", res?.data?.accessToken);
       dispatch(setUser(res?.data?.user));
+      requestNotificationPermission();
 
       setError("");
 

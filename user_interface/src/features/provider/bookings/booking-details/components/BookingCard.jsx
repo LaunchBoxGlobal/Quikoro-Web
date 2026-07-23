@@ -12,7 +12,7 @@ import ReviewList from "../../../services/service-details/components/ReviewList"
 import StarRating from "../../../services/service-details/components/StarRating";
 // import { currentStatus } from "../../../../../utils/statusStyles";
 
-export default function BookingCard({ booking }) {
+export default function BookingCard({ booking, notificationCount }) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleClose = () => setIsEditModalOpen((prev) => !prev);
 

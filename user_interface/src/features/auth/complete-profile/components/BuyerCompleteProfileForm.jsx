@@ -63,7 +63,7 @@ const BuyerCompleteProfileForm = () => {
     enableReinitialize: true,
 
     validateOnBlur: true,
-    validateOnChange: false,
+    validateOnChange: true,
     validationSchema: buyerValidationSchema,
     onSubmit: async (values) => {
       try {

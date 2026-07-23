@@ -82,8 +82,6 @@ const AppRoutes = () => {
   const token = getToken();
 
   const { data, isLoading } = useGetUserProfileQuery(undefined, {
-    // skip: !persistedUser,
-    // pollingInterval: 10000,
     skip: !token,
     refetchOnFocus: true,
     refetchOnReconnect: true,

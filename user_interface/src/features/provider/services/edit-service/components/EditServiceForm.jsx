@@ -70,27 +70,18 @@ export default function EditServiceForm({ service }) {
 
       images: [],
     },
-
     validationSchema,
     validateOnBlur: true,
-    validateOnChange: false,
-
+    validateOnChange: true,
     onSubmit: async (values) => {
-      console.log(values);
       try {
         const totalImages = existingImages.length + values.images.length;
 
-        if (totalImages < 1) {
-          setImagesError("At least 1 image is required.");
-
+        if (totalImages !== 1) {
+          setImagesError("One image is required.");
           return;
         }
 
-        if (totalImages > 5) {
-          setImagesError("Maximum 5 images allowed.");
-
-          return;
-        }
         setImagesError("");
         setApiError("");
 
@@ -104,13 +95,12 @@ export default function EditServiceForm({ service }) {
               formData.append(key, values[key]?.value);
             } else if (key === "images") {
               // existing image urls
-              existingImages.forEach((image) => {
-                // formData.append("existingImages", image);
+              if (existingImages.length > 0) {
                 formData.append(
                   "existingImages",
                   JSON.stringify(existingImages),
                 );
-              });
+              }
 
               // newly uploaded files
               values.images.forEach((file) => {
@@ -302,27 +292,18 @@ export default function EditServiceForm({ service }) {
               imagesError={imagesError}
               setFieldTouched={formik.setFieldTouched}
               onChange={(files) => {
-                const totalImages =
-                  existingImages.length +
-                  formik.values.images.length +
-                  files.length;
-
-                if (totalImages > 5) {
-                  setImagesError(
-                    "Maximum 5 images allowed including existing images.",
-                  );
-
+                if (existingImages.length + formik.values.images.length >= 1) {
+                  setImagesError("Only one image is allowed.");
                   return;
                 }
 
-                setImagesError("");
+                if (files.length > 0) {
+                  setImagesError("");
 
-                formik.setFieldValue("images", [
-                  ...formik.values.images,
-                  ...files,
-                ]);
-
-                formik.setFieldTouched("images", true);
+                  // Only keep the first selected image
+                  formik.setFieldValue("images", [files[0]]);
+                  formik.setFieldTouched("images", true);
+                }
               }}
             />
 
