@@ -10,6 +10,7 @@ import { statusStyles } from "../../../../../utils/statusStyles";
 import Reviews from "./Reviews";
 import ReviewList from "../../../services/service-details/components/ReviewList";
 import StarRating from "../../../services/service-details/components/StarRating";
+import ImageGallery from "./ImageGallery";
 // import { currentStatus } from "../../../../../utils/statusStyles";
 
 export default function BookingCard({ booking, notificationCount }) {
@@ -142,6 +143,8 @@ export default function BookingCard({ booking, notificationCount }) {
 
             <Reviews booking={booking} />
           </div>
+
+          <ImageGallery images={booking?.images} />
         </div>
 
         {isEditModalOpen && (

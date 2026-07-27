@@ -33,6 +33,7 @@
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.3",
     "uuid": "^14.0.1",
+    "yet-another-react-lightbox": "^3.32.1",
     "yup": "^1.7.1"
   },
   "devDependencies": {
