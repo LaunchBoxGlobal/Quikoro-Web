@@ -19,7 +19,9 @@ export default function AccountStatusPage() {
     );
   }
 
-  dispatch(setUser(data?.data?.user));
+  console.log(data?.data);
+
+  dispatch(setUser(data?.data));
 
   return user?.accountStatus === "PENDING" ||
     user?.accountStatus === "SUBMITTED" ? (

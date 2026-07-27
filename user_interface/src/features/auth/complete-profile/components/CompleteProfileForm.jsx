@@ -30,6 +30,7 @@ import { useGetCategoriesQuery } from "../../../../services/categoryApi/category
 import "./styles.css";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { requestNotificationPermission } from "../../../../notifications";
+import { setUser } from "../../../../services/userService/userSlice";
 
 const GENDERS = [
   {
@@ -59,7 +60,8 @@ const CompleteProfileForm = () => {
   );
 
   const { data, refetch } = useGetUserProfileQuery();
-  const { data: categoriesData } = useGetCategoriesQuery();
+  const { data: categoriesData, isLoading: isFetchingUserProfile } =
+    useGetCategoriesQuery();
   const categories = categoriesData?.data;
   const categoryOptions =
     categories?.map((category) => ({
@@ -96,6 +98,11 @@ const CompleteProfileForm = () => {
     }
   }, [signupData]);
 
+  if (!isFetchingUserProfile) {
+    const userData = data?.data;
+    dispatch(setUser(userData));
+  }
+
   const formik = useFormik({
     initialValues: {
       ...initialValues,
@@ -105,7 +112,9 @@ const CompleteProfileForm = () => {
       streetAddress: signupData?.streetAddress || "",
       description: signupData?.description || "",
       zipCode: signupData?.zipCode || "",
-      dateOfBirth: signupData?.dateOfBirth || "",
+      dateOfBirth: signupData?.dateOfBirth
+        ? new Date(signupData.dateOfBirth).toISOString().split("T")[0]
+        : "",
       yearsOfExperience: signupData?.yearsOfExperience || "",
       speciality: signupData?.speciality || "",
       gender: signupData?.gender || "",

@@ -17,7 +17,6 @@ import ProviderBookings from "./components/ProviderBookings";
 import AccountApprovalConfirmationModal from "./components/AccountApprovalConfirmationModal";
 
 const UserDetailsPage = () => {
-  // const [activeTab, setActiveTab] = useState("basic");
   const { id } = useParams();
 
   const [searchParams] = useSearchParams();

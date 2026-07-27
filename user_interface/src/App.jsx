@@ -76,10 +76,7 @@ function App() {
 
       // Account approved
       if (data.accountStatus === "ACTIVE") {
-        console.log("Navigating to /");
-
         const result = await refetchUser();
-        console.log(result);
 
         if (result?.data?.data) {
           dispatch(setUser(result?.data?.data));
@@ -92,10 +89,14 @@ function App() {
 
       // Account rejected
       if (data.accountStatus === "REJECTED") {
-        refetchUser();
-        navigate("/account", {
-          replace: true,
-        });
+        const result = await refetchUser();
+
+        if (result?.data?.data) {
+          dispatch(setUser(result?.data?.data));
+        }
+
+        navigate("/account", { replace: true });
+
         return;
       }
 
