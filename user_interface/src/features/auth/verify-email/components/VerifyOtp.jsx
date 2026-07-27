@@ -24,6 +24,9 @@ import {
 import Cookies from "js-cookie";
 import { setUser } from "../../../../services/userService/userSlice";
 import { requestNotificationPermission } from "../../../../notifications";
+import { messaging } from "../../../../firebase";
+import { getToken, onMessage } from "firebase/messaging";
+import { VAPID_KEY } from "../../../../utils/vapid-key";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(6).fill(""));
@@ -71,6 +74,10 @@ const VerifyOtp = () => {
         return;
       }
 
+      const currentToken = await getToken(messaging, {
+        vapidKey: VAPID_KEY,
+      });
+
       const payload = {
         fullName: signupData?.fullName,
         email: signupData?.email,
@@ -79,14 +86,14 @@ const VerifyOtp = () => {
         otp: Number(finalOtp),
         role: signupData?.role,
         action: "SIGNUP",
+        fcmToken: currentToken,
       };
 
       const res = await verifyOtp(payload).unwrap();
-      // console.log("verify otp response >>> ", res);
 
       Cookies.set("accessToken", res?.data?.accessToken);
       dispatch(setUser(res?.data?.user));
-      requestNotificationPermission();
+      // requestNotificationPermission();
 
       setError("");
 

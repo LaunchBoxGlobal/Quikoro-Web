@@ -74,7 +74,7 @@ export default function Navbar() {
       <Logo />
 
       {/* LOCATION */}
-      <LocationButton
+      {/* <LocationButton
         user={user}
         handleToggleDropdown={handleToggleDropdown}
         locationRef={locationRef}
@@ -83,7 +83,7 @@ export default function Navbar() {
         setOpenLocationDropdown={setOpenLocationDropdown}
         handleLocationConfirm={handleLocationConfirm}
         isSavingLocation={isSavingLocation}
-      />
+      /> */}
 
       <div className="flex items-center gap-8">
         {/* NAV LINKS */}

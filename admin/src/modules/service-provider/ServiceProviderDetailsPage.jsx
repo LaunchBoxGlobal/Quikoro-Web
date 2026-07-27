@@ -14,10 +14,12 @@ import UserDetails from "./components/UserDetails";
 import UserCardPictures from "./components/UserCardPictures";
 import ProviderServices from "./components/ProviderServices";
 import ProviderBookings from "./components/ProviderBookings";
+import AccountApprovalConfirmationModal from "./components/AccountApprovalConfirmationModal";
 
 const UserDetailsPage = () => {
   // const [activeTab, setActiveTab] = useState("basic");
   const { id } = useParams();
+
   const [searchParams] = useSearchParams();
 
   const activeTab = searchParams.get("tab") || "basic";

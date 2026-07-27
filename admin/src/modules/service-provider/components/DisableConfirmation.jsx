@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const DisableConfirmation = ({ onclose, handleBanUnbanUser, isBanned }) => {
   const [isSuccessful, setIsSuccessful] = useState(false);
@@ -29,7 +30,7 @@ const DisableConfirmation = ({ onclose, handleBanUnbanUser, isBanned }) => {
     }
   };
 
-  return (
+  return createPortal(
     <div className="w-full min-h-screen fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,.5)] px-5 py-10">
       <div className="w-full max-w-[471px] rounded-[18px] bg-white p-5 lg:p-10 text-center">
         <img
@@ -76,7 +77,8 @@ const DisableConfirmation = ({ onclose, handleBanUnbanUser, isBanned }) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

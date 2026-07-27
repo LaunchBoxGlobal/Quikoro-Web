@@ -6,6 +6,7 @@ import {
 import { enqueueSnackbar } from "notistack";
 import RejectAccountModal from "./RejectAccountModal";
 import DisableConfirmation from "./DisableConfirmation";
+import AccountApprovalConfirmationModal from "./AccountApprovalConfirmationModal";
 
 const ProfileHeader = ({ user, id, refetch }) => {
   const [status, setStatus] = useState("");
@@ -13,9 +14,13 @@ const ProfileHeader = ({ user, id, refetch }) => {
   const [showDisableConfirmationModal, setShowDisableConfirmationModal] =
     useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
+  const [openAcceptProfileModal, setOpenAcceptProfileModal] = useState(false);
 
   const [acceptRejectAccount, { isLoading: isApprovingAccount }] =
     useAcceptRejectAccountMutation();
+
+  const handleToggleProfileAcceptModal = () =>
+    setOpenAcceptProfileModal((prev) => !prev);
 
   const [banUnbanUser, { isLoading: isBlocking }] = useBanUnbanUserMutation();
 
@@ -113,12 +118,10 @@ const ProfileHeader = ({ user, id, refetch }) => {
                 <button
                   type="button"
                   disabled={isApprovingAccount}
-                  onClick={() => handleAcceptRejectAccount("ACTIVE")}
+                  onClick={() => handleToggleProfileAcceptModal()}
                   className="w-full sm:w-auto px-12 py-3.5 bg-[#016A87] hover:bg-[#01566d] transition-colors text-white rounded-[14px] font-medium text-base shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  {status === "ACTIVE" && isApprovingAccount
-                    ? "Loading..."
-                    : "Accept"}
+                  Accept
                 </button>
               </div>
             )}
@@ -152,6 +155,14 @@ const ProfileHeader = ({ user, id, refetch }) => {
           isBanned={user?.isBanned}
           handleBanUnbanUser={handleBanUnbanUser}
           onclose={() => setShowDisableConfirmationModal(false)}
+        />
+      )}
+
+      {openAcceptProfileModal && (
+        <AccountApprovalConfirmationModal
+          handleToggleProfileAcceptModal={handleToggleProfileAcceptModal}
+          isApprovingAccount={isApprovingAccount}
+          handleAcceptRejectAccount={handleAcceptRejectAccount}
         />
       )}
     </>

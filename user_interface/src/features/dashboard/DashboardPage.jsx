@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useUpdateTitle from "../../hooks/useUpdateTitle";
 import BookingSection from "./components/BookingSection";
 import ServiceSection from "./components/ServiceSection";
@@ -8,20 +8,23 @@ import {
   useGetServicesQuery,
 } from "../../services/serviceApi/serviceApi";
 import Loader from "../../components/ui/loader/Loader";
-import { useGetUserProfileQuery } from "../../services/userService/userApi";
+import {
+  useGetUserProfileQuery,
+  useUpdateLocationMutation,
+} from "../../services/userService/userApi";
 import { useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../services/userService/userSlice";
 import { BiError } from "react-icons/bi";
+import LocationButton from "../../components/ui/LocationButton";
 
 const DashboardPage = () => {
   useUpdateTitle("Dashboard");
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
 
+  const [page, setPage] = useState(1);
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState("ALL");
-
   const search = searchParams.get("service") || "";
 
   const {
@@ -39,6 +42,59 @@ const DashboardPage = () => {
     if (!user) return;
     dispatch(setUser(user));
   }, [user, dispatch]);
+
+  // location states
+  const [openLocationDropdown, setOpenLocationDropdown] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState("");
+  const [hasAutoPromptedLocation, setHasAutoPromptedLocation] = useState(false);
+  const locationRef = useRef(null);
+
+  const [updateLocation, { isLoading: isSavingLocation }] =
+    useUpdateLocationMutation();
+
+  const handleToggleDropdown = () => setOpenLocationDropdown((prev) => !prev);
+
+  const handleLocationConfirm = async (payload) => {
+    try {
+      await updateLocation(payload).unwrap();
+      setSelectedAddress(payload.location);
+      setOpenLocationDropdown(false);
+    } catch (err) {
+      console.error("Failed to update location:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.location) {
+      setSelectedAddress(user.location);
+    }
+  }, [user?.location]);
+
+  useEffect(() => {
+    if (!user || hasAutoPromptedLocation) return;
+
+    if (!user.location) {
+      setOpenLocationDropdown(true);
+    }
+
+    setHasAutoPromptedLocation(true);
+  }, [user, hasAutoPromptedLocation]);
+
+  useEffect(() => {
+    if (!openLocationDropdown) return;
+
+    const handleClickOutside = (e) => {
+      if (locationRef.current && !locationRef.current.contains(e.target)) {
+        setOpenLocationDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [openLocationDropdown]);
+
+  //
 
   useEffect(() => {
     setPage(1);
@@ -109,7 +165,23 @@ const DashboardPage = () => {
 
   return (
     <>
-      {isCustomer ? <HeroSection /> : <BookingSection />}
+      <LocationButton
+        user={user}
+        handleToggleDropdown={handleToggleDropdown}
+        locationRef={locationRef}
+        selectedAddress={selectedAddress}
+        openLocationDropdown={openLocationDropdown}
+        setOpenLocationDropdown={setOpenLocationDropdown}
+        handleLocationConfirm={handleLocationConfirm}
+        isSavingLocation={isSavingLocation}
+      />
+      {isCustomer ? (
+        <HeroSection />
+      ) : (
+        <div className="mt-10">
+          <BookingSection />
+        </div>
+      )}
 
       <ServiceSection
         services={services}

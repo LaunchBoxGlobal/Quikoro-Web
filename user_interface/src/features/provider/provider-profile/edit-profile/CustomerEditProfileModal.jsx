@@ -189,7 +189,9 @@ export default function CustomerEditProfileModal({
           {/* HEADER */}
 
           <div className="mb-10 flex items-center justify-between">
-            <h2 className="text-3xl font-bold">Edit Profile Details</h2>
+            <h2 className="text-3xl font-bold tracking-tight">
+              Edit Profile Details
+            </h2>
 
             <button type="button" onClick={onClose}>
               <X />

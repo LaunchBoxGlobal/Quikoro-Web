@@ -173,7 +173,7 @@ const LocationPickerInner = ({ onConfirm, onClose, submitting }) => {
   };
 
   return (
-    <div className="w-full md:w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-1/2 -translate-x-1/2 mt-2 min-h-[300px]">
+    <div className="w-full md:w-[420px] max-w-[90vw] bg-white custom-shadow z-50 rounded-xl p-7 absolute top-full left-1/2 -translate-x-1/2 md:left-[28%] lg:left-[20%] xl:left-[15%] mt-2 min-h-[300px]">
       <div className="flex items-center justify-between mb-3">
         <p className="font-semibold">Set Your Location</p>
         <button

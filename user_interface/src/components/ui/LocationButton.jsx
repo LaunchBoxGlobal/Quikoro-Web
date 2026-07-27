@@ -13,19 +13,19 @@ const LocationButton = ({
   isSavingLocation,
 }) => {
   return (
-    <div className="relative hidden md:block" ref={locationRef}>
+    <div className="relative block" ref={locationRef}>
       <button
         type="button"
         onClick={handleToggleDropdown}
-        className="flex items-center gap-1 text-sm"
+        className="flex items-start lg:items-center gap-1"
       >
-        <MapPin size={15} />
+        <MapPin size={15} className="min-w-6 relative top-0.5 lg:top-0" />
 
         <span
-          className={`font-medium ${!user?.location ? "text-gray-600" : ""}`}
+          className={`font-medium text-xs md:text-sm text-start ${!user?.location ? "text-gray-600" : ""}`}
         >
           {selectedAddress?.length > 0
-            ? `${selectedAddress.slice(0, 30)}...`
+            ? `${selectedAddress}`
             : "Add your location"}
         </span>
       </button>

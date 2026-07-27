@@ -136,7 +136,7 @@ const ProviderBookingsTable = ({ bookings, pagination, setStatus, status }) => {
         </div>
       ) : (
         <div className="w-full min-h-[50vh] flex items-center justify-center px-5 gap-2">
-          <p className="">No bookings found.</p>
+          <p className="text-gray-600">No bookings found.</p>
         </div>
       )}
     </>

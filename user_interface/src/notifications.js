@@ -17,7 +17,6 @@ const getOrCreateDeviceId = () => {
 
 export const requestNotificationPermission = async () => {
   const permission = await Notification.requestPermission();
-  // console.log(permission);
 
   if (permission !== "granted") {
     console.log("Permission not granted");
@@ -38,6 +37,7 @@ export const requestNotificationPermission = async () => {
     const storedToken = localStorage.getItem("quikoroFcmToken");
 
     const userToken = Cookies.get("accessToken");
+
     if (!userToken) {
       console.log("User not logged in — skipping FCM update");
       return;
@@ -62,7 +62,9 @@ export const requestNotificationPermission = async () => {
         },
       );
 
-      if (res?.data?.success) {
+      console.log("RESPONSE >> ", res);
+
+      if (res?.status === 200) {
         console.log("FCM sent to server");
       }
 

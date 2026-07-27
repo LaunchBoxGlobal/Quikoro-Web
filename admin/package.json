@@ -23,6 +23,7 @@
     "react-router-dom": "^7.16.0",
     "recharts": "^3.9.2",
     "redux-persist": "^6.0.0",
+    "yet-another-react-lightbox": "^3.32.1",
     "yup": "^1.7.1"
   },
   "devDependencies": {

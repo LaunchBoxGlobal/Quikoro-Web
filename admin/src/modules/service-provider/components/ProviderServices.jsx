@@ -14,7 +14,7 @@ const ProviderServices = ({ user }) => {
       endpoint: `/admin/providers/${user?.id}/services?page=1`,
     });
 
-  const services = data?.data?.data;
+  const services = data?.data?.data || [];
   const pagination = data?.data?.pagination;
 
   if (isError) return <ErrorPage onRetry={refetch} />;
@@ -31,7 +31,7 @@ const ProviderServices = ({ user }) => {
         <div className="w-full min-h-[50vh] flex items-center justify-center">
           <Loader />
         </div>
-      ) : (
+      ) : services?.length > 0 ? (
         <div className="w-full min-h-[50vh]">
           <div className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services?.map((service) => {
@@ -67,6 +67,10 @@ const ProviderServices = ({ user }) => {
               );
             })}
           </div>
+        </div>
+      ) : (
+        <div className="w-full min-h-[50vh] flex items-center justify-center">
+          <p className="font-normal text-gray-600">No services found!</p>
         </div>
       )}
 

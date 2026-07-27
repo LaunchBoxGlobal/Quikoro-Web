@@ -23,6 +23,7 @@ import { buyerValidationSchema, initialValues } from "../buyerValidation";
 import { useGetUserProfileQuery } from "../../../../services/userService/userApi";
 import "./styles.css";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { requestNotificationPermission } from "../../../../notifications";
 
 const GENDERS = [
   {
@@ -86,11 +87,13 @@ const BuyerCompleteProfileForm = () => {
           await refetch(); // NEW: wait for cache to update first
           navigate("/");
           dispatch(clearSignupData());
+          requestNotificationPermission();
           return;
         } else {
           await refetch();
           navigate("/");
           dispatch(clearSignupData());
+          requestNotificationPermission();
         }
       } catch (error) {
         setApiError(

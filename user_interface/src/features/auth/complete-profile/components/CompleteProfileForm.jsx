@@ -29,6 +29,7 @@ import { useGetUserProfileQuery } from "../../../../services/userService/userApi
 import { useGetCategoriesQuery } from "../../../../services/categoryApi/categoryApi";
 import "./styles.css";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { requestNotificationPermission } from "../../../../notifications";
 
 const GENDERS = [
   {
@@ -140,16 +141,19 @@ const CompleteProfileForm = () => {
           navigate("/");
           dispatch(clearSignupData());
           refetch();
+          requestNotificationPermission();
         } else {
           if (signupData?.accountStatus === "REJECTED") {
             navigate("/account");
             dispatch(clearSignupData());
             refetch();
+            requestNotificationPermission();
             return;
           }
           navigate("/provider/identity-verification");
           dispatch(clearSignupData());
           refetch();
+          requestNotificationPermission();
         }
       } catch (error) {
         setApiError(

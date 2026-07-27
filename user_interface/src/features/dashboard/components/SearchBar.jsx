@@ -46,9 +46,9 @@ const SearchBar = () => {
   const handleSearch = () => {
     const params = new URLSearchParams();
 
-    if (location.trim()) {
-      params.set("location", location);
-    }
+    // if (location.trim()) {
+    //   params.set("location", location);
+    // }
 
     if (service.trim()) {
       params.set("service", service);
@@ -62,7 +62,7 @@ const SearchBar = () => {
     setSearchParams({});
 
     // Reset local state
-    setLocation("New York, USA");
+    // setLocation("New York, USA");
     setService("");
 
     // Optional: close dropdown
@@ -72,7 +72,7 @@ const SearchBar = () => {
   return (
     <div className="flex flex-col md:flex-row items-center w-full max-w-[840px] glass-card rounded-[12px] p-2.5 shadow-sm gap-2 md:gap-0">
       {/* Location Dropdown */}
-      <div ref={dropdownRef} className="relative w-full md:w-[234px]">
+      {/* <div ref={dropdownRef} className="relative w-full md:w-[234px]">
         <div
           onClick={() => setIsOpen((prev) => !prev)}
           className="flex items-center px-3 py-3 md:pr-3 glass rounded-[12px] cursor-pointer"
@@ -113,10 +113,10 @@ const SearchBar = () => {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
 
       {/* Service Input */}
-      <div className="flex items-center w-full flex-1 px-3 py-3 md:py-3 md:pl-4 md:ml-3 glass rounded-[12px]">
+      <div className="flex items-center w-full flex-1 px-3 py-3 md:py-3 md:pl-4 glass rounded-[12px]">
         <Search className="text-gray-100 mr-3 shrink-0" size={20} />
 
         <input
