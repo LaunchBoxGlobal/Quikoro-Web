@@ -13,6 +13,7 @@ import FormErrorMessage from "../../../../../components/ui/FormErrorMessage";
 import { useSelector } from "react-redux";
 import { ImagePlus, X } from "lucide-react";
 import BookingCalendar from "./BookingCalendar";
+import { FaStar } from "react-icons/fa6";
 
 const MAX_IMAGES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -167,6 +168,16 @@ const BookServiceModal = ({
     },
   });
 
+  const ratings = service?.ratings || [];
+
+  const averageRating =
+    ratings.length > 0
+      ? ratings.reduce((sum, item) => sum + item.rating, 0) / ratings.length
+      : 0;
+
+  const roundedRating = Number(averageRating.toFixed(1));
+  const ratingPercentage = (averageRating / 5) * 100;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center py-20 px-5">
       {/* overlay */}
@@ -236,11 +247,20 @@ const BookServiceModal = ({
             </div>
           </div>
 
-          <div className="h-full flex flex-col items-end justify-between gap-y-6">
-            <div className="flex items-center justify-end gap-1.5">
-              <Star size={14} />
-              <span className="text-sm font-semibold text-black">4.7</span>
+          <div className="h-full flex items-center justify-end gap-x-1">
+            <div className="relative w-5 h-5">
+              {/* Empty star */}
+              <FaStar className="absolute text-gray-300 w-4 h-4" />
+
+              {/* Filled portion */}
+              <div
+                className="absolute overflow-hidden"
+                style={{ width: `${ratingPercentage}%` }}
+              >
+                <FaStar className="text-[#FFCC00] w-4 h-4" />
+              </div>
             </div>
+            <span className="">{averageRating}</span>
           </div>
         </div>
 

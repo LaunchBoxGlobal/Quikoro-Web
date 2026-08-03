@@ -34,7 +34,7 @@ export default function BookingCard({ booking, notificationCount }) {
     <>
       <section className="mb-10 lg:mb-24 rounded-[2rem] bg-[var(--gray-bg)] p-6 lg:p-8">
         <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 sm:p-8">
-          <div className="w-full flex flex-col gap-8 lg:gap-10">
+          <div className="w-full flex flex-col gap-0">
             <div className=" flex flex-col lg:flex-row gap-8 lg:gap-10">
               {/* Left Image */}
               <div className="flex h-64 lg:h-auto lg:w-72 shrink-0 items-center justify-center rounded-xl bg-[#18181b]">
@@ -98,10 +98,10 @@ export default function BookingCard({ booking, notificationCount }) {
 
                 <hr className="mb-6 border-gray-100" />
 
+                {/* Notes + Edit */}
                 <div
                   className={`w-full ${booking?.status === "CANCELLED" && "grid grid-cols-1 lg:grid-cols-2 gap-5"}`}
                 >
-                  {/* Notes + Edit */}
                   {booking?.additionalNotes && (
                     <div className="w-full flex items-start justify-between gap-4 flex-wrap">
                       <NotesSection booking={booking} />
@@ -141,10 +141,9 @@ export default function BookingCard({ booking, notificationCount }) {
               </div>
             </div>
 
+            <ImageGallery images={booking?.images} />
             <Reviews booking={booking} />
           </div>
-
-          <ImageGallery images={booking?.images} />
         </div>
 
         {isEditModalOpen && (

@@ -17,6 +17,7 @@ export default function ServiceTopSection({ service }) {
       : 0;
 
   const roundedRating = Number(averageRating.toFixed(1));
+  const ratingPercentage = (averageRating / 5) * 100;
   return (
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
       {/* Image */}

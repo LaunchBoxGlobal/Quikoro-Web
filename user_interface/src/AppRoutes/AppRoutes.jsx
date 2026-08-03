@@ -57,6 +57,7 @@ const BoostServicePage = lazy(
 const ProviderProfilePage = lazy(
   () => import("../features/provider/provider-profile/ProviderProfilePage"),
 );
+const SettingsPage = lazy(() => import("../features/settings/SettingsPage"));
 
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
@@ -68,7 +69,6 @@ import SettingsLayout from "../layouts/SettingsLayout";
 import { useDispatch, useSelector } from "react-redux";
 import AccountStatusGate from "./AccountStatusGate";
 
-const SettingsPage = lazy(() => import("../features/settings/SettingsPage"));
 import Cookies from "js-cookie";
 import AccountStatusPage from "../features/account-status/AccountStatusPage";
 import { useGetUserProfileQuery } from "../services/userService/userApi";

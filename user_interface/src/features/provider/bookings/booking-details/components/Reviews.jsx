@@ -6,22 +6,18 @@ const Reviews = ({ booking }) => {
   const user = useSelector((state) => state.user.user);
 
   const userReviews = booking?.ratings?.length > 0 ? booking?.ratings : [];
-  // &&
-  // booking?.ratings.filter((rating) => rating?.user?.id !== user?.id);
 
   return (
     userReviews?.length > 0 && (
       <div className="w-full">
-        <h3 className="font-bold leading-none tracking-tight">
-          Client Reviews
-        </h3>
+        <h3 className="font-bold leading-none tracking-tight">Reviews</h3>
 
         <div className="w-full">
           {userReviews?.map((rev) => {
             return (
               <div className="w-full space-y-1 mt-4" key={rev?.id}>
                 <p className="font-bold tracking-tight leading-none">
-                  {rev?.user?.fullName}
+                  {rev?.user?.fullName} {user?.id === rev?.user?.id && `(You)`}
                 </p>
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, index) => (

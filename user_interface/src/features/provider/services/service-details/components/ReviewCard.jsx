@@ -14,7 +14,11 @@ export default function ReviewCard({ review, showBorder }) {
         </h4>
 
         <div className="flex items-center gap-1.5">
-          <StarRating size={18} className="text-yellow-400" />
+          <StarRating
+            size={18}
+            rating={review.rating}
+            className="text-yellow-400"
+          />
 
           <span className="text-[15px] font-semibold text-gray-900">
             {review?.rating}
