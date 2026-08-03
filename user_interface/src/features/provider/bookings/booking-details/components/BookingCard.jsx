@@ -125,6 +125,7 @@ export default function BookingCard({ booking, notificationCount }) {
 
                   {/* cancellation reason */}
                   {booking?.status === "CANCELLED" &&
+                    booking?.cancellationReason &&
                     booking?.additionalNotes && (
                       <div className="text-sm flex flex-col items-start justify-between">
                         <span className="mb-2 text-[14px] text-red-500">
@@ -142,7 +143,11 @@ export default function BookingCard({ booking, notificationCount }) {
             </div>
 
             <ImageGallery images={booking?.images} />
-            <Reviews booking={booking} />
+            {booking?.ratings?.length > 0 && (
+              <div className={`${booking?.images?.length === 0 && "mt-10"}`}>
+                <Reviews booking={booking} />
+              </div>
+            )}
           </div>
         </div>
 
